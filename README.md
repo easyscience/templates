@@ -4,17 +4,35 @@ Welcome to the **EasyScience Copier Templates** repository! This project provide
 
 ---
 
+
 ## 📋 Table of Contents
 
-1. [Introduction](#introduction)
-2. [Available Templates](#available-templates)
-3. [Step 1: Create New Repositories](#step-1-create-new-repositories)
-4. [Step 2: Manual Repository Configuration](#step-2-manual-repository-configuration)
-5. [Step 3: Apply Templates and Initialize Projects](#step-3-apply-templates-and-initialize-projects)
-6. [Step 4: Keep Your Repository Updated](#step-4-keep-your-repository-updated)
+1. [Quickstart Overview](#quickstart-overview)
+2. [Introduction](#introduction)
+3. [Available Templates](#available-templates)
+4. [Step 1: Create New Repositories](#step-1-create-new-repositories)
+5. [Step 2: Apply Templates and Initialize Projects](#step-2-apply-templates-and-initialize-projects)
+  - [2.1. Clone All Repositories Locally](#21-clone-all-repositories-locally)
+  - [2.2. Set Up Pixi](#22-set-up-pixi)
+  - [2.3. Install Copier](#23-install-copier)
+  - [2.4. Generate the Project Description File (Umbrella/Hub/Project Repository)](#24-generate-the-project-description-file-umbrellahubproject-repository)
+  - [2.5. Generate the Project Structure (lib/app Repository)](#25-generate-the-project-structure-libapp-repository)
+  - [2.6. Where Are Answers Stored?](#26-where-are-answers-stored)
+  - [2.7. Push Changes to the Repository](#27-push-changes-to-the-repository)
+  - [2.8. Code Quality Checks](#28-code-quality-checks)
+6. [Step 3: Keep Your Repository Updated](#step-3-keep-your-repository-updated)
 7. [FAQ & Troubleshooting](#faq--troubleshooting)
 8. [Contributing](#contributing)
 9. [License](#license)
+## ⚡ Quickstart Overview
+
+1. **Create repositories** for your umbrella/hub/project and any required lib/app repos on GitHub.
+2. **Clone all repositories** locally.
+3. **Initialize Pixi** in each repo for dependency management.
+4. **Generate a project description file** in the umbrella/hub/project repo using Copier (no structure generated).
+5. **Generate the project structure** in lib/app repos using Copier and the shared answers file.
+6. **Push changes** to GitHub and follow code quality checks.
+7. **Keep your repository updated** by applying template updates as needed.
 
 ---
 
@@ -74,9 +92,10 @@ After creating the repository, configure the following settings:
 
 
 
-## 🛠️ Step 3: Apply Templates and Initialize Projects
 
-### 3.1. Clone All Repositories Locally
+## 🛠️ Step 2: Apply Templates and Initialize Projects
+
+### 2.1. Clone All Repositories Locally
 
 ```bash
 git clone https://github.com/easyscience/peasy.git
@@ -84,7 +103,7 @@ git clone https://github.com/easyscience/peasy-lib.git
 git clone https://github.com/easyscience/peasy-app.git
 ```
 
-### 3.2. Set Up Pixi
+### 2.2. Set Up Pixi
 
 We use [**Pixi**](https://prefix.dev) for dependency management and project configuration. See the [Pixi installation guide](https://prefix.dev/docs/installation) for details.
 
@@ -95,16 +114,14 @@ cd peasy
 pixi init
 ```
 
-### 3.4. Install Copier
+### 2.3. Install Copier
 ```bash
 pixi add copier
 ```
 
-### 3.5. Generate the Project Description File in the Umbrella/Hub/Project Repository
+### 2.4. Generate the Project Description File (Umbrella/Hub/Project Repository)
 
-
-#### Create the Project Description File
-Apply the Copier templates to generate the project description file (not the project structure). This file will be reused as a data file with answers for other templates:
+> **Note:** This step generates only the project description file (answers file), not the project structure. This file will be reused as a data file with answers for other templates.
 
 ```bash
 pixi run copier copy gh:easyscience/templates .
@@ -124,7 +141,7 @@ Navigate back to the parent directory:
 cd ..
 ```
 
-### 3.6. Generate the Specific (lib/app) Project Structure
+### 2.5. Generate the Project Structure (lib/app Repository)
 
 Now, set up Pixi and Copier for the library or application repository (e.g., `peasy-lib` or `peasy-app`):
 
@@ -144,7 +161,6 @@ pixi run copier copy gh:easyscience/templates-lib . --data-file ../peasy/.projec
 ```
 
 When prompted with `conflict. overwrite pixi.toml?`, confirm with `Yes` to overwrite the Pixi configuration file created during `pixi init` with the one generated from the template.
-
 
 After the project structure is generated, run the following commands to finalize the setup:
 
@@ -174,7 +190,26 @@ After the project structure is generated, run the following commands to finalize
 
 > **Tip:** Run `pixi run fix` every time after updating any template files or modifying any project files (source code, configuration, workflows, docs, etc.) to ensure consistent formatting.
 
-#### 🔍 Code Quality Checks
+### 2.6. Where Are Answers Stored?
+
+The answers provided during setup are stored in:
+- **Shared answers:** `peasy-lib/.copier-answers.shared.yml`
+- **Project-specific answers:** `peasy-lib/.copier-answers.lib.yml`
+
+### 2.7. Push Changes to the Repository
+
+After generating the project structure, **push the changes** to GitHub. You can do this via:
+- **Terminal:**
+  Use your GitHub username and personal access token (PAT) as the password.
+  ```bash
+  git add -A
+  git commit -m "Initial project setup using Copier shared and lib templates"
+  git push origin master
+  ```
+- **GUI client:**
+  Use a tool like GitKraken.
+
+### 2.8. Code Quality Checks
 
 Templates set up pre-commit and pre-push hooks to ensure code quality. These hooks automatically check for code formatting, linting, and other quality standards before allowing commits or pushes.
 
@@ -191,45 +226,30 @@ pixi run pre-push-check
 
 Often, running `pixi run fix` is enough to fix issues automatically. If not, follow the instructions provided in the output of the above commands to resolve all issues.
 
-#### 📁 Where Are Answers Stored?
-The answers provided during setup are stored in:
-- **Shared answers:** `peasy-lib/.copier-answers.shared.yml`
-- **Project-specific answers:** `peasy-lib/.copier-answers.lib.yml`
-
-### 3.7. Push Changes to the Repository
-After generating the project structure, **push the changes** to GitHub. You can do this via:
-- **Terminal:**
-  Use your GitHub username and personal access token (PAT) as the password.
-  ```bash
-  git add -A
-  git commit -m "Initial project setup using Copier shared and lib templates"
-  git push origin master
-  ```
-- **GUI client:**
-  Use a tool like GitKraken.
-
 ---
 
-## 🔄 Step 4: Keep Your Repository Updated
+
+## 🔄 Step 3: Keep Your Repository Updated
 
 When the templates in **templates-copier** are updated, apply those updates to your project.
 
+
 ### 📌 To update the repository with template changes:
 
-- Go to the project directory, e.g., `peasy-lib`:
-   ```bash
-   cd peasy-lib
-   ```
-- **Update the Common Template:**
-   ```bash
-   pixi run copier-update-shared
-   ```
-   Push those changes to GitHub.
-- **Update the Project-Specific Template:**
-   ```bash
-   pixi run copier-update-lib
-   ```
-   Push those changes to GitHub.
+1. Go to the project directory, e.g., `peasy-lib`:
+  ```bash
+  cd peasy-lib
+  ```
+2. **Update the Common Template:**
+  ```bash
+  pixi run copier-update-shared
+  ```
+  Push those changes to GitHub.
+3. **Update the Project-Specific Template:**
+  ```bash
+  pixi run copier-update-lib
+  ```
+  Push those changes to GitHub.
 
 #### Using a Specific Version/Tag
 To update to a specific version or tag of the templates (instead of the latest tagged release), specify the version in the Copier command. This is useful for testing updates before official release:
@@ -248,12 +268,35 @@ pixi run copier-recopy-lib
 # Push those changes to GitHub
 ```
 
+
 ### GitHub Actions Workflows
 
 Templates include a set of GitHub Actions workflows for CI/CD, testing, documentation building, and release management. Check the `.github/workflows/` directory for available workflows and their configurations.
+
 
 > **Note:**
 > - Merge feature branches to develop as described in [ADR 12](https://github.com/orgs/easyscience/discussions/12).
 > - To create an automated PR from develop to master for a new release, manually run the Release PR workflow from the Actions tab via the "Run workflow" button.
 > - No need to manually set the package version. It is automatically suggested from PR labels (features → develop). Ensure correct PR labels and titles, as these are used to generate draft release notes.
 > - After merging develop to master and creating a draft release, check that all release notes and the suggested tag/version are correct. Publish the release by clicking "Publish release". This triggers documentation site build, auto backmerge from tagged master to develop for version bumping, and PyPI publishing (for libraries).
+
+---
+
+## ❓ FAQ & Troubleshooting
+
+**Q: Why isn't my answers file being generated?**
+A: Ensure you are running Copier in the umbrella/hub/project repository and that the template includes a file for the answers file (e.g., `.project.yaml.jinja`).
+
+**Q: Copier prompts to overwrite `pixi.toml`. Should I say yes?**
+A: Yes, confirm with `Yes` to use the template's configuration.
+
+**Q: How do I update templates after my project is created?**
+A: See [Step 3: Keep Your Repository Updated](#step-3-keep-your-repository-updated).
+
+**Q: Where are my answers stored?**
+A: See [2.6. Where Are Answers Stored?](#26-where-are-answers-stored).
+
+**Q: What if pre-commit or pre-push hooks fail?**
+A: Run `pixi run fix` and follow the instructions in the error output.
+
+If you encounter other issues, please open an issue or discussion in this repository.
