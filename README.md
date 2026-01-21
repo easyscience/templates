@@ -78,7 +78,7 @@ To create a new repository:
 ### 1.2. Post-Creation and Manual Repository Configuration
 
 After creating the repository, configure the following settings:
-- **GitHub Pages:** Activate to serve documentation from the `gh-pages` branch.
+- **GitHub Pages:** [Activate here](https://github.com/easyscience/peasy-lib/settings/pages) to serve documentation from the `gh-pages` branch. In "Build and deployment" select **Source:** Deploy from a branch. In **Branch** select `gh-pages` and click **Save**.
 - **Repository Labels:** Ensure correct labels, including the bot label ([see ADR](https://github.com/orgs/easyscience/discussions/33), [example](https://github.com/easyscience/peasy-lib/labels)).
 
 - **Branch Protection Rules:** ([GitHub Rules Settings](https://github.com/easyscience/peasy-lib/settings/rules))
