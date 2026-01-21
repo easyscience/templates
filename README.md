@@ -41,7 +41,8 @@ This repository provides a structured approach to creating new repositories unde
 
 Depending on your project type (library, application, or both), you will need to create the corresponding repositories (e.g., `easyscience/peasy-lib`, `easyscience/peasy-app`), as well as the main umbrella/hub/project repository (e.g., `easyscience/peasy`).
 
-### 1.1. Create a Repository on GitHub
+
+### 1.1. Create and Set Up New Repositories
 
 To create a new repository:
 
@@ -56,26 +57,22 @@ To create a new repository:
    - For libraries: `peasy-lib`
    - For applications: `peasy-app`
 
-### 1.2. Post-Creation Repository Settings
+### 1.2. Post-Creation and Manual Repository Configuration
 
-After creating the repository, configure the following:
+After creating the repository, configure the following settings:
 - **GitHub Pages:** Activate to serve documentation from the `gh-pages` branch.
 - **Repository Labels:** Ensure correct labels, including the bot label ([see ADR](https://github.com/orgs/easyscience/discussions/33), [example](https://github.com/easyscience/peasy-lib/labels)).
 - **Branch Protection Rules:**
   - Protect `master`, `develop`, and `gh-pages` branches.
   - Require pull request reviews and status checks before merging.
   - Include administrators in these rules.
-
----
-
-## ⚙️ Step 2: Manual Repository Configuration
-
-Some repository settings require manual adjustment:
 - **Add repository secrets** (e.g., API keys, deployment keys):
   - The `easyscience[bot]` GitHub App should have access automatically (configured at the org level). Add it to the `develop` bypass protection rules for automatic backmerge after new releases.
   - Add the PyPI API token secret for library repositories (for publishing to PyPI). Confirm if this is set at the org level.
 
 ---
+
+
 
 ## 🛠️ Step 3: Apply Templates and Initialize Projects
 
