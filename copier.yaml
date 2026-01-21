@@ -99,7 +99,7 @@ lib_doi:
 has_app:
   type: bool
   default: true
-  help: Will the project include a Python application?
+  help: Will the project include a Qt desktop application?
 
 app_repo_name:
   when: '{{ has_app }}'
@@ -118,4 +118,5 @@ app_docs_url:
 # Template settings
 # =============================================================================
 
+_subdirectory: template
 _answers_file: .project.yml
