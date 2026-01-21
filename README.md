@@ -103,7 +103,7 @@ pixi add copier
 ```
 
 #### Create the Initial Repository Structure
-Apply the Copier templates to generate the project structure:
+Apply the Copier templates to generate the project description file, which will be reused as a data file with answers for other templates:
 
 ```bash
 pixi run copier copy gh:easyscience/templates .
