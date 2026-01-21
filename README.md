@@ -15,7 +15,7 @@ Welcome to the **EasyScience Copier Templates** repository! This project provide
   - [2.1. Clone All Repositories Locally](#21-clone-all-repositories-locally)
   - [2.2. Set Up Pixi](#22-set-up-pixi)
   - [2.3. Install Copier](#23-install-copier)
-  - [2.4. Generate the Project Description File (Umbrella/Hub/Project Repository)](#24-generate-the-project-description-file-umbrellahubproject-repository)
+  - [2.4. Generate the Project Description File (Main Repository)](#24-generate-the-project-description-file-main-repository)
   - [2.5. Generate the Project Structure (lib/app Repository)](#25-generate-the-project-structure-libapp-repository)
   - [2.6. Where Are Answers Stored?](#26-where-are-answers-stored)
   - [2.7. Push Changes to the Repository](#27-push-changes-to-the-repository)
@@ -26,10 +26,10 @@ Welcome to the **EasyScience Copier Templates** repository! This project provide
 9. [License](#license)
 ## ⚡ Quickstart Overview
 
-1. **Create repositories** for your umbrella/hub/project and any required lib/app repos on GitHub.
+1. **Create repositories** for your main and any required lib/app repos on GitHub.
 2. **Clone all repositories** locally.
 3. **Initialize Pixi** in each repo for dependency management.
-4. **Generate a project description file** in the umbrella/hub/project repo using Copier (no structure generated).
+4. **Generate a project description file** in the main repo using Copier (no structure generated).
 5. **Generate the project structure** in lib/app repos using Copier and the shared answers file.
 6. **Push changes** to GitHub and follow code quality checks.
 7. **Keep your repository updated** by applying template updates as needed.
@@ -57,7 +57,7 @@ This repository provides a structured approach to creating new repositories unde
 
 ## 🚀 Step 1: Create New Repositories
 
-Depending on your project type (library, application, or both), you will need to create the corresponding repositories (e.g., `easyscience/peasy-lib`, `easyscience/peasy-app`), as well as the main umbrella/hub/project repository (e.g., `easyscience/peasy`).
+Depending on your project type (library, application, or both), you will need to create the corresponding repositories (e.g., `easyscience/peasy-lib`, `easyscience/peasy-app`), as well as the main repository (e.g., `easyscience/peasy`).
 
 
 ### 1.1. Create and Set Up New Repositories
@@ -125,7 +125,7 @@ git clone https://github.com/easyscience/peasy-app.git
 
 We use [**Pixi**](https://prefix.dev) for dependency management and project configuration. See the [Pixi installation guide](https://prefix.dev/docs/installation) for details.
 
-Navigate into the main umbrella/hub/project repository (e.g., `peasy`) and initialize a new Pixi project:
+Navigate into the main repository (e.g., `peasy`) and initialize a new Pixi project:
 
 ```bash
 cd peasy
@@ -137,7 +137,7 @@ pixi init
 pixi add copier
 ```
 
-### 2.4. Generate the Project Description File (Umbrella/Hub/Project Repository)
+### 2.4. Generate the Project Description File (Main Repository)
 
 > **Note:** This step generates only the project description file (answers file), not the project structure. This file will be reused as a data file with answers for other templates.
 
@@ -171,7 +171,7 @@ pixi add copier
 
 Apply both the Shared and Library-specific Copier templates to generate the project structure.
 
-> **Important:** Use the `--data-file` option to provide the path to the `.project.yaml` file with answers created in the main umbrella/hub/project repository (e.g., `peasy`).
+> **Important:** Use the `--data-file` option to provide the path to the `.project.yaml` file with answers created in the main repository (e.g., `peasy`).
 
 ```bash
 pixi run copier copy gh:easyscience/templates-shared . --data-file ../peasy/.project.yaml
@@ -303,7 +303,7 @@ Templates include a set of GitHub Actions workflows for CI/CD, testing, document
 ## ❓ FAQ & Troubleshooting
 
 **Q: Why isn't my answers file being generated?**
-A: Ensure you are running Copier in the umbrella/hub/project repository and that the template includes a file for the answers file (e.g., `.project.yaml.jinja`).
+A: Ensure you are running Copier in the main repository and that the template includes a file for the answers file (e.g., `.project.yaml.jinja`).
 
 **Q: Copier prompts to overwrite `pixi.toml`. Should I say yes?**
 A: Yes, confirm with `Yes` to use the template's configuration.
