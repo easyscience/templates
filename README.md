@@ -107,6 +107,8 @@ Once `gh-pages` exists, activate Pages deployment:
 - In **Branch** select `gh-pages` and click **Save**
 
 > **Note:** Activating Pages deployment will add a workflow "pages build and deployment", which will be automatically triggered by `github-pages[bot]` after mike pushes a new version of docs to `gh-pages`.
+>
+> **Docs versioning:** Every new version of the documentation (built site) will be published under a dedicated directory named after the new release tag and added to the `gh-pages` branch. This allows users to access documentation for each release at a unique URL.
 
 ### 3.3. Set Repository Labels
 
