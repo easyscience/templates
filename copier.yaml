@@ -102,13 +102,13 @@ has_app:
   help: Will the project include a Python application?
 
 app_repo_name:
-  when: {{ has_app }}
+  when: '{{ has_app }}'
   type: str
   default: '{{ project_repo_name }}-app'
   help: What is the application repository for the project under the EasyScience organization?
 
 app_docs_url:
-  when: {{ has_app }}
+  when: '{{ has_app }}'
   type: str
   default: 'https://easyscience.github.io/{{ app_repo_name }}'
   help: What is the documentation URL for the application?
