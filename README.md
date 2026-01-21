@@ -309,12 +309,14 @@ git push origin master
 
 Templates include a set of GitHub Actions workflows for CI/CD, testing, documentation building, and release management. Check the `.github/workflows/` directory for available workflows and their configurations.
 
+## 🚀 Release Workflow
 
-> **Note:**
-> - Merge feature branches to develop as described in [ADR 12](https://github.com/orgs/easyscience/discussions/12).
-> - To create an automated PR from develop to master for a new release, manually run the Release PR workflow from the Actions tab via the "Run workflow" button.
-> - No need to manually set the package version. It is automatically suggested from PR labels (features → develop). Ensure correct PR labels and titles, as these are used to generate draft release notes.
-> - After merging develop to master and creating a draft release, check that all release notes and the suggested tag/version are correct. Publish the release by clicking "Publish release". This triggers documentation site build, auto backmerge from tagged master to develop for version bumping, and PyPI publishing (for libraries).
+Follow these steps to create a new release and manage the release process:
+
+- Merge feature branches to develop as described in [ADR 12](https://github.com/orgs/easyscience/discussions/12).
+- To create an automated PR from develop to master for a new release, manually run the Release PR workflow from the Actions tab via the "Run workflow" button.
+- No need to manually set the package version. It is automatically suggested from PR labels (features → develop). Ensure correct PR labels and titles, as these are used to generate draft release notes.
+- After merging develop to master and creating a draft release, check that all release notes and the suggested tag/version are correct. Publish the release by clicking "Publish release". This triggers documentation site build, auto backmerge from tagged master to develop for version bumping, and PyPI publishing (for libraries).
 
 ---
 
