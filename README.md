@@ -95,15 +95,16 @@ cd peasy
 pixi init
 ```
 
-### 3.3. Generate the Project Structure Using Copier
-
-#### Install Copier
+### 3.4. Install Copier
 ```bash
 pixi add copier
 ```
 
-#### Create the Initial Repository Structure
-Apply the Copier templates to generate the project description file, which will be reused as a data file with answers for other templates:
+### 3.5. Generate the Project Description File in the Umbrella/Hub/Project Repository
+
+
+#### Create the Project Description File
+Apply the Copier templates to generate the project description file (not the project structure). This file will be reused as a data file with answers for other templates:
 
 ```bash
 pixi run copier copy gh:easyscience/templates .
@@ -114,7 +115,7 @@ Fill in the required information when prompted. For project name, alias, and sho
 This should create a `.project.yaml` file with all your answers. Push changes to GitHub:
 ```bash
 git add -A
-git commit -m "Initial project setup using Copier templates"
+git commit -m "Initial project description file using Copier templates"
 git push origin master
 ```
 
@@ -123,7 +124,9 @@ Navigate back to the parent directory:
 cd ..
 ```
 
-Now, set up Pixi and Copier for the library repository (e.g., `peasy-lib`):
+### 3.6. Generate the Specific (lib/app) Project Structure
+
+Now, set up Pixi and Copier for the library or application repository (e.g., `peasy-lib` or `peasy-app`):
 
 ```bash
 cd peasy-lib
@@ -145,29 +148,28 @@ When prompted with `conflict. overwrite pixi.toml?`, confirm with `Yes` to overw
 
 After the project structure is generated, run the following commands to finalize the setup:
 
-1. **Install extra development dependencies and set up tools:**
+- **Install extra development dependencies and set up tools:**
   This step sets up pre-commit hooks, installs additional development dependencies, and configures non-Python file formatting.
   ```bash
   pixi run post-install
   ```
 
-2. **Format all project files:**
-  Ensures all files adhere to the project's coding standards as defined in `pyproject.toml`. Run this after any changes to source code, configuration, workflows, or docs.
-  ```bash
-  pixi run fix
-  ```
-
-3. **Update documentation assets:**
+- **Update documentation assets:**
   Updates the logo and other assets in the `docs/` folder. Run this every time you update project-related logos or assets, especially after changes in the `easyscience/assets-branding` repository.
   ```bash
   pixi run docs-update-assets
   ```
 
-4. **Update SPDX license headers:**
+- **Update SPDX license headers:**
   Updates license headers in all project files. Run this whenever the copyright year changes, new files are added, or license information needs to be refreshed.
   ```bash
   pixi run spdx-update
-  pixi run fix # Reformat files after license header update
+  ```
+
+- **Format all project files:**
+  Ensures all files adhere to the project's coding standards as defined in `pyproject.toml`. Run this after any changes to source code, configuration, workflows, or docs.
+  ```bash
+  pixi run fix
   ```
 
 > **Tip:** Run `pixi run fix` every time after updating any template files or modifying any project files (source code, configuration, workflows, docs, etc.) to ensure consistent formatting.
@@ -194,7 +196,7 @@ The answers provided during setup are stored in:
 - **Shared answers:** `peasy-lib/.copier-answers.shared.yml`
 - **Project-specific answers:** `peasy-lib/.copier-answers.lib.yml`
 
-### 3.4. Push Changes to the Repository
+### 3.7. Push Changes to the Repository
 After generating the project structure, **push the changes** to GitHub. You can do this via:
 - **Terminal:**
   Use your GitHub username and personal access token (PAT) as the password.
@@ -214,16 +216,16 @@ When the templates in **templates-copier** are updated, apply those updates to y
 
 ### 📌 To update the repository with template changes:
 
-1. Go to the project directory, e.g., `peasy-lib`:
+- Go to the project directory, e.g., `peasy-lib`:
    ```bash
    cd peasy-lib
    ```
-2. **Update the Common Template:**
+- **Update the Common Template:**
    ```bash
    pixi run copier-update-shared
    ```
    Push those changes to GitHub.
-3. **Update the Project-Specific Template:**
+- **Update the Project-Specific Template:**
    ```bash
    pixi run copier-update-lib
    ```
@@ -241,6 +243,7 @@ Sometimes, for major template changes or complex conflicts, you may need to run 
 ```bash
 pixi run copier-update-shared
 # Push those changes to GitHub
+
 pixi run copier-recopy-lib
 # Push those changes to GitHub
 ```
