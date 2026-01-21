@@ -56,37 +56,37 @@ has_lib:
   help: Will the project include a Python library?
 
 lib_repo_name:
-  when: {{ has_lib }}
+  when: '{{ has_lib }}'
   type: str
   default: '{{ project_repo_name }}-lib'
   help: What is the library repository for the project under the EasyScience organization?
 
 lib_package_name:
-  when: {{ has_lib }}
+  when: '{{ has_lib }}'
   type: str
   default: '{{ project_name | lower }}'
   help: What is the Python package name for the project (use lowercase letters)?
 
 lib_python_min:
-  when: {{ has_lib }}
+  when: '{{ has_lib }}'
   type: str
   default: '3.11'
   help: What is the minimum supported Python version for the library?
 
 lib_python_max:
-  when: {{ has_lib }}
+  when: '{{ has_lib }}'
   type: str
   default: '3.13'
   help: What is the maximum supported Python version for the library?
 
 lib_docs_url:
-  when: {{ has_lib }}
+  when: '{{ has_lib }}'
   type: str
   default: 'https://easyscience.github.io/{{ lib_repo_name }}'
   help: What is the documentation URL for the library?
 
 lib_doi:
-  when: {{ has_lib }}
+  when: '{{ has_lib }}'
   type: str
   default: '10.5281/zenodo.18163581'
   help: |
