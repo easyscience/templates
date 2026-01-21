@@ -24,6 +24,7 @@ Welcome to the **EasyScience Copier Templates** repository! This project provide
 7. [FAQ & Troubleshooting](#faq--troubleshooting)
 8. [Contributing](#contributing)
 9. [License](#license)
+10. [Release Workflow](#release-workflow)
 ## ⚡ Quickstart Overview
 
 1. **Create repositories** for your main and any required lib/app repos on GitHub.
@@ -313,10 +314,10 @@ Templates include a set of GitHub Actions workflows for CI/CD, testing, document
 
 Follow these steps to create a new release and manage the release process:
 
-- Merge feature branches to develop as described in [ADR 12](https://github.com/orgs/easyscience/discussions/12).
-- To create an automated PR from develop to master for a new release, manually run the Release PR workflow from the Actions tab via the "Run workflow" button.
-- No need to manually set the package version. It is automatically suggested from PR labels (features → develop). Ensure correct PR labels and titles, as these are used to generate draft release notes.
-- After merging develop to master and creating a draft release, check that all release notes and the suggested tag/version are correct. Publish the release by clicking "Publish release". This triggers documentation site build, auto backmerge from tagged master to develop for version bumping, and PyPI publishing (for libraries).
+1. Merge feature branches to develop as described in [ADR 12](https://github.com/orgs/easyscience/discussions/12).
+2. To create an automated PR from develop to master for a new release, manually run the Release PR workflow from the Actions tab via the "Run workflow" button.
+3. No need to manually set the package version. It is automatically suggested from PR labels (features → develop). Ensure correct PR labels and titles, as these are used to generate draft release notes.
+4. After merging develop to master and creating a draft release, check that all release notes and the suggested tag/version are correct. Publish the release by clicking "Publish release". This triggers documentation site build, auto backmerge from tagged master to develop for version bumping, and PyPI publishing (for libraries).
 
 ---
 
