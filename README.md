@@ -262,15 +262,27 @@ When the templates in **templates-copier** are updated, apply those updates to y
   ```bash
   pixi run copier-update-shared
   ```
-  Push those changes to GitHub.
+  After completing the above, push your changes to GitHub:
+  ```bash
+  git add -A
+  git commit -m "Update after applying shared template"
+  git push origin master
+  ```
 3. **Update the Project-Specific Template:**
   ```bash
   pixi run copier-update-lib
   ```
-  Push those changes to GitHub.
+  After completing the above, push your changes to GitHub:
+  ```bash
+  git add -A
+  git commit -m "Update after applying project-specific template"
+  git push origin master
+  ```
 
 #### Using a Specific Version/Tag
-To update to a specific version or tag of the templates (instead of the latest tagged release), specify the version in the Copier command. This is useful for testing updates before official release:
+To update to a specific version or tag of the templates (instead of the
+default latest tagged release), specify the version in the Copier
+command. This is useful for testing updates before official release:
 ```bash
 pixi run copier-update-shared --vcs-ref=master
 ```
@@ -280,10 +292,16 @@ If conflicts arise, Copier will prompt you to review them.
 Sometimes, for major template changes or complex conflicts, you may need to run Copier recopy instead of update:
 ```bash
 pixi run copier-update-shared
-# Push those changes to GitHub
+# IMPORTANT: Do not forget to push your changes to GitHub before running the next command. If you do not push after copier-update-shared, copier-recopy-lib will not work due to a dirty repository state.
+git add -A
+git commit -m "Update after applying shared template"
+git push origin master
 
 pixi run copier-recopy-lib
 # Push those changes to GitHub
+git add -A
+git commit -m "Update after applying project-specific template"
+git push origin master
 ```
 
 
