@@ -20,7 +20,13 @@ Welcome to the **EasyScience Copier Templates** repository! This project provide
   - [2.6. Where Are Answers Stored?](#26-where-are-answers-stored)
   - [2.7. Push Changes to the Repository](#27-push-changes-to-the-repository)
   - [2.8. Code Quality Checks](#28-code-quality-checks)
-6. [Step 3: Keep Your Repository Updated](#step-3-keep-your-repository-updated)
+6. [Step 3: Post-Initialization Repository Setup](#step-3-post-initialization-repository-setup)
+  - [3.1. Create develop Branch](#31-create-develop-branch)
+  - [3.2. About gh-pages Branch and Pages Activation](#32-about-gh-pages-branch-and-pages-activation)
+  - [3.3. Set Repository Labels](#33-set-repository-labels)
+  - [3.4. Add Repository Secrets](#34-add-repository-secrets)
+  - [3.5. Set Branch Protection Rules](#35-set-branch-protection-rules)
+7. [Step 4: Keep Your Repository Updated](#step-4-keep-your-repository-updated)
 7. [FAQ & Troubleshooting](#faq--troubleshooting)
 8. [Contributing](#contributing)
 9. [License](#license)
@@ -76,36 +82,65 @@ To create a new repository:
    - For libraries: `peasy-lib`
    - For applications: `peasy-app`
 
-### 1.2. Post-Creation and Manual Repository Configuration
 
-After creating the repository, configure the following settings:
-- **GitHub Pages:** [Activate here](https://github.com/easyscience/peasy-lib/settings/pages) to serve documentation from the `gh-pages` branch. In "Build and deployment" select **Source:** Deploy from a branch. In **Branch** select `gh-pages` and click **Save**.
-- **Repository Labels:** Ensure correct labels, including the bot label ([see ADR](https://github.com/orgs/easyscience/discussions/33), [example](https://github.com/easyscience/peasy-lib/labels)).
+---
 
-- **Branch Protection Rules:** ([GitHub Rules Settings](https://github.com/easyscience/peasy-lib/settings/rules))
-  - Create ruleset **"master branch protection"** with:
-    - Enforcement status: Active
-    - Branch targeting criteria: Add target → include default branch
-    - Restrict deletions: ✔️
-    - Require a pull request before merging: ✔️ (Allowed merge methods: Merge only)
-    - Block force pushes: ✔️
-    - Click "Save changes" button
-  - Create ruleset **"develop branch protection"** with:
-    - Enforcement status: Active
-    - Branch targeting criteria: Add target → include by pattern → develop
-    - Restrict deletions: ✔️
-    - Require a pull request before merging: ✔️ (Allowed merge methods: Squash only)
-    - Block force pushes: ✔️
-    - Click "Save changes" button
-  - Create ruleset **"gh-pages branch protection"** with:
-    - Enforcement status: Active
-    - Branch targeting criteria: Add target → include by pattern → gh-pages
-    - Restrict deletions: ✔️
-    - Block force pushes: ✔️
-    - Click "Save changes" button
-- **Add repository secrets** (e.g., API keys, deployment keys):
-  - The `easyscience[bot]` GitHub App should have access automatically (configured at the org level). Add it to the `develop` bypass protection rules for automatic backmerge after new releases.
-  - Add the PyPI API token secret for library repositories (for publishing to PyPI). Confirm if this is set at the org level.
+## 🛡️ Step 3: Post-Initialization Repository Setup
+
+After you have made your initial commit and pushed to GitHub, complete the following steps:
+
+### 3.1. Create develop Branch
+
+Create and push the develop branch:
+```bash
+git checkout -b develop
+git push -u origin develop
+```
+
+### 3.2. About gh-pages Branch and Pages Activation
+
+The `gh-pages` branch will be created automatically by [mike](https://github.com/jimporter/mike) when you first deploy documentation. Do not attempt to activate GitHub Pages until this branch exists.
+
+Once `gh-pages` exists, activate Pages deployment:
+- Go to [GitHub Pages settings](https://github.com/easyscience/peasy-lib/settings/pages)
+- In "Build and deployment" select **Source:** Deploy from a branch
+- In **Branch** select `gh-pages` and click **Save**
+
+> **Note:** Activating Pages deployment will add a workflow "pages build and deployment", which will be automatically triggered by `github-pages[bot]` after mike pushes a new version of docs to `gh-pages`.
+
+### 3.3. Set Repository Labels
+
+Ensure correct labels, including the bot label ([see ADR](https://github.com/orgs/easyscience/discussions/33), [example](https://github.com/easyscience/peasy-lib/labels)).
+
+### 3.4. Add Repository Secrets
+
+Add repository secrets (e.g., API keys, deployment keys):
+- The `easyscience[bot]` GitHub App should have access automatically (configured at the org level). Add it to the `develop` bypass protection rules for automatic backmerge after new releases.
+- Add the PyPI API token secret for library repositories (for publishing to PyPI). Confirm if this is set at the org level.
+
+### 3.5. Set Branch Protection Rules
+
+Set branch protection rules ([GitHub Rules Settings](https://github.com/easyscience/peasy-lib/settings/rules)) only after the relevant branches exist:
+- Create ruleset **"master branch protection"** with:
+  - Enforcement status: Active
+  - Branch targeting criteria: Add target → include default branch
+  - Restrict deletions: ✔️
+  - Require a pull request before merging: ✔️ (Allowed merge methods: Merge only)
+  - Block force pushes: ✔️
+  - Click "Save changes" button
+- Create ruleset **"develop branch protection"** with:
+  - Enforcement status: Active
+  - Branch targeting criteria: Add target → include by pattern → develop
+  - Restrict deletions: ✔️
+  - Require a pull request before merging: ✔️ (Allowed merge methods: Squash only)
+  - Block force pushes: ✔️
+  - Click "Save changes" button
+- Create ruleset **"gh-pages branch protection"** with:
+  - Enforcement status: Active
+  - Branch targeting criteria: Add target → include by pattern → gh-pages
+  - Restrict deletions: ✔️
+  - Block force pushes: ✔️
+  - Click "Save changes" button
 
 ---
 
