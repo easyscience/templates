@@ -80,10 +80,28 @@ To create a new repository:
 After creating the repository, configure the following settings:
 - **GitHub Pages:** Activate to serve documentation from the `gh-pages` branch.
 - **Repository Labels:** Ensure correct labels, including the bot label ([see ADR](https://github.com/orgs/easyscience/discussions/33), [example](https://github.com/easyscience/peasy-lib/labels)).
-- **Branch Protection Rules:**
-  - Protect `master`, `develop`, and `gh-pages` branches.
-  - Require pull request reviews and status checks before merging.
-  - Include administrators in these rules.
+
+- **Branch Protection Rules:** ([GitHub Rules Settings](https://github.com/easyscience/peasy-lib/settings/rules))
+  - Create ruleset **"master branch protection"** with:
+    - Enforcement status: Active
+    - Branch targeting criteria: Add target → include default branch
+    - Restrict deletions: ✔️
+    - Require a pull request before merging: ✔️ (Allowed merge methods: Merge only)
+    - Block force pushes: ✔️
+    - Click "Save changes" button
+  - Create ruleset **"develop branch protection"** with:
+    - Enforcement status: Active
+    - Branch targeting criteria: Add target → include by pattern → develop
+    - Restrict deletions: ✔️
+    - Require a pull request before merging: ✔️ (Allowed merge methods: Squash only)
+    - Block force pushes: ✔️
+    - Click "Save changes" button
+  - Create ruleset **"gh-pages branch protection"** with:
+    - Enforcement status: Active
+    - Branch targeting criteria: Add target → include by pattern → gh-pages
+    - Restrict deletions: ✔️
+    - Block force pushes: ✔️
+    - Click "Save changes" button
 - **Add repository secrets** (e.g., API keys, deployment keys):
   - The `easyscience[bot]` GitHub App should have access automatically (configured at the org level). Add it to the `develop` bypass protection rules for automatic backmerge after new releases.
   - Add the PyPI API token secret for library repositories (for publishing to PyPI). Confirm if this is set at the org level.
