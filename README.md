@@ -126,7 +126,7 @@ git clone https://github.com/easyscience/peasy-app.git
 
 ### 2.2. Set Up Pixi
 
-We use [**Pixi**](https://prefix.dev) for dependency management and project configuration. See the [Pixi installation guide](https://prefix.dev/docs/installation) for details.
+We use [**Pixi**](https://prefix.dev) for dependency management and project configuration. See the [Pixi installation guide](https://pixi.prefix.dev/latest/installation/) for details.
 
 Navigate into the main repository (e.g., `peasy`) and initialize a new Pixi project:
 
