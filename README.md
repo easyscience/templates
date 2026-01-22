@@ -3,18 +3,18 @@
 This repository provides Copier templates used to create, structure, and maintain repositories under the EasyScience organization.
 
 It is intended primarily for developers and contributors, especially those who:
-	•	create new EasyScience projects,
-	•	maintain existing repositories,
-	•	contribute to CI, tooling, documentation, or release workflows.
+- create new EasyScience projects,
+- maintain existing repositories,
+- contribute to CI, tooling, documentation, or release workflows.
 
 The templates enforce organization-wide standards for:
-	•	repository layout,
-	•	CI/CD workflows,
-	•	documentation structure,
-	•	code quality tooling,
-	•	release automation.
+- repository layout,
+- CI/CD workflows,
+- documentation structure,
+- code quality tooling,
+- release automation.
 
-All templates are based on [Copier](https://copier.readthedocs.io/)￼, which allows projects to stay synchronized with upstream template updates over time.
+All templates are based on [Copier](https://copier.readthedocs.io/), which allows projects to stay synchronized with upstream template updates over time.
 
 ---
 
@@ -56,46 +56,40 @@ All templates are based on [Copier](https://copier.readthedocs.io/)￼, which al
 ### Template layering
 
 Templates are applied incrementally:
+
 ```
 shared → lib / app
 ```
 
-•	shared defines organization-wide defaults.
-•	lib / app add project-type-specific files.
-•	This separation allows updating shared infrastructure without touching project-specific logic.
+- shared defines organization-wide defaults.
+- lib / app add project-type-specific files.
+- This separation allows updating shared infrastructure without touching project-specific logic.
 
 ## 🧱 Overall Project Structure
 
 EasyScience projects typically consist of multiple repositories:
 
 1. Home (umbrella) repository
-
-Example: easyscience/peasy
-	•	Acts as the entry point for the project
-	•	Hosts the project website / landing page
-	•	Stores the project description file (Copier answers)
-	•	Does not contain implementation code
-
+   - Example: easyscience/peasy
+   - Acts as the entry point for the project
+   - Hosts the project website / landing page
+   - Stores the project description file (Copier answers)
+   - Does not contain implementation code
 2. Library repository (if applicable)
-
-Example: easyscience/peasy-lib
-	•	Contains the Python library
-	•	Publishes documentation and PyPI packages
-	•	Uses shared metadata from the home repository
-
+   - Example: easyscience/peasy-lib
+   - Contains the Python library
+   - Publishes documentation and PyPI packages
+   - Uses shared metadata from the home repository
 3. Application repository (if applicable)
-
-Example: easyscience/peasy-app
-	•	Contains the GUI application
-	•	Uses the same shared project metadata
+   - Example: easyscience/peasy-app
+   - Contains the GUI application
+   - Uses the same shared project metadata
 
 The home repository is created first, because it defines metadata reused by the others.
 
 ## 🚀 Step 1: Create GitHub Repositories
 
 Before running Copier, repositories must exist on GitHub.
-
-Repository creation guidelines
 
 ### 1.1. Create and Set Up New Repositories
 
@@ -110,17 +104,10 @@ To create a new repository:
 7. Click **Create repository**.
 
 Depending on your project, repeat the same steps for additional repositories as needed:
-   - For libraries: `peasy-lib`
-   - For applications: `peasy-app`
-
+- For libraries: `peasy-lib`
+- For applications: `peasy-app`
 
 ---
-
-
-
-
-
-
 
 ## 🛠 Step 2: Initialize Projects Using Copier
 
