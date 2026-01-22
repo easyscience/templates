@@ -1,17 +1,21 @@
 # EasyScience Copier Templates
 
-Welcome to the **EasyScience Copier Templates** repository! This project provides a standardized approach for creating and maintaining repositories under the EasyScience organization. By leveraging [Copier](https://copier.readthedocs.io/), you can quickly scaffold new projects, ensure consistency, and streamline maintenance across all EasyScience projects.
+Welcome to the **EasyScience Copier Templates** repository! This project
+provides a standardized approach for creating and maintaining
+repositories under the EasyScience organization. By leveraging
+[Copier](https://copier.readthedocs.io/), we ensure:
+- Consistency across all projects
+- Accelerated project setup
+- Simplified maintenance and updates
 
 ---
 
-
 ## 📋 Table of Contents
 
-1. [Quickstart Overview](#quickstart-overview)
-2. [Introduction](#introduction)
-3. [Available Templates](#available-templates)
-4. [Step 1: Create New Repositories](#step-1-create-new-repositories)
-5. [Step 2: Apply Templates and Initialize Projects](#step-2-apply-templates-and-initialize-projects)
+- [Quickstart Overview](#quickstart-overview)
+- [Available Templates](#available-templates)
+- [Step 1: Create New Repositories](#step-1-create-new-repositories)
+- [Step 2: Apply Templates and Initialize Projects](#step-2-apply-templates-and-initialize-projects)
   - [2.1. Clone All Repositories Locally](#21-clone-all-repositories-locally)
   - [2.2. Set Up Pixi](#22-set-up-pixi)
   - [2.3. Install Copier](#23-install-copier)
@@ -20,17 +24,18 @@ Welcome to the **EasyScience Copier Templates** repository! This project provide
   - [2.6. Where Are Answers Stored?](#26-where-are-answers-stored)
   - [2.7. Push Changes to the Repository](#27-push-changes-to-the-repository)
   - [2.8. Code Quality Checks](#28-code-quality-checks)
-6. [Step 3: Post-Initialization Repository Setup](#step-3-post-initialization-repository-setup)
+- [Step 3: Post-Initialization Repository Setup](#step-3-post-initialization-repository-setup)
   - [3.1. Create develop Branch](#31-create-develop-branch)
   - [3.2. About gh-pages Branch and Pages Activation](#32-about-gh-pages-branch-and-pages-activation)
   - [3.3. Set Repository Labels](#33-set-repository-labels)
   - [3.4. Add Repository Secrets](#34-add-repository-secrets)
   - [3.5. Set Branch Protection Rules](#35-set-branch-protection-rules)
-7. [Step 4: Keep Your Repository Updated](#step-4-keep-your-repository-updated)
-7. [FAQ & Troubleshooting](#faq--troubleshooting)
-8. [Contributing](#contributing)
-9. [License](#license)
-10. [Release Workflow](#release-workflow)
+- [Step 4: Keep Your Repository Updated](#step-4-keep-your-repository-updated)
+- [FAQ & Troubleshooting](#faq--troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
+- [Release Workflow](#release-workflow)
+
 ## ⚡ Quickstart Overview
 
 1. **Create repositories** for your main and any required lib/app repos on GitHub.
@@ -40,15 +45,6 @@ Welcome to the **EasyScience Copier Templates** repository! This project provide
 5. **Generate the project structure** in lib/app repos using Copier and the shared answers file.
 6. **Push changes** to GitHub and follow code quality checks.
 7. **Keep your repository updated** by applying template updates as needed.
-
----
-
-## 📝 Introduction
-
-This repository provides a structured approach to creating new repositories under the **EasyScience** organization using predefined templates. It ensures:
-- Consistency across all projects
-- Accelerated project setup
-- Simplified maintenance and updates
 
 ---
 
