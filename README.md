@@ -1,6 +1,6 @@
 # EasyScience Copier Templates
 
-Welcome to the **EasyScience Copier Templates** repository! This project provides a robust, standardized approach for creating and maintaining repositories under the EasyScience organization. By leveraging [Copier](https://copier.readthedocs.io/), you can quickly scaffold new projects, ensure consistency, and streamline maintenance across all EasyScience projects.
+Welcome to the **EasyScience Copier Templates** repository! This project provides a standardized approach for creating and maintaining repositories under the EasyScience organization. By leveraging [Copier](https://copier.readthedocs.io/), you can quickly scaffold new projects, ensure consistency, and streamline maintenance across all EasyScience projects.
 
 ---
 
