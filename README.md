@@ -21,13 +21,16 @@ All templates are based on [Copier](https://copier.readthedocs.io/), which allow
 ## 📋 Table of Contents
 
 - [Available Templates](#available-templates)
-- [Step 1: Create New Repositories](#step-1-create-new-repositories)
-- [Step 2: Apply Templates and Initialize Projects](#step-2-apply-templates-and-initialize-projects)
-  - [2.1. Clone All Repositories Locally](#21-clone-all-repositories-locally)
+- [Template layering](#template-layering)
+- [Overall Project Structure](#overall-project-structure)
+- [Step 1: Create GitHub Repositories](#step-1-create-github-repositories)
+  - [1.1. Create and Set Up New Repositories](#11-create-and-set-up-new-repositories)
+- [Step 2: Initialize Projects Using Copier](#step-2-initialize-projects-using-copier)
+  - [2.1. Clone Repositories](#21-clone-repositories)
   - [2.2. Set Up Pixi](#22-set-up-pixi)
   - [2.3. Install Copier](#23-install-copier)
-  - [2.4. Generate the Project Description File (Main Repository)](#24-generate-the-project-description-file-main-repository)
-  - [2.5. Generate the Project Structure (lib/app Repository)](#25-generate-the-project-structure-libapp-repository)
+  - [2.4. Generate Project Description (Home Repository)](#24-generate-project-description-home-repository)
+  - [2.5. Generate Library / Application Repositories](#25-generate-library--application-repositories)
   - [2.6. Where Are Answers Stored?](#26-where-are-answers-stored)
   - [2.7. Push Changes to the Repository](#27-push-changes-to-the-repository)
   - [2.8. Code Quality Checks](#28-code-quality-checks)
@@ -37,10 +40,10 @@ All templates are based on [Copier](https://copier.readthedocs.io/), which allow
   - [3.3. Set Repository Labels](#33-set-repository-labels)
   - [3.4. Add Repository Secrets](#34-add-repository-secrets)
   - [3.5. Set Branch Protection Rules](#35-set-branch-protection-rules)
-- [Step 4: Keep Your Repository Updated](#step-4-keep-your-repository-updated)
-- [FAQ & Troubleshooting](#faq--troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
+- [Step 4: Updating Existing Repositories](#step-4-updating-existing-repositories)
+  - [To update the repository with template changes](#to-update-the-repository-with-template-changes)
+  - [Using a Specific Version/Tag](#using-a-specific-versiontag)
+  - [GitHub Actions Workflows](#github-actions-workflows)
 - [Release Workflow](#release-workflow)
 
 ## 🏗️ Available Templates
@@ -109,7 +112,7 @@ Depending on your project, repeat the same steps for additional repositories as 
 
 ---
 
-## 🛠 Step 2: Initialize Projects Using Copier
+## 🛠️ Step 2: Initialize Projects Using Copier
 
 ### 2.1 Clone Repositories
 
