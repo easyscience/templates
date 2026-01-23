@@ -1,0 +1,7 @@
+# SPDX-FileCopyrightText: {{ project_copyright_years }} {{ project_name }} contributors <https://github.com/easyscience>
+# SPDX-License-Identifier: BSD-3-Clause
+{%- if template_type == "lib" %}
+"""{{ project_name }} library."""
+{%- elif template_type == "app" %}
+"""{{ project_name }} application."""
+{%- endif %}

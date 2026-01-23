@@ -6,7 +6,7 @@
 project_name:
   type: str
   default: EasyPeasy
-  help: What is the project name, including the `Easy` prefix?
+  help: What is the project name, including the `Easy` prefix (e.g., EasyDiffraction)?
 
 project_shortcut:
   type: str
@@ -48,45 +48,72 @@ project_contact_email:
 
 ---
 # =============================================================================
+# Project type selection (lib, app, both)
+# =============================================================================
+
+project_type:
+  type: str
+  choices:
+    - lib
+    - app
+    - both
+  default: both
+  help: |
+    What types will your project include?
+       - lib: Python library/package only
+       - app: Qt QML desktop application only
+       - both: Both Python library and Qt QML desktop application
+
+template_type:
+  type: str
+  choices:
+    - home
+    - lib
+    - app
+  default: home
+  help: |
+    Which template do you want to apply right now?
+       - home: Creates shared metadata only
+       - lib: Python library/package
+       - app: Qt QML desktop application
+
+---
+# =============================================================================
 # Lib-specific questions
 # =============================================================================
-has_lib:
-  type: bool
-  default: true
-  help: Will the project include a Python library?
 
 lib_repo_name:
-  when: '{{ has_lib }}'
+  when: '{{ project_type in ["lib", "both"] }}'
   type: str
   default: '{{ project_repo_name }}-lib'
   help: What is the library repository for the project under the EasyScience organization?
 
 lib_package_name:
-  when: '{{ has_lib }}'
+  when: '{{ project_type in ["lib", "both"] }}'
   type: str
   default: '{{ project_name | lower }}'
-  help: What is the Python package name for the project (use lowercase letters)?
+  help: What is the name for the library Python package (use lowercase letters)?
 
 lib_python_min:
-  when: '{{ has_lib }}'
+  when: '{{ project_type in ["lib", "both"] }}'
   type: str
   default: '3.11'
   help: What is the minimum supported Python version for the library?
 
 lib_python_max:
-  when: '{{ has_lib }}'
+  when: '{{ project_type in ["lib", "both"] }}'
   type: str
   default: '3.13'
   help: What is the maximum supported Python version for the library?
 
 lib_docs_url:
-  when: '{{ has_lib }}'
+  when: '{{ project_type in ["lib", "both"] }}'
   type: str
   default: 'https://easyscience.github.io/{{ lib_repo_name }}'
   help: What is the documentation URL for the library?
 
 lib_doi:
-  when: '{{ has_lib }}'
+  when: '{{ project_type in ["lib", "both"] }}'
   type: str
   default: '10.5281/zenodo.18163581'
   help: |
@@ -96,22 +123,40 @@ lib_doi:
 # =============================================================================
 # App-specific questions
 # =============================================================================
-has_app:
-  type: bool
-  default: true
-  help: Will the project include a Qt desktop application?
 
 app_repo_name:
-  when: '{{ has_app }}'
+  when: '{{ project_type in ["app", "both"] }}'
   type: str
   default: '{{ project_repo_name }}-app'
   help: What is the application repository for the project under the EasyScience organization?
 
+app_package_name:
+  when: '{{ project_type in ["app", "both"] }}'
+  type: str
+  default: '{{ project_name | lower }}_app'
+  help: |
+    What is the name for the application Python package (use lowercase letters)?
+       ⚠️  Important: This should be different from the library package name, if the 
+       project includes both.
+
+app_python:
+  when: '{{ project_type in ["app", "both"] }}'
+  type: str
+  default: '3.13'
+  help: What is the Python version for the application?
+
 app_docs_url:
-  when: '{{ has_app }}'
+  when: '{{ project_type in ["app", "both"] }}'
   type: str
   default: 'https://easyscience.github.io/{{ app_repo_name }}'
   help: What is the documentation URL for the application?
+
+app_doi:
+  when: '{{ project_type in ["app", "both"] }}'
+  type: str
+  default: '10.5281/zenodo.18163581'
+  help: |
+    What is the DOI for the application (without the URL prefix, e.g., 10.5281/zenodo.xxxxxxx)?
 
 ---
 # =============================================================================
@@ -119,4 +164,4 @@ app_docs_url:
 # =============================================================================
 
 _subdirectory: template
-_answers_file: .project.yaml
+_answers_file: .copier-answers.yml
