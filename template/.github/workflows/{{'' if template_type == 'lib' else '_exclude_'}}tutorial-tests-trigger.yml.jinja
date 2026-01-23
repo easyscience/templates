@@ -21,13 +21,13 @@ jobs:
         id: bot
         uses: ./.github/actions/setup-easyscience-bot
         with:
-          app-id: ${{ vars.EASYSCIENCE_APP_ID }}
-          private-key: ${{ secrets.EASYSCIENCE_APP_KEY }}
+          app-id: {% raw %}${{ vars.EASYSCIENCE_APP_ID }}{% endraw %}
+          private-key: {% raw %}${{ secrets.EASYSCIENCE_APP_KEY }}{% endraw %}
 
       - name: Dispatch tutorial tests workflow
         uses: ./.github/actions/github-script
         with:
-          github-token: ${{ steps.bot.outputs.token }}
+          github-token: {% raw %}${{ steps.bot.outputs.token }}{% endraw %}
           script: |
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,

@@ -166,4 +166,4 @@ app_doi:
 _subdirectory: template
 _answers_file: .copier-answers.yml
 _exclude:
-  - "_exclude/**"
+  - "_exclude_*"
