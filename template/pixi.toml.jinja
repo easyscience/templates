@@ -218,4 +218,8 @@ post-install = { depends-on = [
 ] }
 
 # 🔗 Main Package Shortcut
+{%- if template_type == "lib" %}
 {{ package_name }} = 'python -m {{ package_name }}'
+{%- elif template_type == "app" %}
+{{ project_name | lower }} = 'python src/{{ package_name }}/main.py'
+{%- endif -%}
