@@ -77,6 +77,7 @@ dev = [
   'pyyaml',                          # YAML parser
   {%- if template_type == "app" %}
   'EasyApp @ git+https://github.com/easyscience/EasyApp.git@develop', # The EasyScience application framework
+  'pyinstaller',                     # Create standalone executables
   {%- endif %}
 ]
 
