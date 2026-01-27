@@ -23,7 +23,9 @@ PYTHONIOENCODING = "utf-8"
 # Unix/macOS
 [target.unix.activation.env]
 PYTHONPATH = "${PIXI_PROJECT_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
+{%- if template_type == "app" %}
 PATH = "$HOME/Qt/6.9.1/macos/bin${PATH:+:${PATH}}"
+{%- endif -%}
 
 # Windows
 [target.win.activation.env]
@@ -187,7 +189,9 @@ copier-recopy = "pixi run copier recopy --data-file ../{{ project_repo_name }}/.
 copier-update = "pixi run copier update --data-file ../{{ project_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
 
 # 🚀 Development & Build Tasks
+{%- if template_type == "app" %}
 freeze = 'pixi run pyinstaller src/{{ package_name }}/main.py --name={{ project_name | lower }} --log-level WARN --noconfirm --clean --windowed --onedir --add-data=src/{{ package_name }}:. --collect-all EasyApp'
+{%- endif -%}
 
 default-build = 'python -m build'
 dist-build = 'python -m build --wheel --outdir dist'
