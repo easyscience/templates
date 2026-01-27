@@ -47,16 +47,9 @@ This section describes the simplest way to set up {{ project_name }} using
   ```txt
   pixi add python={{ lib_python_max }}
   ```
-- Add the GNU Scientific Library (GSL) dependency:
+- Add {{ project_name }} to the Pixi environment from PyPI:
   ```txt
-  pixi add gsl
-  ```
-- Add {{ project_name }} with the `visualization` extras, which include optional
-  dependencies used for simplified visualization of charts and tables.
-  This can be especially useful for running the Jupyter Notebook
-  examples:
-  ```txt
-  pixi add --pypi "{{ lib_package_name }}[visualization]"
+  pixi add --pypi {{ lib_package_name }}
   ```
 - Add a Pixi task to run {{ project_name }} commands easily:
   ```txt
@@ -160,20 +153,7 @@ simply delete and recreate the environment.
 ### Installing from PyPI { #from-pypi }
 
 {{ project_name }} is available on **PyPI (Python Package Index)** and can be
-installed using `pip`.
-
-We recommend installing the latest release of {{ project_name }} with
-the `visualization` extras, which include optional dependencies used for
-simplified visualization of charts and tables. This can be especially
-useful for running the Jupyter Notebook examples. To do so, use the
-following command:
-
-```txt
-pip install '{{ lib_package_name }}[visualization]'
-```
-
-If only the core functionality is needed, the library can be installed
-simply with:
+installed using `pip`. To do so, use the following command:
 
 ```txt
 pip install {{ lib_package_name }}
@@ -215,10 +195,10 @@ To install {{ project_name }} from the `develop` branch of GitHub, for example:
 pip install git+https://github.com/easyscience/{{ lib_repo_name }}@develop
 ```
 
-To include extra dependencies (e.g., visualization):
+To include extra dependencies (e.g., dev):
 
 ```txt
-pip install '{{ lib_package_name }}[visualization] @ git+https://github.com/easyscience/{{ lib_repo_name }}@develop'
+pip install '{{ lib_package_name }}[dev] @ git+https://github.com/easyscience/{{ lib_repo_name }}@develop'
 ```
 
 ## How to Run Tutorials
