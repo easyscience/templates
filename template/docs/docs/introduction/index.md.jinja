@@ -16,7 +16,7 @@ icon: material/information-slab-circle
 
 ## Description
 
-**{{ project_name }}** is a scientific software {{ project_extended_description | lower }}.
+**{{ project_name }}** is a scientific software {{ project_extended_description[:1] | lower }}{{ project_extended_description[1:] }}.
 
 {% if project_type == "both" %}
 **{{ project_name }}** is available both as a Python library and as a
