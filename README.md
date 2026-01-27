@@ -511,6 +511,21 @@ pixi run copier-update --vcs-ref=master
 
 If conflicts arise, Copier will prompt you to review them.
 
+### Adding/Modifying Project Dependencies
+
+In principle, project dependencies can be managed via Pixi using the
+`pixi add <package>` and `pixi remove <package>` commands. But, pixi
+will add them to the `pixi.toml` file only. And we do not want to have
+project dependencies defined `pixi.toml`. Instead, we suggest to 
+manually add/remove dependencies in the `pyproject.toml` file under the
+`[dependencies]` section or `[project.optional-dependencies]` 
+(`dev` subsection for development dependencies). To update the Pixi 
+environment accordingly, after modifying `pyproject.toml`, run:
+
+```bash
+pixi reinstall
+```
+
 ### GitHub Actions Workflows
 
 Templates include a set of GitHub Actions workflows for CI/CD, testing,
