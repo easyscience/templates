@@ -9,11 +9,11 @@
 <p>
   <picture>
     <!-- light mode logo -->
-    <source media='(prefers-color-scheme: light)' srcset='https://raw.githubusercontent.com/easyscience/{{ repo_name }}/refs/heads/master/docs/docs/assets/images/logo_light.svg'>
+    <source media='(prefers-color-scheme: light)' srcset='https://raw.githubusercontent.com/easyscience/assets-branding/refs/heads/master/{{ project_name | lower }}/logos/light.svg'>
     <!-- dark mode logo -->
-    <source media='(prefers-color-scheme: dark)' srcset='https://raw.githubusercontent.com/easyscience/{{ repo_name }}/refs/heads/master/docs/docs/assets/images/logo_dark.svg'>
+    <source media='(prefers-color-scheme: dark)' srcset='https://raw.githubusercontent.com/easyscience/assets-branding/refs/heads/master/{{ project_name | lower }}/logos/dark.svg'>
     <!-- default logo == light mode logo -->
-    <img src='https://raw.githubusercontent.com/easyscience/{{ repo_name }}/refs/heads/master/docs/docs/assets/images/logo_light.svg' alt='{{ project_name }}'>
+    <img src='https://raw.githubusercontent.com/easyscience/assets-branding/refs/heads/master/{{ project_name | lower }}/logos/light.svg' alt='{{ project_name }}'>
   </picture>
 </p>
 
@@ -24,17 +24,19 @@
 
 This repository serves as the central hub for the **{{ project_name }}** family.
 
-### Useful Links:
+**{{ project_name }}** is developed as:
 
 {% if project_type == "both" or template_type == "lib" %}
-- 📦 [Repository `{{ lib_repo_name }}`](https://github.com/easyscience/{{ lib_repo_name }}) -
-  The Python library for {{ project_name }}.
+- 📦 Library - [repository `{{ lib_repo_name }}`](https://github.com/easyscience/{{ lib_repo_name
+}}) - The Python library for {{ project_name }}.
 {% endif %}
 
 {% if project_type == "both" or template_type == "app" %}
-- 🖥 [Repository `{{ app_repo_name }}`](https://github.com/easyscience/{{ app_repo_name }}) -
-  The cross-platform desktop application for {{ project_name }}.
+- 🖥 Application - [repository `{{ app_repo_name }}`](https://github.com/easyscience/{{
+app_repo_name }}) - The cross-platform desktop application for {{ project_name }}.
 {% endif %}
+
+### Useful Links:
 
 - 💡[Discussions](https://github.com/easyscience/{{ home_repo_name }}) - the main
   discussion forum for the whole {{ project_name }} project.

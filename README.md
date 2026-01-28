@@ -142,7 +142,7 @@ pixi add copier
 > structure.
 
 ```bash
-pixi run copier copy gh:easyscience/templates . --data template_type=home --exclude '**/*' --exclude '!{{_copier_conf.answers_file}}' --exclude '!.gitignore'
+pixi run copier copy gh:easyscience/templates . --data template_type=home --exclude '**/*' --exclude '!{{_copier_conf.answers_file}}' --exclude '!.gitignore' --exclude '!README.md'
 ```
 
 Fill in the required information when prompted. For project name, alias,
