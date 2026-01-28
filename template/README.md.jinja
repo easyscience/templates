@@ -1,4 +1,6 @@
-{%- if template_type == "lib" %}
+{%- if template_type == "home" %}
+{%- set repo_name = project_repo_name %}
+{%- elif template_type == "lib" %}
 {%- set repo_name = lib_repo_name %}
 {%- elif template_type == "app" %}
 {%- set repo_name = app_repo_name %}
@@ -16,6 +18,29 @@
 </p>
 
 **{{ project_name }}** is a scientific software {{ project_extended_description | lower }}.
+
+<!-- HOME REPOSITORY SECTION -->
+{%- if template_type == "home"  %}
+
+This repository serves as the central hub for the **{{ project_name }}** family.
+
+### Useful Links:
+
+{% if project_type == "both" or template_type == "lib" %}
+- 📦 [Repository `{{ lib_repo_name }}`](https://github.com/easyscience/{{ lib_repo_name }}) -
+  The Python library for {{ project_name }}.
+{% endif %}
+
+{% if project_type == "both" or template_type == "app" %}
+- 🖥 [Repository `{{ app_repo_name }}`](https://github.com/easyscience/{{ app_repo_name }}) -
+  The cross-platform desktop application for {{ project_name }}.
+{% endif %}
+
+- 💡[Discussions](https://github.com/easyscience/{{ home_repo_name }}) - the main
+  discussion forum for the whole {{ project_name }} project.
+
+<!-- NON-HOME REPOSITORY SECTION -->
+{% else %}
 
 {% if project_type == "both" %}
 **{{ project_name }}** is available both as a Python library and as a
@@ -51,3 +76,5 @@ library, please see the corresponding [library resources](https://github.com/eas
 - 💡 [Discussions](https://github.com/easyscience/{{ repo_name }}/discussions)
 - 🧑‍💻 [Source Code](https://github.com/easyscience/{{ repo_name }})
 - ⚖️ [License](https://raw.githubusercontent.com/easyscience/{{ repo_name }}/refs/heads/master/LICENSE)
+
+{% endif %}
