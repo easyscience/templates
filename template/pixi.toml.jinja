@@ -25,7 +25,7 @@ PYTHONIOENCODING = "utf-8"
 PYTHONPATH = "${PIXI_PROJECT_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
 {%- if template_type == "app" %}
 PATH = "$HOME/Qt/6.9.1/macos/bin${PATH:+:${PATH}}"
-{%- endif -%}
+{%- endif %}
 
 # Windows
 [target.win.activation.env]
