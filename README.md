@@ -139,19 +139,34 @@ pixi add copier
 ### 2.4 Generate Project Description (Home Repository)
 
 > **Note:** This step generates only the project metadata, not code or
-> structure.
+> structure. Therefore, we exclude all files except the `.gitignore`, 
+> `README.md` and templated answers file 
+> `{{_copier_conf.answers_file}}`. The latter one is defined in the 
+> `easyscience/templates` repository, in `copier.yml` as 
+> `_answers_file: .copier-answers.yml`
 
 ```bash
-pixi run copier copy gh:easyscience/templates . --data template_type=home --exclude '**/*' --exclude '!{{_copier_conf.answers_file}}' --exclude '!.gitignore' --exclude '!README.md'
+pixi run copier copy gh:easyscience/templates . --data template_type=home --exclude "**/*" --exclude "!{{_copier_conf.answers_file}}" --exclude "!.gitignore" --exclude "!README.md"
 ```
 
-Fill in the required information when prompted. For project name, alias,
-and short description, refer to the organization profile for
-consistency.
+Fill in the required information when prompted. It is okay to leave
+the default values or use custom placeholders for now for most fields.
+These answers can be updated later by re-running Copier in the home
+repository.
+
+The important fields to fill in accurately are:
+- Project name
+- Project repository name
+- Library repository name (if applicable)
+- Library package name (if applicable)
+- Application repository name (if applicable)
+
+For project name, alias, and short description, refer to the 
+organization profile for consistency.
 
 > **Important:** These answers are stored in a project description file
-> `.copier-answers.yml`, which becomes the single source of truth for
-> all related repositories.
+> `.copier-answers.yml` inside the home repository (e.g., `peasy`),
+> which becomes the single source of truth for all related repositories.
 >
 > Do not modify it manually. Instead, update answers by re-running
 > Copier in the home repository when needed.
