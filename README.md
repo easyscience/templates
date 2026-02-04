@@ -299,8 +299,7 @@ finalize the setup:
 - **Update documentation assets:** Updates the logo and other assets in
   the `docs/` folder. Run this every time you update project-related
   logos or assets, especially after changes in the
-  `easyscience/assets-branding` repository. See, `pixi.toml` for details
-  regarding the `post-install` task.
+  `easyscience/assets-branding` repository.
 
   ```bash
   pixi run docs-update-assets
@@ -308,8 +307,7 @@ finalize the setup:
 
 - **Update SPDX license headers:** Updates license headers in all
   project files. Run this whenever the copyright year changes, new files
-  are added, or license information needs to be refreshed. See,
-  `pixi.toml` for details regarding the `post-install` task.
+  are added, or license information needs to be refreshed.
 
   ```bash
   pixi run spdx-update
@@ -318,7 +316,7 @@ finalize the setup:
 - **Format all project files:** Ensures all files adhere to the
   project's coding standards as defined in `pyproject.toml`. Run this
   after any changes to source code, configuration, workflows, or docs.
-  See, `pixi.toml` for details regarding the `post-install` task.
+
   ```bash
   pixi run fix
   ```
