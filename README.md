@@ -140,13 +140,12 @@ pixi add copier
 
 > **Note:** This step generates only the project metadata, not code or
 > structure. Therefore, we exclude all files except the `.gitignore`, 
-> `README.md` and templated answers file 
-> `{{_copier_conf.answers_file}}`. The latter one is defined in the 
-> `easyscience/templates` repository, in `copier.yml` as 
+> `README.md` and `.copier-answers.yml`. The latter one is defined in 
+> the `easyscience/templates` repository, in `copier.yml` as 
 > `_answers_file: .copier-answers.yml`
 
 ```bash
-pixi run copier copy gh:easyscience/templates . --data template_type=home --exclude "**/*" --exclude "!{{_copier_conf.answers_file}}" --exclude "!.gitignore" --exclude "!README.md"
+pixi run copier copy gh:easyscience/templates . --data template_type=home --exclude '**/*' --exclude '!.gitignore' --exclude '!README.md' --exclude '!.copier-answers.yml'
 ```
 
 Fill in the required information when prompted. It is okay to leave
@@ -276,6 +275,15 @@ finalize the setup:
 
   ```bash
   pixi run post-install
+  ```
+
+- **Set/update GitHub issue/PR labels:** Ensures correct labels,
+  including the bot label. See ADR 
+  (Unified Labeling System)[https://github.com/orgs/easyscience/discussions/33]
+  for details.
+
+  ```bash
+  pixi run github-labels
   ```
 
 - **Update documentation assets:** Updates the logo and other assets in
