@@ -38,14 +38,17 @@ updates over time.
 - [Step 3: Post-Initialization Repository Setup](#-step-3-post-initialization-repository-setup)
   - [3.1. Create develop Branch](#31-create-develop-branch)
   - [3.2. About gh-pages Branch and Pages Activation](#32-about-gh-pages-branch-and-pages-activation)
-  - [3.3. Set Repository Labels](#33-set-repository-labels)
-  - [3.4. Add Repository Secrets](#34-add-repository-secrets)
-  - [3.5. Set Branch Protection Rules](#35-set-branch-protection-rules)
+  - [3.3. Add Repository Secrets](#34-add-repository-secrets)
+  - [3.4. Set Branch Protection Rules](#35-set-branch-protection-rules)
 - [Step 4: Updating Existing Repositories](#-step-4-updating-existing-repositories)
   - [To update the repository with template changes](#to-update-the-repository-with-template-changes)
   - [Using a Specific Version/Tag](#using-a-specific-versiontag)
   - [GitHub Actions Workflows](#github-actions-workflows)
 - [Release Workflow](#-release-workflow)
+
+> **⚠️ Important:** The following guide describes the recommended 
+> procedure on example of the `EasyPeasy` project. Replace `peasy` with 
+> the relevant name throughout the steps.
 
 ## 🧱 Overall Project Structure
 
@@ -102,16 +105,24 @@ Clone all related repositories locally:
 
 ```bash
 git clone https://github.com/easyscience/peasy.git
+```
+
+```bash
 git clone https://github.com/easyscience/peasy-lib.git
+```
+
+```bash
 git clone https://github.com/easyscience/peasy-app.git
 ```
 
 ### 2.2. Set Up Pixi
 
 We use [**Pixi**](https://prefix.dev) for dependency management and
-project configuration. See the
-[Pixi installation guide](https://pixi.prefix.dev/latest/installation/)
-for details.
+project configuration: 
+[`ADR` Use Pixi for Project and Environment Management](https://github.com/orgs/easyscience/discussions/43)
+
+To install Pixi, follow the instructions at
+https://pixi.prefix.dev/latest/installation/.
 
 Navigate into the home repository (e.g., `peasy`) and initialize a new
 Pixi project:
@@ -278,8 +289,7 @@ finalize the setup:
   ```
 
 - **Set/update GitHub issue/PR labels:** Ensures correct labels,
-  including the bot label. See ADR 
-  (Unified Labeling System)[https://github.com/orgs/easyscience/discussions/33]
+  including the bot label. See [`ADR` Unified Labeling System](https://github.com/orgs/easyscience/discussions/33)
   for details.
 
   ```bash
@@ -437,13 +447,7 @@ Once `gh-pages` exists, activate Pages deployment:
 > new release tag and added to the `gh-pages` branch. This allows users
 > to access documentation for each release at a unique URL.
 
-### 3.3. Set Repository Labels
-
-Ensure correct labels, including the bot label
-([see ADR](https://github.com/orgs/easyscience/discussions/33),
-[example](https://github.com/easyscience/peasy-lib/labels)).
-
-### 3.4. Add Repository Secrets
+### 3.3. Add Repository Secrets
 
 Add repository secrets (e.g., API keys, deployment keys):
 
@@ -453,11 +457,15 @@ Add repository secrets (e.g., API keys, deployment keys):
 - Add the PyPI API token secret for library repositories (for publishing
   to PyPI). Confirm if this is set at the org level.
 
-### 3.5. Set Branch Protection Rules
+### 3.4. Set Branch Protection Rules
 
-Set branch protection rules
-([GitHub Rules Settings](https://github.com/easyscience/peasy-lib/settings/rules))
-only after the relevant branches exist:
+Set branch protection at 
+https://github.com/easyscience/peasy-lib/settings/rules
+
+This needs to be done after the relevant branches exist.
+
+See [`ADR` Branch protection rulesets](https://github.com/orgs/easyscience/discussions/45) 
+for details.
 
 - Create ruleset **"master branch protection"** with:
   - Enforcement status: Active
@@ -562,7 +570,7 @@ Follow these steps to create a new release and manage the release
 process:
 
 1. Merge feature branches to develop as described in
-   [ADR 12](https://github.com/orgs/easyscience/discussions/12).
+   [`ADR` Branching strategy](https://github.com/orgs/easyscience/discussions/12).
 2. To create an automated PR from develop to master for a new release,
    manually run the Release PR workflow from the Actions tab via the
    "Run workflow" button.
