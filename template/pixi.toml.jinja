@@ -104,38 +104,52 @@ test = { depends-on = ['unit-tests'] }
 
 # ✔️ Checks
 pyproject-check = 'python -m validate_pyproject pyproject.toml'
+docs-format-check = 'docformatter src/ docs/docs/tutorials/ --check'
+notebook-format-check = 'nbqa ruff docs/docs/tutorials/'
 py-lint-check-pre = "python -m ruff check"
 py-lint-check = 'pixi run py-lint-check-pre .'
 py-format-check-pre = "python -m ruff format --check"
 py-format-check = "pixi run py-format-check-pre ."
 nonpy-format-check-pre = "npx prettier --list-different --ignore-unknown --config=prettierrc.toml"
-nonpy-format-check-staged = "pixi run nonpy-format-check-pre $(git diff --cached --diff-filter=d --name-only)"
 nonpy-format-check = "pixi run nonpy-format-check-pre ."
-notebook-format-check = 'nbqa ruff docs/docs/tutorials/'
-docs-format-check = 'docformatter src/ docs/docs/tutorials/ --check'
+nonpy-format-check-modified = '''
+python -c "import subprocess, sys; \
+a=subprocess.run(['git','diff','--name-only','--diff-filter=AM','HEAD'],capture_output=True,text=True).stdout; \
+b=subprocess.run(['git','ls-files','--others','--exclude-standard'],capture_output=True,text=True).stdout; \
+files=[f for f in (a+b).splitlines() if f]; \
+cmd=['npx','prettier','--list-different','--ignore-unknown','--config=prettierrc.toml','--'] + (files if files else ['.']); \
+sys.exit(subprocess.call(cmd))"
+'''
 
 check = { depends-on = [
   'docs-format-check',
   'py-format-check',
   'py-lint-check',
-  'nonpy-format-check-staged',
+  'nonpy-format-check-modified',
 ] }
 
 # 🛠️ Fixes
+docs-format-fix = 'docformatter src/ docs/docs/tutorials/ --in-place'
+notebook-format-fix = 'pixi run notebook-format-check --fix'
 py-lint-fix = 'pixi run py-lint-check --fix'
 #py-format-fix = "python -m ruff format $(git diff --cached --name-only -- '*.py')"
 py-format-fix = "python -m ruff format"
 nonpy-format-fix = 'pixi run nonpy-format-check --write'
-nonpy-format-fix-staged = "pixi run nonpy-format-check-staged --write"
-notebook-format-fix = 'pixi run notebook-format-check --fix'
-docs-format-fix = 'docformatter src/ docs/docs/tutorials/ --in-place'
+nonpy-format-fix-modified = '''
+python -c "import subprocess, sys; \
+a=subprocess.run(['git','diff','--name-only','--diff-filter=AM','HEAD'],capture_output=True,text=True).stdout; \
+b=subprocess.run(['git','ls-files','--others','--exclude-standard'],capture_output=True,text=True).stdout; \
+files=[f for f in (a+b).splitlines() if f]; \
+cmd=['npx','prettier','--write','--list-different','--ignore-unknown','--config=prettierrc.toml','--'] + (files if files else ['.']); \
+sys.exit(subprocess.call(cmd))"
+'''
 success-message-fix = 'echo "✅ All code auto-formatting steps have been applied."'
 
 fix = { depends-on = [
   'py-format-fix',
   'docs-format-fix',
   'py-lint-fix',
-  'nonpy-format-fix-staged',
+  'nonpy-format-fix-modified',
   'success-message-fix',
 ] }
 
