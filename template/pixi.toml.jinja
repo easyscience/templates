@@ -112,14 +112,7 @@ py-format-check-pre = "python -m ruff format --check"
 py-format-check = "pixi run py-format-check-pre ."
 nonpy-format-check-pre = "npx prettier --list-different --ignore-unknown --config=prettierrc.toml"
 nonpy-format-check = "pixi run nonpy-format-check-pre ."
-nonpy-format-check-modified = '''
-python -c "import subprocess, sys; \
-a=subprocess.run(['git','diff','--name-only','--diff-filter=AM','HEAD'],capture_output=True,text=True).stdout; \
-b=subprocess.run(['git','ls-files','--others','--exclude-standard'],capture_output=True,text=True).stdout; \
-files=[f for f in (a+b).splitlines() if f]; \
-cmd=['npx','prettier','--list-different','--ignore-unknown','--config=prettierrc.toml','--'] + (files if files else ['.']); \
-sys.exit(subprocess.call(cmd))"
-'''
+nonpy-format-check-modified = "python tools/nonpy_prettier_modified.py"
 
 check = { depends-on = [
   'docs-format-check',
@@ -135,14 +128,7 @@ py-lint-fix = 'pixi run py-lint-check --fix'
 #py-format-fix = "python -m ruff format $(git diff --cached --name-only -- '*.py')"
 py-format-fix = "python -m ruff format"
 nonpy-format-fix = 'pixi run nonpy-format-check --write'
-nonpy-format-fix-modified = '''
-python -c "import subprocess, sys; \
-a=subprocess.run(['git','diff','--name-only','--diff-filter=AM','HEAD'],capture_output=True,text=True).stdout; \
-b=subprocess.run(['git','ls-files','--others','--exclude-standard'],capture_output=True,text=True).stdout; \
-files=[f for f in (a+b).splitlines() if f]; \
-cmd=['npx','prettier','--write','--list-different','--ignore-unknown','--config=prettierrc.toml','--'] + (files if files else ['.']); \
-sys.exit(subprocess.call(cmd))"
-'''
+nonpy-format-fix-modified = "python tools/nonpy_prettier_modified.py --write"
 success-message-fix = 'echo "✅ All code auto-formatting steps have been applied."'
 
 fix = { depends-on = [
