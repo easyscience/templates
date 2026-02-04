@@ -388,13 +388,6 @@ pixi run pre-commit-install
 > After modifying this file, reinstall the hooks using the commands 
 > above.
 
-> **Note:** If pre-commit or pre-push hooks are too slow, try disabling
-> the slowest check of the non-Python files formatter Prettier executed
-> in both pre-commit ('pixi-nonpy-format-check-modified') and pre-push 
-> ('pixi-nonpy-format-check') hooks. To do this, open the 
-> `.pre-commit-config.yaml` file and temporarily comment out or remove 
-> them. 
-
 ### 2.9. Push Changes to the Repository
 
 After generating the project structure, **push the changes** to GitHub:
@@ -449,9 +442,14 @@ Once `gh-pages` exists, activate Pages deployment:
 
 Add repository secrets (e.g., API keys, deployment keys):
 
-- The `easyscience[bot]` GitHub App should have access automatically
-  (configured at the org level). Add it to the `develop` bypass
-  protection rules for automatic backmerge after new releases.
+- The `easyscience[bot]` GitHub App (EASYSCIENCE_APP_ID + 
+  EASYSCIENCE_APP_KEY) should have access automatically
+  (configured at the org level). Add `easyscience App` to the `develop` 
+  bypass protection rules for automatic backmerge after new releases.
+- The Codecov token secret CODECOV_TOKEN is already set for all 
+  repositories within the EasyScience organisation. This token from 
+  https://app.codecov.io/account/gh/EasyScience/org-upload-token is 
+  used for code coverage reporting.
 - Add the PyPI API token secret for library repositories (for publishing
   to PyPI). Confirm if this is set at the org level.
 
