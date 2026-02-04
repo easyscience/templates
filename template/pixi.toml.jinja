@@ -108,8 +108,8 @@ py-lint-check-pre = "python -m ruff check"
 py-lint-check = 'pixi run py-lint-check-pre .'
 py-format-check-pre = "python -m ruff format --check"
 py-format-check = "pixi run py-format-check-pre ."
-nonpy-format-check-pre = "npx prettier --list-different --config=prettierrc.toml"
-nonpy-format-check-modified = "pixi run nonpy-format-check-pre $(git diff --diff-filter=d --name-only HEAD | grep -E '\\.(json|ya?ml|toml|md|css|html)$' || echo .)"
+nonpy-format-check-pre = "npx prettier --list-different --ignore-unknown --config=prettierrc.toml"
+nonpy-format-check-staged = "pixi run nonpy-format-check-pre $(git diff --cached --diff-filter=d --name-only)"
 nonpy-format-check = "pixi run nonpy-format-check-pre ."
 notebook-format-check = 'nbqa ruff docs/docs/tutorials/'
 docs-format-check = 'docformatter src/ docs/docs/tutorials/ --check'
@@ -118,7 +118,7 @@ check = { depends-on = [
   'docs-format-check',
   'py-format-check',
   'py-lint-check',
-  'nonpy-format-check-modified',
+  'nonpy-format-check-staged',
 ] }
 
 # 🛠️ Fixes
@@ -126,7 +126,7 @@ py-lint-fix = 'pixi run py-lint-check --fix'
 #py-format-fix = "python -m ruff format $(git diff --cached --name-only -- '*.py')"
 py-format-fix = "python -m ruff format"
 nonpy-format-fix = 'pixi run nonpy-format-check --write'
-nonpy-format-fix-modified = "pixi run nonpy-format-check-modified --write"
+nonpy-format-fix-staged = "pixi run nonpy-format-check-staged --write"
 notebook-format-fix = 'pixi run notebook-format-check --fix'
 docs-format-fix = 'docformatter src/ docs/docs/tutorials/ --in-place'
 success-message-fix = 'echo "✅ All code auto-formatting steps have been applied."'
@@ -135,7 +135,7 @@ fix = { depends-on = [
   'py-format-fix',
   'docs-format-fix',
   'py-lint-fix',
-  'nonpy-format-fix',
+  'nonpy-format-fix-staged',
   'success-message-fix',
 ] }
 
