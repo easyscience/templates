@@ -39,6 +39,7 @@ repos:
         entry: pixi run docs-format-check-pre
         language: system
         pass_filenames: true
+        files: \.py$
         stages: [pre-commit]
 
       # ----------------
