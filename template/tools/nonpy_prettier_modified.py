@@ -7,8 +7,7 @@ from pathlib import Path
 
 
 def get_stdout_lines(cmd: list[str]) -> list[str]:
-    """
-    Execute a command and return its standard output as a list of
+    """Execute a command and return its standard output as a list of
     non-empty lines.
 
     The command is executed with `check=True`, so a non-zero exit code
@@ -31,18 +30,16 @@ def get_stdout_lines(cmd: list[str]) -> list[str]:
 
 
 def main() -> int:
-    """
-    Run Prettier on modified or newly added non-Python files in the Git
-    repository.
+    """Run Prettier on modified or newly added non-Python files in the
+    Git repository.
 
     The file list is constructed from:
       - tracked files that are added or modified (staged or unstaged)
       - untracked files that are not ignored by Git
 
-    By default, this function runs Prettier in check mode
-    (`--list-different`).
-    If `--write` is provided as a command-line argument, Prettier will
-    fix files in place instead.
+    Prettier is always run with `--list-different`.
+    If `--write` is provided as a command-line argument, files are fixed
+    in place in addition to being listed.
 
     Returns:
         Exit code of the Prettier process, or 0 if there are no files to
@@ -57,9 +54,6 @@ def main() -> int:
     if not files:
         return 0  # nothing to do
 
-    # Choose between check or fix mode
-    mode = '--write' if '--write' in sys.argv else '--list-different'
-
     # Locate npx executable (npx.cmd on Windows)
     npx = shutil.which('npx') or shutil.which('npx.cmd')
     if not npx:
@@ -72,7 +66,14 @@ def main() -> int:
     cmd = [
         npx,
         'prettier',
-        mode,
+        '--list-different',
+    ]
+
+    # Optionally enable fixing
+    if '--write' in sys.argv:
+        cmd.append('--write')
+
+    cmd += [
         '--ignore-unknown',
         '--config=prettierrc.toml',
         '--',

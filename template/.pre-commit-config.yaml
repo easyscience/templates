@@ -16,6 +16,7 @@ repos:
         entry: pixi run py-lint-check-pre
         language: system
         pass_filenames: true
+        files: \.py$
         stages: [pre-commit]
 
       - id: pixi-py-format-check
@@ -23,6 +24,7 @@ repos:
         entry: pixi run py-format-check-pre
         language: system
         pass_filenames: true
+        files: \.py$
         stages: [pre-commit]
 
       - id: pixi-nonpy-format-check
