@@ -26,11 +26,11 @@ This repository serves as the central hub for the **{{ project_name }}** family.
 
 **{{ project_name }}** is developed as:
 
-{% if project_type == "both" or template_type == "lib" %}
+{% if project_type == "both" or project_type == "lib" %}
 - 📦 Python library - repository [`{{ lib_repo_name }}`](https://github.com/easyscience/{{ lib_repo_name }})
 {% endif %}
 
-{% if project_type == "both" or template_type == "app" %}
+{% if project_type == "both" or project_type == "app" %}
 - 🖥 Desktop application - repository [`{{ app_repo_name }}`](https://github.com/easyscience/{{ app_repo_name }})
 {% endif %}
 
