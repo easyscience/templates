@@ -350,13 +350,13 @@ recommended to run the check command again to verify that all issues
 have been resolved. When all checks pass, you should see this:
 
 ```bash
-pixi run pyproject-check.................................................Passed
-pixi run py-lint-check...................................................Passed
-pixi run py-format-check.................................................Passed
-pixi run nonpy-format-check..............................................Passed
-pixi run docs-format-check...............................................Passed
-pixi run notebook-format-check...........................................Passed
-pixi run unit-tests......................................................Passed
+pixi run pyproject-check...................................Passed
+pixi run py-lint-check.....................................Passed
+pixi run py-format-check...................................Passed
+pixi run nonpy-format-check................................Passed
+pixi run docs-format-check.................................Passed
+pixi run notebook-format-check.............................Passed
+pixi run unit-tests........................................Passed
 ```
 
 If any of the checks fail, address the reported issues accordingly. They
@@ -424,8 +424,14 @@ Add repository secrets (e.g., API keys, deployment keys):
   repositories within the EasyScience organisation. This token from 
   https://app.codecov.io/account/gh/EasyScience/org-upload-token is 
   used for code coverage reporting.
-- Add the PyPI API token secret for library repositories (for publishing
-  to PyPI). Confirm if this is set at the org level.
+- For libraries, to enable PyPI publishing, we use GitHub Actions OIDC 
+  to get a short-lived token from PyPI, so no personal access token is 
+  needed. However, a new publisher must be previously configured in PyPI 
+  at https://pypi.org/manage/project/easypeasy/settings/publishing/
+  Use the following data:
+  - Owner: easyscience
+  - Repository name: peasy-lib
+  - Workflow name: pypi-publish.yml
 
 ### 3.4. Set Branch Protection Rules
 
