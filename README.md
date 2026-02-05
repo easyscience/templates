@@ -280,9 +280,9 @@ finalize the setup:
   ```
 
 - **Install extra development dependencies and set up tools:** This step
-  sets up pre-commit hooks, installs additional development
-  dependencies, and configures non-Python file formatting. See,
-  `pixi.toml` for details regarding the `post-install` task.
+  installs additional development dependencies, and configures 
+  non-Python file formatting. See, `pixi.toml` for details regarding the 
+  `post-install` task.
 
   ```bash
   pixi run post-install
@@ -314,79 +314,53 @@ finalize the setup:
   ```
 
 - **Format all project files:** Ensures all files adhere to the
-  project's coding standards as defined in `pyproject.toml`. Run this
-  after any changes to source code, configuration, workflows, or docs.
+  project's coding standards as defined in `pyproject.toml`. As this
+  step may be time-consuming, it is recommended to run it only after
+  making significant changes. At a minimum, run this before making pull 
+  requests to ensure consistent formatting.
 
   ```bash
   pixi run fix
   ```
 
-> **Tip:** Run `pixi run fix` every time after updating any template
-> files or modifying any project files (source code, configuration,
-> workflows, docs, etc.) to ensure consistent formatting.
-> 
-> Normally, after running `pixi run fix`, you should see the message
+> **Tip:** Normally, after running `pixi run fix`, you should see the message
 > `✅ All code auto-formatting steps have been applied.` indicating that 
 > all steps in the auto-formatting pipeline were successfully executed.
 > If you do not see this message, try running the command again.
 > 
 > Note, that even if you see this message, there might still be some 
 > issues left, which need to be fixed manually. In such cases, refer to
-> the output of `pixi run pre-commit-check` or `pixi run pre-push-check`
-> commands described below.
+> the output to identify and address the remaining issues.
 
 ### 2.8. Code Quality Checks
 
-Templates set up pre-commit and pre-push hooks to ensure code quality.
-These hooks automatically check for code formatting, linting, and other
-quality standards before allowing commits or pushes.
+In order to ensure code quality, run the following command to check
+for issues:
 
-If you see `commit failed` or `push failed` from pre-commit/pre-push
-hooks, fix the issues reported by those hooks, commit again, and push
-again.
+  ```bash
+  pixi run check
+  ```
 
-To check issues reported by pre-commit hooks without committing, run:
+Again, this step may be time-consuming, so it is recommended to run it
+only after making significant changes. At a minimum, run this before
+making pull requests to ensure code quality.
 
-First, stage all changes:
-```bash
-git add -A
-```
-
-Then, either check if commit would succeed:
-```bash
-pixi run pre-commit-check
-```
-
-or check if push would succeed:
-```bash
-pixi run pre-push-check
-```
-
-Often, running `pixi run fix` is enough to fix issues automatically. And
-sometimes, one needs to run it twice to fix all issues. If issues
-persist, manually address them based on the output of the above commands.
-
-#### Disable Hooks Temporarily
-
-If you need to disable pre-commit or pre-push hooks temporarily (not
-recommended), run:
+After fixing any issues using `pixi run fix` or manually, it is 
+recommended to run the check command again to verify that all issues 
+have been resolved. When all checks pass, you should see this:
 
 ```bash
-pixi run pre-commit-uninstall
+pixi run pyproject-check.................................................Passed
+pixi run py-lint-check...................................................Passed
+pixi run py-format-check.................................................Passed
+pixi run nonpy-format-check..............................................Passed
+pixi run docs-format-check...............................................Passed
+pixi run notebook-format-check...........................................Passed
+pixi run unit-tests......................................................Passed
 ```
 
-To re-enable them, run:
-
-```bash
-pixi run pre-commit-install
-```
-
-> **Tip:** To fine-tune which checks are performed by pre-commit hooks,
-> modify the configuration in the `.pre-commit-config.yaml` file located
-> at the project root. 
-> 
-> After modifying this file, reinstall the hooks using the commands 
-> above.
+If any of the checks fail, address the reported issues accordingly. They
+can be executed individually as well, e.g., `pixi run py-lint-check`.
 
 ### 2.9. Push Changes to the Repository
 
