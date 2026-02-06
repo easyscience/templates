@@ -139,6 +139,13 @@ pixi init
 pixi install
 ```
 
+Add all the main platforms to the Pixi configuration, so that the 
+generated project will be cross-platform by default:
+
+```bash
+pixi project platform add win-64 osx-arm64 linux-64
+```
+
 ### 2.3. Install Copier
 
 Install Copier inside the Pixi environment:
@@ -179,7 +186,8 @@ organization profile for consistency.
 > which becomes the single source of truth for all related repositories.
 >
 > Do not modify it manually. Instead, update answers by re-running
-> Copier in the home repository when needed.
+> the same Copier command in the home repository, which will automatically
+> update the `.copier-answers.yml` file with new answers.
 
 Commit and push:
 
