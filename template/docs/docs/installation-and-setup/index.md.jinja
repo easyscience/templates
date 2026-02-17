@@ -36,24 +36,22 @@ This section describes the simplest way to set up {{ project_name }} using
 - Install Pixi by following the instructions on the
   [official Pixi Installation Guide](https://pixi.prefix.dev/latest/installation).
 
-!!! warning ":fontawesome-brands-windows: Windows + OneDrive / synced folders"
-
-    Some Windows setups (especially when the project lives inside **OneDrive** or
-    other synced folders) can run into file-system limitations (e.g., path-length
-    issues or restricted link operations). If you see strange install errors or
-    environments repeatedly re-created, try the following:
-
-    - **Move the project folder outside OneDrive**, e.g. `C:\dev\{{ lib_package_name }}`.
-    - Use a **short local cache path** for Pixi (example below). This reduces
-      long-path problems and avoids heavy churn in synced directories.
-      ```txt
-      setx PIXI_CACHE_DIR "C:\\pixi\\cache"
-      setx PIXI_HOME "C:\\pixi"
-      ```
-
-    Restart the terminal after `setx`, then run `pixi install` again.
-
 #### Setting up {{ project_name }} with Pixi
+
+- Choose a project location (local drive recommended).
+
+    !!! warning ":fontawesome-brands-windows: Windows + OneDrive"
+
+        We **do not recommend creating a Pixi project inside OneDrive or other synced folders**.
+
+        By default, Pixi creates the virtual environment inside the project
+        directory (in `.pixi/`). On Windows, synced folders such as OneDrive
+        may cause file‑system issues (e.g., path-length limitations or
+        restricted link operations), which can lead to unexpected install errors
+        or environments being recreated.
+
+        Instead, create your project in a **local directory on your drive**
+        where you have full write permissions.
 
 - Initialize a new Pixi project and navigate into it:
   ```txt
