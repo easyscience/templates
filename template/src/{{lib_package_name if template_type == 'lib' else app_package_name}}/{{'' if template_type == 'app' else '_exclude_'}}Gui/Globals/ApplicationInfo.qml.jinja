@@ -19,7 +19,7 @@ QtObject {
         'date': new Date().toISOString().slice(0,10),
         'developerYearsFrom': '{{ project_copyright_years.split("-")[0] }}',
         'developerYearsTo': '{{ project_copyright_years.split("-")[-1] }}',
-        'description': '**{{ project_name }}** is a scientific software {{ project_extended_description[:1] | lower ~ project_extended_description[1:] }}',
+        'description': '**{{ project_name }}** is {{ project_extended_description[:1] | lower ~ project_extended_description[1:] }}',
         'developerIcons': [
             {
                 'url': 'https://ess.eu',
