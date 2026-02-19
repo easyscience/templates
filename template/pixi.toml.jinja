@@ -228,10 +228,12 @@ pre-commit-setup = { depends-on = [
 #################
 
 repo-wiki = 'gh api -X PATCH repos/easyscience/{{ repo_name }} -f has_wiki=false'
+repo-discussions = 'gh api -X PATCH repos/easyscience/{{ repo_name }} -f has_discussions=true'
 repo-description = "gh api -X PATCH repos/easyscience/{{ repo_name }} -f description='{{ project_short_description }}'"
 repo-homepage = "gh api -X PATCH repos/easyscience/{{ repo_name }} -f homepage='https://easyscience.github.io/{{ repo_name }}'"
 repo-config = { depends-on = [
   'repo-wiki',
+  'repo-discussions',
   'repo-description',
   'repo-homepage',
 ] }

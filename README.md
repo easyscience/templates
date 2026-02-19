@@ -458,9 +458,10 @@ https://github.com/easyscience/peasy-lib/settings/rules
 
 ### 3.5. Set Repository Configuration
 
-Run the following command to set the repository configuration, including
-description and website in the **About** section as well as to disable 
-the **Wiki** features:
+Run the following command to set the repository configuration:
+- set description and website in the **About** section  
+- disable the **Wiki** features
+- enable the **Discussions** tab
 
 ```bash
 pixi run repo-config
@@ -522,7 +523,7 @@ If conflicts arise, Copier will prompt you to review them.
 In principle, project dependencies can be managed via Pixi using the
 `pixi add <package>` and `pixi remove <package>` commands. But, pixi
 will add them to the `pixi.toml` file only. And we do not want to have
-project dependencies defined `pixi.toml`. Instead, we suggest to 
+project dependencies defined in `pixi.toml`. Instead, we suggest to 
 manually add/remove dependencies in the `pyproject.toml` file under the
 `[dependencies]` section or `[project.optional-dependencies]` 
 (`dev` subsection for development dependencies). To update the Pixi 
