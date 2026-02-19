@@ -72,11 +72,11 @@ extra:
     - icon: {{ project_name | lower }} # File: overrides/.icons/{{ project_name | lower }}.svg
       link: https://easyscience.github.io/{{ project_repo_name }}
       name: {{ project_name }} Main Webpage
-    {%- if template_type == "lib" %}
+    {%- if project_type == "both" and template_type == "lib" %}
     - icon: app # File: overrides/.icons/app.svg
       link: https://easyscience.github.io/{{ app_repo_name }}
       name: {{ project_name }} Application Docs
-    {%- elif template_type == "app" %}
+    {%- elif project_type == "both" and template_type == "app" %}
     - icon: app # File: overrides/.icons/app.svg
       link: https://easyscience.github.io/{{ lib_repo_name }}
       name: {{ project_name }} Library Docs
