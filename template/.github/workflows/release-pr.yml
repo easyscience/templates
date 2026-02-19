@@ -6,7 +6,7 @@
 #   - Adds the label "[bot] pull request" so it is excluded from changelogs.
 #   - The PR body makes clear that this is automation only (no review needed).
 
-name: 'Release PR (<source> → <default>)'
+name: 'Release PR (develop → master)'
 
 on:
   workflow_dispatch:
