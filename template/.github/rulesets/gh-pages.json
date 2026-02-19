@@ -9,7 +9,11 @@
     }
   },
   "rules": [
-    { "type": "non_fast_forward" },
-    { "type": "deletion" }
+    {
+      "type": "non_fast_forward"
+    },
+    {
+      "type": "deletion"
+    }
   ]
 }

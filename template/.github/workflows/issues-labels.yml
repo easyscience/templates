@@ -24,16 +24,16 @@ jobs:
         uses: trstringer/require-label-prefix@v1
         with:
           secret: ${{ steps.bot.outputs.token }}
-          prefix: "[scope]"
-          labelSeparator: " "
+          prefix: '[scope]'
+          labelSeparator: ' '
           addLabel: true
-          defaultLabel: "[scope] ⚠️ label needed"
+          defaultLabel: '[scope] ⚠️ label needed'
 
       - name: Check for required [priority] label
         uses: trstringer/require-label-prefix@v1
         with:
           secret: ${{ steps.bot.outputs.token }}
-          prefix: "[priority]"
-          labelSeparator: " "
+          prefix: '[priority]'
+          labelSeparator: ' '
           addLabel: true
-          defaultLabel: "[priority] ⚠️ label needed"
+          defaultLabel: '[priority] ⚠️ label needed'
