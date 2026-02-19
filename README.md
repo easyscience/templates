@@ -193,7 +193,7 @@ Commit and push:
 
 ```bash
 git add -A
-git commit -m "Initial project description file using Copier templates"
+git commit -m "Create project description with Copier templates"
 git push origin master
 ```
 
@@ -270,7 +270,7 @@ After generating the project structure, **push the changes** to GitHub:
 
 ```bash
 git add -A
-git commit -m "Initial project setup using Copier templates"
+git commit -m "Initialize project structure with Copier templates"
 git push origin master
 ```
 
@@ -376,7 +376,7 @@ After generating the project structure, **push the changes** to GitHub:
 
 ```bash
 git add -A
-git commit -m "..."
+git commit -m "Update project structure with Copier templates"
 git push origin master
 ```
 
@@ -445,7 +445,7 @@ Add repository secrets (e.g., API keys, deployment keys):
 
 ### 3.4. Set Branch Protection Rules
 
-See [`ADR` Branch protection rulesets](https://github.com/orgs/easyscience/discussions/45) 
+See `ADR` [Branch protection rulesets](https://github.com/orgs/easyscience/discussions/45) 
 for details on the recommended rules. Set up the rules via the command 
 line:
 
