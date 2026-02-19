@@ -405,10 +405,12 @@ exists.
 
 Once `gh-pages` exists, activate Pages deployment:
 
-- Go to
-  [GitHub Pages settings](https://github.com/easyscience/peasy-lib/settings/pages)
-- In "Build and deployment" select **Source:** Deploy from a branch
-- In **Branch** select `gh-pages` and click **Save**
+```bash
+pixi run pages-deployment
+```
+
+You can see the current Pages deployment status at
+[GitHub Pages settings](https://github.com/easyscience/peasy-lib/settings/pages)
 
 > **Note:** Activating Pages deployment will add a workflow "pages build
 > and deployment", which will be automatically triggered by
@@ -453,6 +455,16 @@ pixi run branch-protection
 
 You can find the current branch protection rules at
 https://github.com/easyscience/peasy-lib/settings/rules 
+
+### 3.5. Set Repository Configuration
+
+Run the following command to set the repository configuration, including
+description and website in the **About** section as well as to disable 
+the **Wiki** features:
+
+```bash
+pixi run repo-config
+```
 
 ---
 
