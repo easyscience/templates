@@ -443,37 +443,16 @@ Add repository secrets (e.g., API keys, deployment keys):
 
 ### 3.4. Set Branch Protection Rules
 
-Set branch protection at 
-https://github.com/easyscience/peasy-lib/settings/rules
-
-This needs to be done after the relevant branches exist.
-
 See [`ADR` Branch protection rulesets](https://github.com/orgs/easyscience/discussions/45) 
-for details.
+for details on the recommended rules. Set up the rules via the command 
+line:
 
-- Create ruleset **"master branch protection"** with:
-  - Enforcement status: Active
-  - Branch targeting criteria: Add target → include default branch
-  - Restrict deletions: ✔️
-  - Require a pull request before merging: ✔️ (Allowed merge methods:
-    Merge only)
-  - Block force pushes: ✔️
-  - Click "Save changes" button
-- Create ruleset **"develop branch protection"** with:
-  - Enforcement status: Active
-  - Branch targeting criteria: Add target → include by pattern → develop
-  - Restrict deletions: ✔️
-  - Require a pull request before merging: ✔️ (Allowed merge methods:
-    Squash only)
-  - Block force pushes: ✔️
-  - Click "Save changes" button
-- Create ruleset **"gh-pages branch protection"** with:
-  - Enforcement status: Active
-  - Branch targeting criteria: Add target → include by pattern →
-    gh-pages
-  - Restrict deletions: ✔️
-  - Block force pushes: ✔️
-  - Click "Save changes" button
+```bash
+pixi run branch-protection
+```
+
+You can find the current branch protection rules at
+https://github.com/easyscience/peasy-lib/settings/rules 
 
 ---
 

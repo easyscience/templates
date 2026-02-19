@@ -223,15 +223,25 @@ pre-commit-setup = { depends-on = [
   'pre-commit-install',
 ] }
 
-####################################
-# 🚀 Other Development & Build Tasks
-####################################
+#################
+# 🐙️ GitHub Tasks
+#################
 
 master-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/rulesets/master.json'
 develop-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/rulesets/develop.json'
 gh-pages-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/rulesets/gh-pages.json'
 
+branch-protection = { depends-on = [
+  'master-protection',
+  'develop-protection',
+  'gh-pages-protection',
+] }
+
 github-labels = 'python tools/update_github_labels.py'
+
+####################################
+# 🚀 Other Development & Build Tasks
+####################################
 
 {%- if template_type == "app" %}
 freeze = 'pyinstaller src/{{ package_name }}/main.py --name={{ project_name | lower }} --log-level WARN --noconfirm --clean --windowed --onedir --add-data=src/{{ package_name }}:. --collect-all EasyApp'
