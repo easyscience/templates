@@ -227,15 +227,25 @@ pre-commit-setup = { depends-on = [
 # 🐙️ GitHub Tasks
 #################
 
+repo-wiki = 'gh api -X PATCH repos/easyscience/{{ repo_name }} -f has_wiki=false'
+repo-description = "gh api -X PATCH repos/easyscience/{{ repo_name }} -f description='{{ project_short_description }}'"
+repo-homepage = "gh api -X PATCH repos/easyscience/{{ repo_name }} -f homepage='https://easyscience.github.io/{{ repo_name }}'"
+repo-config = { depends-on = [
+  'repo-wiki',
+  'repo-description',
+  'repo-homepage',
+] }
+
 master-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/rulesets/master.json'
 develop-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/rulesets/develop.json'
 gh-pages-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/rulesets/gh-pages.json'
-
 branch-protection = { depends-on = [
   'master-protection',
   'develop-protection',
   'gh-pages-protection',
 ] }
+
+pages-deployment = 'gh api -X POST repos/easyscience/{{ repo_name }}/pages --input .github/pages-deployment.json'
 
 github-labels = 'python tools/update_github_labels.py'
 
