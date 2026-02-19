@@ -1,6 +1,10 @@
-{%- if template_type == "lib" %}
+{%- if template_type == "home" %}
+{%- set repo_name = project_repo_name %}
+{%- elif template_type == "lib" %}
+{%- set repo_name = lib_repo_name %}
 {%- set package_name = lib_package_name %}
 {%- elif template_type == "app" %}
+{%- set repo_name = app_repo_name %}
 {%- set package_name = app_package_name %}
 {%- endif -%}
 
@@ -222,6 +226,10 @@ pre-commit-setup = { depends-on = [
 ####################################
 # 🚀 Other Development & Build Tasks
 ####################################
+
+master-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/rulesets/master.json'
+develop-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/rulesets/develop.json'
+gh-pages-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/rulesets/gh-pages.json'
 
 github-labels = 'python tools/update_github_labels.py'
 
