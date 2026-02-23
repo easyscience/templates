@@ -171,7 +171,7 @@ LABELS = [
     Label(
         '[bot] backmerge',
         Colors.BOT,
-        'Automatic backmerge master → develop failed due to conflicts',
+        'Automated backmerge master → develop failed due to conflicts',
     ),
 ]
 
