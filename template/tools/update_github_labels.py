@@ -54,6 +54,7 @@ class Colors:
 
 
 LABEL_RENAMES = [
+    # Default GitHub labels to rename (if they exist)
     LabelRename('bug', '[scope] bug'),
     LabelRename('documentation', '[scope] documentation'),
     LabelRename('duplicate', '[maintainer] duplicate'),
@@ -63,6 +64,8 @@ LABEL_RENAMES = [
     LabelRename('invalid', '[maintainer] invalid'),
     LabelRename('question', '[maintainer] question'),
     LabelRename('wontfix', '[maintainer] wontfix'),
+    # Custom label renames (if they exist)
+    LabelRename('[bot] pull request', '[bot] release'),
 ]
 
 LABELS = [
@@ -161,9 +164,14 @@ LABELS = [
     ),
     # Bot label
     Label(
-        '[bot] pull request',
+        '[bot] release',
         Colors.BOT,
         'Automated release PR. Excluded from changelog/versioning',
+    ),
+    Label(
+        '[bot] backmerge',
+        Colors.BOT,
+        'Automatic backmerge master → develop failed due to conflicts',
     ),
 ]
 
