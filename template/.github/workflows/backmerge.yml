@@ -101,7 +101,7 @@ jobs:
 
       - name: Create issue (if merge failed with conflicts)
         if: steps.merge.outputs.conflict == 'true'
-        uses: actions/github-script@v8
+        uses: ./.github/actions/github-script
         with:
           github-token: ${{ steps.bot.outputs.token }}
           script: |
