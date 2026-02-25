@@ -105,5 +105,5 @@ jobs:
         with:
           github-token: ${{ steps.bot.outputs.token }}
           script: |
-            const run = require('./.github/actions/scripts/backmerge-conflict-issue.js')
+            const run = require('./.github/scripts/backmerge-conflict-issue.js')
             await run({ github, context, core })
