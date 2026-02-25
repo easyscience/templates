@@ -3,7 +3,7 @@
 # Usage:
 #   - Triggered manually via workflow_dispatch.
 #   - Creates a PR titled "Release: merge <source> into <default>".
-#   - Adds the label "[bot] pull request" so it is excluded from changelogs.
+#   - Adds the label "[bot] release" so it is excluded from changelogs.
 #   - The PR body makes clear that this is automation only (no review needed).
 
 name: 'Release PR (develop → master)'
@@ -49,7 +49,7 @@ jobs:
             --base ${{ env.DEFAULT_BRANCH }} \
             --head ${{ env.SOURCE_BRANCH }} \
             --title "Release: merge ${{ env.SOURCE_BRANCH }} into ${{ env.DEFAULT_BRANCH }}" \
-            --label "[bot] pull request" \
+            --label "[bot] release" \
             --body "This PR is created automatically to trigger the release pipeline. It merges the accumulated changes from \`${{ env.SOURCE_BRANCH }}\` into \`${{ env.DEFAULT_BRANCH }}\`.
 
-            ⚠️ It is labeled \`[bot] pull request\` and is excluded from release notes and version bump logic."
+            ⚠️ It is labeled \`[bot] release\` and is excluded from release notes and version bump logic."

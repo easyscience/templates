@@ -21,7 +21,7 @@ jobs:
 
           echo "Current PR labels: $PR_LABELS"
           VALID_LABELS=(
-            "[bot] pull request"
+            "[bot] release"
             "[scope] bug"
             "[scope] documentation"
             "[scope] enhancement"
