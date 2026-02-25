@@ -238,9 +238,9 @@ repo-config = { depends-on = [
   'repo-homepage',
 ] }
 
-master-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/rulesets/master.json'
-develop-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/rulesets/develop.json'
-gh-pages-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/rulesets/gh-pages.json'
+master-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/configs/rulesets-master.json'
+develop-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/configs/rulesets-develop.json'
+gh-pages-protection = 'gh api -X POST repos/easyscience/{{ repo_name }}/rulesets --input .github/configs/rulesets-gh-pages.json'
 branch-protection = { depends-on = [
   'master-protection',
   'develop-protection',
