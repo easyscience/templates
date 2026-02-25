@@ -247,7 +247,7 @@ branch-protection = { depends-on = [
   'gh-pages-protection',
 ] }
 
-pages-deployment = 'gh api -X POST repos/easyscience/{{ repo_name }}/pages --input .github/pages-deployment.json'
+pages-deployment = 'gh api -X POST repos/easyscience/{{ repo_name }}/pages --input .github/configs/pages-deployment.json'
 
 github-labels = 'python tools/update_github_labels.py'
 
