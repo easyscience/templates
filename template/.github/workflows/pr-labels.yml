@@ -1,11 +1,27 @@
 # Verifies if a pull request has at least one label from a set of valid
 # labels before it can be merged.
+#
+# NOTE:
+# This workflow may be triggered twice in quick succession when a PR is
+# created:
+#   1) `opened`  — when the pull request is initially created
+#   2) `labeled` — if labels are added immediately after creation
+# (e.g. by manual labeling, another workflow, or GitHub App).
+#
+# These are separate GitHub events, so two workflow runs can be started.
+# The `concurrency` configuration below ensures that only the latest run
+# for the same PR remains active, canceling any previous in-progress
+# run.
 
 name: PR labels check
 
 on:
   pull_request_target:
     types: [opened, labeled, unlabeled, synchronize]
+
+concurrency:
+  group: pr-labels-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 permissions:
   pull-requests: read
