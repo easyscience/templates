@@ -1,0 +1,357 @@
+# Contributing to {{ project_name }}
+
+Thank you for your interest in contributing to **{{ project_name }}**!
+
+We welcome contributions of all kinds:
+
+- Bug fixes  
+- New features  
+- Performance improvements  
+- Documentation updates  
+- Tutorials and examples  
+- Tests  
+- Feedback and discussions  
+
+Contributing to open source can feel overwhelming at first — especially 
+if you are new to GitHub workflows. This guide explains the full process 
+step by step.
+
+Please make sure you follow the EasyScience organization-wide 
+[Code of Conduct](https://github.com/easyscience/.github/blob/master/CODE_OF_CONDUCT.md).
+
+---
+
+## Quick Overview of the Process
+
+If you already know how GitHub contributions work, here is the short 
+version:
+
+1. Fork the repository (unless you are a core team member)
+2. Create a new branch from `develop`
+3. Set up your development environment using `pixi install`
+4. Make your changes and add tests
+5. Run `pixi run check`
+6. Open a Pull Request (PR) targeting `develop`
+7. Assign the required `[scope]` label
+
+If you are unsure about any step, continue reading below.
+
+---
+
+## 1. Understanding the Development Model
+
+Before you start coding, it is important to understand how development 
+works in this project.
+
+### Branching Strategy
+
+We use the following branches:
+
+- `master` — contains stable releases only  
+- `develop` — active development and integration branch  
+- Short-lived branches — one branch per contribution  
+
+All normal contributions must target the `develop` branch.
+
+This means:
+
+- Do NOT open Pull Requests against `master`
+- Always branch from `develop`
+- Always target `develop` in your PR
+
+See ADR `easyscience/.github#12` for the full branching strategy and 
+reasoning.
+
+---
+
+## 2. Getting the Code
+
+### If You Are an External Contributor
+
+If you are not a core maintainer of this repository, follow these steps:
+
+1. Go to the repository on GitHub:
+   `https://github.com/easyscience/{{ lib_repo_name }}`
+
+2. Click the **Fork** button (top-right corner).
+   This creates a copy of the repository under your GitHub account.
+
+3. Clone your fork locally:
+
+```bash
+git clone https://github.com/<your-username>/{{ lib_repo_name }}.git
+cd {{ lib_repo_name }}
+```
+
+4. Add the original repository as `upstream`:
+
+```bash
+git remote add upstream https://github.com/easyscience/{{ lib_repo_name }}.git
+```
+
+5. Make sure you are working on the `develop` branch:
+
+```bash
+git fetch upstream
+git checkout develop
+git pull upstream develop
+```
+
+This ensures your local copy is up to date.
+
+> If you have contributed before, always update your local `develop` 
+  branch before starting new work.
+
+---
+
+### If You Are a Core Team Member
+
+Core team members do not need to fork the repository.
+You can create branches directly from `develop`, but the rest of the 
+process remains the same.
+
+---
+
+## 3. Setting Up the Development Environment
+
+EasyScience projects use **Pixi** for environment and task management.
+
+You only need:
+
+- Git  
+- Pixi  
+
+You do NOT need to manually install a specific Python version.
+Pixi automatically:
+
+- Creates the correct Python environment  
+- Installs all required dependencies  
+- Installs development tools (linters, formatters, test tools)  
+
+Install and configure the environment:
+
+```bash
+pixi install
+pixi run post-install
+```
+
+After this, your local development environment is fully configured.
+
+If anything fails during installation, carefully read the error message.
+Most common problems are due to outdated Pixi or missing system 
+dependencies.
+
+See ADR `easyscience/.github#63` for the reasoning behind using Pixi.
+
+---
+
+## 4. Creating a Feature Branch
+
+Never work directly on `develop`.
+
+Create a new branch:
+
+```bash
+git checkout -b my-change
+```
+
+Use a descriptive name such as:
+
+- `improve-solver-speed`
+- `fix-boundary-condition`
+- `add-tutorial-example`
+
+This makes review and history easier to understand.
+
+---
+
+## 5. Implementing Your Changes
+
+While working on your change:
+
+- Make small, logical commits  
+- Write clear and descriptive commit messages  
+- Follow the Google docstring convention  
+- Update or add unit tests for changed behavior  
+
+Example commit:
+
+```bash
+git add .
+git commit -m "Improve performance of time integrator for large systems"
+```
+
+Run tests locally:
+
+```bash
+pixi run unit-tests
+```
+
+It is good practice to run tests frequently while developing.
+
+---
+
+## 6. Code Quality Checks
+
+Before opening a Pull Request, always run:
+
+```bash
+pixi run check
+```
+
+This command runs:
+
+- Code formatting checks  
+- Linting (style checks)  
+- Documentation validation  
+- Notebook checks  
+- Unit tests  
+- Other project validations  
+
+If formatting issues are detected:
+
+```bash
+pixi run fix
+```
+
+After running `pixi run fix`, re-run:
+
+```bash
+pixi run check
+```
+
+All checks must pass before your Pull Request can be merged.
+
+If a check fails and you do not understand the error, you can:
+
+- Read the error message carefully  
+- Search the repository for similar examples  
+- Ask for help in your Pull Request  
+
+---
+
+## 7. Opening a Pull Request
+
+Push your branch to your fork:
+
+```bash
+git push origin my-change
+```
+
+On GitHub:
+
+- Click **Compare & Pull Request**
+- Make sure the base branch is `develop`
+- Provide a clear and descriptive title
+- Add a meaningful description of what changed and why
+
+### Required `[scope]` Label
+
+Every Pull Request must include one `[scope]` label, which determines the version impact of the 
+change:
+
+| Label                   | Description                                                        |
+|-------------------------|--------------------------------------------------------------------|
+| `[scope] bug`           | Bug report or fix (major.minor.**PATCH**)                          |
+| `[scope] documentation` | Documentation only changes (major.minor.patch.**POST**)            |
+| `[scope] enhancement`   | Adds/improves features (major.**MINOR**.patch)                     |
+| `[scope] maintenance`   | Code/tooling cleanup, no feature or bugfix (major.minor.**PATCH**) |
+| `[scope] significant`   | Breaking or major changes (**MAJOR**.minor.patch)                  |
+
+See ADR `easyscience/.github#33` for full details about label rules.
+
+---
+
+## 8. Continuous Integration (CI)
+
+After you open a Pull Request:
+
+- Automated tests and checks run automatically
+- You will see status indicators (green checkmarks or red crosses)
+
+If CI fails:
+
+1. Click on the failing check
+2. Read the logs
+3. Fix the problem locally
+4. Run `pixi run check`
+5. Push again
+
+Your PR updates automatically after each push.
+
+---
+
+## 9. Code Review
+
+All Pull Requests are reviewed by at least one core team member.
+
+Code review is:
+
+- Collaborative  
+- Constructive  
+- Focused on improving quality  
+
+Do not take comments personally — they are meant to help.
+
+To update your PR:
+
+```bash
+git add .
+git commit -m "Address review comments"
+git push
+```
+
+---
+
+## 10. Documentation Contributions
+
+If your change affects users, documentation must be updated.
+
+This may include:
+
+- API documentation  
+- Examples  
+- Tutorials  
+- Jupyter notebooks  
+
+To preview documentation locally:
+
+```bash
+pixi run docs-serve
+```
+
+Open the local URL shown in the terminal.
+
+---
+
+## 11. Reporting Issues
+
+If you find a bug but do not want to fix it yourself:
+
+- Search existing issues first
+- Provide clear reproduction steps
+- Include logs and environment details
+
+Clear bug reports help maintainers tremendously.
+
+---
+
+## 12. Security Issues
+
+Do NOT report security vulnerabilities publicly.
+
+If you discover a vulnerability, contact the maintainers directly.
+
+---
+
+## 13. Releases (Informational)
+
+Releases are created by merging `develop` into `master`.
+
+Once your contribution is merged into `develop`, it will automatically 
+be included in the next stable release.
+
+---
+
+Thank you for contributing to {{ project_name }} and the EasyScience 
+ecosystem!
