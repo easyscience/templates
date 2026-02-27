@@ -18,6 +18,25 @@ Please make sure you follow the EasyScience organization-wide
 
 ---
 
+## Table of Contents
+
+- [How to Interact With This Project](#how-to-interact-with-this-project)
+- [1. Understanding the Development Model](#1-understanding-the-development-model)
+- [2. Getting the Code](#2-getting-the-code)
+- [3. Setting Up the Development Environment](#3-setting-up-the-development-environment)
+- [4. Creating a Branch](#4-creating-a-branch)
+- [5. Implementing Your Changes](#5-implementing-your-changes)
+- [6. Code Quality Checks](#6-code-quality-checks)
+- [7. Opening a Pull Request](#7-opening-a-pull-request)
+- [8. Continuous Integration (CI)](#8-continuous-integration-ci)
+- [9. Code Review](#9-code-review)
+- [10. Documentation Contributions](#10-documentation-contributions)
+- [11. Reporting Issues](#11-reporting-issues)
+- [12. Security Issues](#12-security-issues)
+- [13. Releases](#13-releases)
+
+---
+
 ## How to Interact With This Project
 
 If you are not planning to modify the code, you may want to:
