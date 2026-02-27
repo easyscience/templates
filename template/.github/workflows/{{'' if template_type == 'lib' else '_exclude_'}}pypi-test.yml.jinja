@@ -13,6 +13,9 @@ concurrency:
   group: {% raw %}${{ github.workflow }}{% endraw %}-{% raw %}${{ github.event.pull_request.number || github.ref }}{% endraw %}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 # Set the environment variables to be used in all jobs defined in this workflow
 env:
   CI_BRANCH: {% raw %}${{ github.head_ref || github.ref_name }}{% endraw %}
