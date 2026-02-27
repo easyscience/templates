@@ -2,39 +2,54 @@
 
 Thank you for your interest in contributing to **{{ project_name }}**!
 
-We welcome contributions of all kinds:
+This guide explains how to:
 
-- Bug fixes
-- New features
-- Performance improvements
-- Documentation updates
-- Tutorials and examples
-- Unit and integration tests
-- Feedback and discussions
+- Report issues
+- Contribute code
+- Improve documentation
+- Suggest enhancements
+- Interact with the EasyScience community
 
-Contributing to open source can feel overwhelming at first — especially
-if you are new to GitHub workflows. This guide explains the full process
-step by step.
+Whether you are an experienced developer or contributing for the first
+time, this document walks you through the process step by step.
 
 Please make sure you follow the EasyScience organization-wide
 [Code of Conduct](https://github.com/easyscience/.github/blob/master/CODE_OF_CONDUCT.md).
 
 ---
 
-## Quick Overview of the Process
+## How to Interact With This Project
+
+Before diving into code contributions, you may want to:
+
+- 🐞 Report a bug — [Reporting Issues](#reporting-issues)
+- 🛡 Report a security issue — [Security Issues](#security-issues)
+- 💬 Ask a question or start a discussion at [Project
+  Discussions](https://github.com/easyscience/{{ lib_repo_name
+  }}/discussions)
+
+If you plan to modify the code or documentation, continue below.
+
+---
+
+## Quick Overview of the Code Contribution Process
 
 If you already know how GitHub contributions work, here is the short
 version:
 
-1. Fork the repository (unless you are a core team member)
-2. Create a new branch from `develop`
-3. Set up your development environment using `pixi install`
-4. Make your changes and add tests
-5. Check your code with `pixi run check`
-6. Open a Pull Request (PR) targeting `develop`
-7. Assign the required `[scope]` label
+- [Fork the repository](#getting-the-code) (unless you are a core team
+  member)
+- [Create a new branch from `develop`](#creating-a-feature-branch)
+- [Set up your development environment](#setting-up-the-development-environment)
+  using `pixi install`
+- [Make your changes and add tests](#implementing-your-changes)
+- [Check your code](#code-quality-checks) with `pixi run check`
+- [Open a Pull Request (PR)](#opening-a-pull-request) targeting
+  `develop`
+- [Assign the required `[scope]` label](#required-scope-label)
 
-If you are unsure about any step, continue reading below.
+If you are unsure about any step, continue reading below for detailed
+instructions.
 
 ---
 
@@ -200,8 +215,31 @@ This command runs:
 - Unit tests
 - Other project validations
 
-If formatting issues are detected, you can try to fix them automatically
-with:
+The desired result should look similar to:
+
+```bash
+pixi run pyproject-check...................................Passed
+pixi run py-lint-check.....................................Passed
+pixi run py-format-check...................................Passed
+pixi run nonpy-format-check................................Passed
+pixi run docs-format-check.................................Passed
+pixi run notebook-format-check.............................Passed
+pixi run unit-tests........................................Passed
+```
+
+If any checks fail, read the error messages carefully and address the
+reported issues.
+
+The full `pixi run check` command may take some time. At a minimum,
+always run it before opening a Pull Request.
+
+You can execute individual checks listed above separately, for example:
+
+```bash
+pixi run py-lint-check
+```
+
+Some checks may be automatically fixable (for example, formatting) with:
 
 ```bash
 pixi run fix
@@ -214,21 +252,18 @@ After running the above command, you should normally see:
 ```
 
 This means that all steps in the auto-formatting pipeline were
-successfully executed. If you do not see this message, try running the
-command again.
+successfully executed. If you do not see this message and do not see any
+error messages either, try running the command a second time.
 
-Note that even if you see this message, there might still be some issues
-left that need to be fixed manually. In such cases, refer to the output
-to identify and address the remaining issues.
-
-After fixing issues, run the checks again to confirm everything is
+If you see error messages, read them carefully and fix the underlying
+issues. After fixing, run the checks again to confirm everything is
 clean:
 
 ```bash
 pixi run check
 ```
 
-All checks must pass before your Pull Request can be merged.
+Normally, all checks must pass before your Pull Request can be merged.
 
 If a check fails and you do not understand the error, you can ask for
 help in your Pull Request.
