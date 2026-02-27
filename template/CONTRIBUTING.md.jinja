@@ -11,43 +11,45 @@ This guide explains how to:
 - Interact with the EasyScience community
 
 Whether you are an experienced developer or contributing for the first
-time, this document walks you through the process step by step.
+time, this document walks you through the entire process step by step.
 
-Please ensure that you follow the EasyScience organization-wide
+Please make sure you follow the EasyScience organization-wide
 [Code of Conduct](https://github.com/easyscience/.github/blob/master/CODE_OF_CONDUCT.md).
 
 ---
 
 ## How to Interact With This Project
 
-Before contributing code, you may wish to:
+If you are not planning to modify the code, you may want to:
 
-- 🐞 Report a bug — [Reporting Issues](#11-reporting-issues)
-- 🛡 Report a security issue — [Security Issues](#12-security-issues)
+- 🐞 Report a bug — see [Reporting Issues](#11-reporting-issues)
+- 🛡 Report a security issue — see [Security Issues](#12-security-issues)
 - 💬 Ask a question or start a discussion at
   [Project Discussions](https://github.com/easyscience/{{ lib_repo_name }}/discussions)
 
-If you plan to modify code or documentation, continue below.
+If you plan to contribute code or documentation, continue below.
 
 ---
 
 ## 1. Understanding the Development Model
 
-Before you begin coding, it is important to understand how development
-is organized in this project.
+Before you start coding, it is important to understand how development
+works in this project.
 
 ### Branching Strategy
 
 We use the following branches:
 
-- `master` — contains stable releases only
-- `develop` — active development and integration branch
+- `master` — stable releases only
+- `develop` — active development branch
 - Short-lived branches — one branch per contribution
 
-All standard contributions must target the `develop` branch. This means:
+All normal contributions must target the `develop` branch.
+
+This means:
 
 - Do **not** open Pull Requests against `master`
-- Always create branches from `develop`
+- Always create your branch from `develop`
 - Always target `develop` when opening a Pull Request
 
 See ADR easyscience/.github#12 for full details on the branching
@@ -59,84 +61,85 @@ strategy.
 
 ### 2.1. If You Are an External Contributor
 
-If you are not a core maintainer of this repository, follow these steps:
+If you are not a core maintainer of this repository, follow these steps.
 
-- Navigate to the repository on GitHub: `https://github.com/easyscience/{{ lib_repo_name }}`
+1. Open the repository page:
+   `https://github.com/easyscience/{{ lib_repo_name }}`
 
-- Click the **Fork** button (top-right corner). This creates a copy of
-  the repository under your GitHub account.
+2. Click the **Fork** button (top-right corner). This creates your own
+   copy of the repository.
 
-- Clone your fork locally:
+3. Clone your fork locally:
 
-  ```bash
-  git clone https://github.com/<your-username>/{{ lib_repo_name }}.git
-  cd {{ lib_repo_name }}
-  ```
+   ```bash
+   git clone https://github.com/<your-username>/{{ lib_repo_name }}.git
+   cd {{ lib_repo_name }}
+   ```
 
-- Add the original repository as `upstream`:
+4. Add the original repository as `upstream`:
 
-  ```bash
-  git remote add upstream https://github.com/easyscience/{{ lib_repo_name }}.git
-  ```
+   ```bash
+   git remote add upstream https://github.com/easyscience/{{ lib_repo_name }}.git
+   ```
 
-- Ensure you are working on the `develop` branch:
+5. Switch to the `develop` branch and update it:
 
-  ```bash
-  git fetch upstream
-  git checkout develop
-  git pull upstream develop
-  ```
+   ```bash
+   git fetch upstream
+   git checkout develop
+   git pull upstream develop
+   ```
 
-- If you have contributed previously, ensure that your local `develop`
-  branch is up to date before starting new work.
+If you have contributed before, make sure your local `develop` branch is
+up to date before starting new work. You can update it with:
 
-  To synchronize your branch with the latest changes:
+```bash
+git fetch upstream
+git pull upstream develop
+```
 
-  ```bash
-  git fetch upstream
-  git pull upstream develop
-  ```
+This ensures you are working on the latest version of the project.
 
 ### 2.2. If You Are a Core Team Member
 
-Core team members do not need to fork the repository. You may create
-branches directly from `develop`, but the remainder of the workflow is
+Core team members do not need to fork the repository. You can create a
+new branch directly from `develop`, but the rest of the workflow remains
 the same.
 
 ---
 
 ## 3. Setting Up the Development Environment
 
-You only need:
+You need:
 
 - Git
 - Pixi
 
-EasyScience projects use **Pixi** for environment and task management.
-To install Pixi, follow the official
-[installation instructions](https://pixi.prefix.dev/latest/installation/)
+EasyScience projects use **Pixi** to manage the development environment.
 
-You do **not** need to manually install a specific Python version. Pixi
-automatically:
+To install Pixi, follow the official instructions:
+https://pixi.prefix.dev/latest/installation/
 
-- Creates the appropriate Python environment
+You do **not** need to manually install Python. Pixi automatically:
+
+- Creates the correct Python environment
 - Installs all required dependencies
 - Installs development tools (linters, formatters, test tools)
 
-Install and configure the environment:
+Set up the environment:
 
 ```bash
 pixi install
 pixi run post-install
 ```
 
-After this step, your local development environment is fully configured.
+After this step, your development environment is ready.
 
-See ADR easyscience/.github#63 for the rationale behind using Pixi.
+See ADR easyscience/.github#63 for more details about this decision.
 
 ---
 
-## 4. Creating a Feature Branch
+## 4. Creating a Branch
 
 Never work directly on `develop`.
 
@@ -146,26 +149,26 @@ Create a new branch:
 git checkout -b my-change
 ```
 
-Use a descriptive name such as:
+Use a clear and descriptive name, for example:
 
 - `improve-solver-speed`
 - `fix-boundary-condition`
 - `add-tutorial-example`
 
-Clear branch names improve review clarity and repository history.
+Clear branch names make reviews and history easier to understand.
 
 ---
 
 ## 5. Implementing Your Changes
 
-While developing your contribution:
+While developing:
 
 - Make small, logical commits
 - Write clear and descriptive commit messages
 - Follow the Google docstring convention
-- Add or update unit tests for any modified behavior
+- Add or update unit tests if behavior changes
 
-Example commit:
+Example:
 
 ```bash
 git add .
@@ -178,7 +181,7 @@ Run tests locally:
 pixi run unit-tests
 ```
 
-Running tests frequently during development is strongly recommended.
+Running tests frequently is strongly recommended.
 
 ---
 
@@ -192,14 +195,14 @@ pixi run check
 
 This command runs:
 
-- Code formatting checks
-- Linting (style checks)
+- Formatting checks
+- Linting
 - Docstring validation
 - Notebook checks
 - Unit tests
 - Other project validations
 
-A successful run should look similar to:
+A successful run should look like this:
 
 ```bash
 pixi run pyproject-check...................................Passed
@@ -211,25 +214,21 @@ pixi run notebook-format-check.............................Passed
 pixi run unit-tests........................................Passed
 ```
 
-If any checks fail, carefully review the error messages and address the
-reported issues.
+If something fails, read the error message carefully and fix the issue.
 
-The full `pixi run check` command may take some time. At a minimum,
-always run it before opening a Pull Request.
-
-You may also execute individual checks separately, for example:
+You can run individual checks, for example:
 
 ```bash
 pixi run py-lint-check
 ```
 
-Some issues (such as formatting) may be automatically fixable using:
+Some formatting issues can be fixed automatically:
 
 ```bash
 pixi run fix
 ```
 
-After running this command, you should normally see:
+If everything is correctly formatted, you will see:
 
 ```text
 ✅ All code auto-formatting steps have been applied.
@@ -247,14 +246,14 @@ pixi run check
 
 All checks must pass before your Pull Request can be merged.
 
-If a check fails and you are unsure how to resolve it, you may ask for
-help in your Pull Request discussion.
+If you are unsure how to fix an issue, ask for help in your Pull Request
+discussion.
 
 ---
 
 ## 7. Opening a Pull Request
 
-Push your branch to your fork:
+Push your branch:
 
 ```bash
 git push origin my-change
@@ -264,15 +263,14 @@ On GitHub:
 
 - Click **Compare & Pull Request**
 - Ensure the base branch is `develop`
-- Provide a clear and descriptive title (see below)
-- Add a meaningful description explaining what changed and why
-- Add a `[scope]` label (see below)
+- Write a clear and concise title
+- Add a description explaining what changed and why
+- Add the required `[scope]` label
 
 ### Pull Request Title
 
-The PR title is used directly in release notes and changelogs, so it
-should be concise, specific, and informative. It must clearly describe
-what changed without unnecessary detail.
+The PR title appears in release notes and changelogs. It should be
+concise and informative.
 
 Good examples:
 
@@ -284,8 +282,7 @@ Good examples:
 
 ### Required `[scope]` Label
 
-Every Pull Request must include one `[scope]` label, which determines
-the version impact of the change:
+Each Pull Request must include one `[scope]` label:
 
 | Label                   | Description                                                             |
 | ----------------------- | ----------------------------------------------------------------------- |
@@ -295,27 +292,26 @@ the version impact of the change:
 | `[scope] maintenance`   | Code/tooling cleanup without feature or bug fix (major.minor.**PATCH**) |
 | `[scope] significant`   | Breaking or major changes (**MAJOR**.minor.patch)                       |
 
-See ADR easyscience/.github#33 for complete details on label rules and
-versioning.
+See ADR easyscience/.github#33 for full versioning rules.
 
 ---
 
 ## 8. Continuous Integration (CI)
 
-After you open a Pull Request:
+After opening a Pull Request:
 
-- Automated tests and checks run automatically
-- You will see status indicators (green checkmarks or red crosses)
+- Automated checks run automatically
+- You will see green checkmarks or red crosses
 
-If CI fails:
+If checks fail:
 
 1. Open the failing check
-2. Review the logs
+2. Read the logs
 3. Fix the issue locally
 4. Run `pixi run check`
-5. Push the changes
+5. Push your changes
 
-The Pull Request updates automatically after each push.
+The Pull Request updates automatically.
 
 ---
 
@@ -323,14 +319,9 @@ The Pull Request updates automatically after each push.
 
 All Pull Requests are reviewed by at least one core team member.
 
-Code review is:
+Code review is collaborative and aims to improve quality.
 
-- Collaborative
-- Constructive
-- Focused on improving quality
-
-Please do not take review comments personally — they are intended to
-help improve the contribution.
+Do not take comments personally — they are meant to help.
 
 To update your PR:
 
@@ -344,36 +335,34 @@ git push
 
 ## 10. Documentation Contributions
 
-If your change affects users, the documentation must be updated
-accordingly.
+If your change affects users, update the documentation.
 
 This may include:
 
 - API documentation
-- Usage examples
+- Examples
 - Tutorials
 - Jupyter notebooks
 
-To preview documentation locally:
+Preview documentation locally:
 
 ```bash
 pixi run docs-serve
 ```
 
-Open the local URL displayed in the terminal and navigate to the
-relevant section to verify your changes.
+Open the URL shown in the terminal to review your changes.
 
 ---
 
 ## 11. Reporting Issues
 
-If you identify a bug but do not wish to submit a fix:
+If you find a bug but do not want to fix it:
 
 - Search existing issues first
 - Provide clear reproduction steps
-- Include relevant logs and environment details
+- Include logs and environment details
 
-Well-documented issue reports greatly assist maintainers.
+Clear issue reports help maintainers significantly.
 
 ---
 
@@ -381,7 +370,7 @@ Well-documented issue reports greatly assist maintainers.
 
 Do **not** report security vulnerabilities publicly.
 
-If you discover a potential security issue, contact the maintainers
+If you discover a potential vulnerability, contact the maintainers
 privately.
 
 ---
@@ -390,10 +379,10 @@ privately.
 
 Releases are created by merging `develop` into `master`.
 
-Once your contribution is merged into `develop`, it will automatically
-be included in the next stable release.
+Once your contribution is merged into `develop`, it will be included in
+the next stable release.
 
 ---
 
 Thank you for contributing to {{ project_name }} and the EasyScience
-ecosystem.
+ecosystem!
