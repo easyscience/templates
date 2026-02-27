@@ -24,7 +24,7 @@
 # - CodeQL Action: https://github.com/github/codeql-action
 # - Advanced setup docs: https://docs.github.com/en/code-security/code-scanning
 
-name: Security scans (CodeQL)
+name: Security scans with CodeQL
 
 on:
   # Run on pull requests so results show up as PR checks and code
@@ -46,7 +46,7 @@ permissions:
 
 jobs:
   codeql:
-    name: Code scanning (CodeQL)
+    name: Code scanning
     runs-on: ubuntu-latest
 
     strategy:
@@ -76,3 +76,10 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
+
+      - name: Add Code Scanning link to job summary
+        run: |
+          echo "## 🔎 CodeQL Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "View Code Scanning alerts here:" >> $GITHUB_STEP_SUMMARY
+          echo "${{ github.server_url }}/${{ github.repository }}/security/code-scanning" >> $GITHUB_STEP_SUMMARY
