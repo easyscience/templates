@@ -38,7 +38,7 @@ on:
 
   # Run weekly. (Cron is in UTC.)
   schedule:
-    - cron: "0 3 * * 1"
+    - cron: '0 3 * * 1'
 
 permissions:
   contents: read
