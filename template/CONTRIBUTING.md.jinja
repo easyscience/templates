@@ -4,33 +4,33 @@ Thank you for your interest in contributing to **{{ project_name }}**!
 
 We welcome contributions of all kinds:
 
-- Bug fixes  
-- New features  
-- Performance improvements  
-- Documentation updates  
-- Tutorials and examples  
-- Tests  
-- Feedback and discussions  
+- Bug fixes
+- New features
+- Performance improvements
+- Documentation updates
+- Tutorials and examples
+- Unit and integration tests
+- Feedback and discussions
 
-Contributing to open source can feel overwhelming at first — especially 
-if you are new to GitHub workflows. This guide explains the full process 
+Contributing to open source can feel overwhelming at first — especially
+if you are new to GitHub workflows. This guide explains the full process
 step by step.
 
-Please make sure you follow the EasyScience organization-wide 
+Please make sure you follow the EasyScience organization-wide
 [Code of Conduct](https://github.com/easyscience/.github/blob/master/CODE_OF_CONDUCT.md).
 
 ---
 
 ## Quick Overview of the Process
 
-If you already know how GitHub contributions work, here is the short 
+If you already know how GitHub contributions work, here is the short
 version:
 
 1. Fork the repository (unless you are a core team member)
 2. Create a new branch from `develop`
 3. Set up your development environment using `pixi install`
 4. Make your changes and add tests
-5. Run `pixi run check`
+5. Check your code with `pixi run check`
 6. Open a Pull Request (PR) targeting `develop`
 7. Assign the required `[scope]` label
 
@@ -40,16 +40,16 @@ If you are unsure about any step, continue reading below.
 
 ## 1. Understanding the Development Model
 
-Before you start coding, it is important to understand how development 
+Before you start coding, it is important to understand how development
 works in this project.
 
 ### Branching Strategy
 
 We use the following branches:
 
-- `master` — contains stable releases only  
-- `develop` — active development and integration branch  
-- Short-lived branches — one branch per contribution  
+- `master` — contains stable releases only
+- `develop` — active development and integration branch
+- Short-lived branches — one branch per contribution
 
 All normal contributions must target the `develop` branch.
 
@@ -59,7 +59,7 @@ This means:
 - Always branch from `develop`
 - Always target `develop` in your PR
 
-See ADR `easyscience/.github#12` for the full branching strategy and 
+See ADR easyscience/.github#12 for the full branching strategy and
 reasoning.
 
 ---
@@ -73,8 +73,8 @@ If you are not a core maintainer of this repository, follow these steps:
 1. Go to the repository on GitHub:
    `https://github.com/easyscience/{{ lib_repo_name }}`
 
-2. Click the **Fork** button (top-right corner).
-   This creates a copy of the repository under your GitHub account.
+2. Click the **Fork** button (top-right corner). This creates a copy of
+   the repository under your GitHub account.
 
 3. Clone your fork locally:
 
@@ -99,16 +99,16 @@ git pull upstream develop
 
 This ensures your local copy is up to date.
 
-> If you have contributed before, always update your local `develop` 
-  branch before starting new work.
+> If you have contributed before, always update your local `develop`
+> branch before starting new work.
 
 ---
 
 ### If You Are a Core Team Member
 
-Core team members do not need to fork the repository.
-You can create branches directly from `develop`, but the rest of the 
-process remains the same.
+Core team members do not need to fork the repository. You can create
+branches directly from `develop`, but the rest of the process remains
+the same.
 
 ---
 
@@ -118,15 +118,15 @@ EasyScience projects use **Pixi** for environment and task management.
 
 You only need:
 
-- Git  
-- Pixi  
+- Git
+- Pixi
 
-You do NOT need to manually install a specific Python version.
-Pixi automatically:
+You do NOT need to manually install a specific Python version. Pixi
+automatically:
 
-- Creates the correct Python environment  
-- Installs all required dependencies  
-- Installs development tools (linters, formatters, test tools)  
+- Creates the correct Python environment
+- Installs all required dependencies
+- Installs development tools (linters, formatters, test tools)
 
 Install and configure the environment:
 
@@ -138,7 +138,7 @@ pixi run post-install
 After this, your local development environment is fully configured.
 
 If anything fails during installation, carefully read the error message.
-Most common problems are due to outdated Pixi or missing system 
+Most common problems are due to outdated Pixi or missing system
 dependencies.
 
 See ADR `easyscience/.github#63` for the reasoning behind using Pixi.
@@ -169,10 +169,10 @@ This makes review and history easier to understand.
 
 While working on your change:
 
-- Make small, logical commits  
-- Write clear and descriptive commit messages  
-- Follow the Google docstring convention  
-- Update or add unit tests for changed behavior  
+- Make small, logical commits
+- Write clear and descriptive commit messages
+- Follow the Google docstring convention
+- Update or add unit tests for changed behavior
 
 Example commit:
 
@@ -201,12 +201,12 @@ pixi run check
 
 This command runs:
 
-- Code formatting checks  
-- Linting (style checks)  
-- Documentation validation  
-- Notebook checks  
-- Unit tests  
-- Other project validations  
+- Code formatting checks
+- Linting (style checks)
+- Documentation validation
+- Notebook checks
+- Unit tests
+- Other project validations
 
 If formatting issues are detected:
 
@@ -224,9 +224,9 @@ All checks must pass before your Pull Request can be merged.
 
 If a check fails and you do not understand the error, you can:
 
-- Read the error message carefully  
-- Search the repository for similar examples  
-- Ask for help in your Pull Request  
+- Read the error message carefully
+- Search the repository for similar examples
+- Ask for help in your Pull Request
 
 ---
 
@@ -247,11 +247,11 @@ On GitHub:
 
 ### Required `[scope]` Label
 
-Every Pull Request must include one `[scope]` label, which determines the version impact of the 
-change:
+Every Pull Request must include one `[scope]` label, which determines
+the version impact of the change:
 
 | Label                   | Description                                                        |
-|-------------------------|--------------------------------------------------------------------|
+| ----------------------- | ------------------------------------------------------------------ |
 | `[scope] bug`           | Bug report or fix (major.minor.**PATCH**)                          |
 | `[scope] documentation` | Documentation only changes (major.minor.patch.**POST**)            |
 | `[scope] enhancement`   | Adds/improves features (major.**MINOR**.patch)                     |
@@ -287,9 +287,9 @@ All Pull Requests are reviewed by at least one core team member.
 
 Code review is:
 
-- Collaborative  
-- Constructive  
-- Focused on improving quality  
+- Collaborative
+- Constructive
+- Focused on improving quality
 
 Do not take comments personally — they are meant to help.
 
@@ -309,10 +309,10 @@ If your change affects users, documentation must be updated.
 
 This may include:
 
-- API documentation  
-- Examples  
-- Tutorials  
-- Jupyter notebooks  
+- API documentation
+- Examples
+- Tutorials
+- Jupyter notebooks
 
 To preview documentation locally:
 
@@ -348,10 +348,10 @@ If you discover a vulnerability, contact the maintainers directly.
 
 Releases are created by merging `develop` into `master`.
 
-Once your contribution is merged into `develop`, it will automatically 
+Once your contribution is merged into `develop`, it will automatically
 be included in the next stable release.
 
 ---
 
-Thank you for contributing to {{ project_name }} and the EasyScience 
+Thank you for contributing to {{ project_name }} and the EasyScience
 ecosystem!
