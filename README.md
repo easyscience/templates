@@ -494,7 +494,7 @@ a standard copy again (see
 [Copier docs](https://copier.readthedocs.io/en/stable/generating/#regenerating-a-project)
 for details).
 
-This can be dony by:
+This can be done by:
 
 ```bash
 pixi run copier-recopy
