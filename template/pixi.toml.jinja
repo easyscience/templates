@@ -1,5 +1,5 @@
 {%- if template_type == "home" %}
-{%- set repo_name = project_repo_name %}
+{%- set repo_name = home_repo_name %}
 {%- elif template_type == "lib" %}
 {%- set repo_name = lib_repo_name %}
 {%- set package_name = lib_package_name %}
@@ -206,9 +206,9 @@ docs-update-assets = 'python tools/update_docs_assets.py'
 # 📦 Template Management Tasks
 ##############################
 
-copier-copy = "copier copy gh:easyscience/templates . --data-file ../{{ project_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
-copier-recopy = "copier recopy --data-file ../{{ project_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
-copier-update = "copier update --data-file ../{{ project_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
+copier-copy = "copier copy gh:easyscience/templates . --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
+copier-recopy = "copier recopy --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
+copier-update = "copier update --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
 
 #####################
 # 🪝 Pre-commit Hooks
