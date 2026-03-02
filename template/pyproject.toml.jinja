@@ -82,7 +82,9 @@ dev = [
 ]
 
 [project.urls]
+{%- if project_type == "both" %}
 homepage = '{{ home_page_url }}'
+{%- endif %}
 documentation = '{{ docs_url }}'
 source = 'https://github.com/easyscience/{{ repo_name }}'
 tracker = 'https://github.com/easyscience/{{ repo_name }}/issues'
