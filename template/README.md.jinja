@@ -1,5 +1,5 @@
 {%- if template_type == "home" %}
-{%- set repo_name = project_repo_name %}
+{%- set repo_name = home_repo_name %}
 {%- elif template_type == "lib" %}
 {%- set repo_name = lib_repo_name %}
 {%- elif template_type == "app" %}
@@ -17,7 +17,7 @@
   </picture>
 </p>
 
-**{{ project_name }}** is a scientific software {{ project_extended_description | lower }}.
+**{{ project_name }}** is {{ project_extended_description[:1] | lower ~ project_extended_description[1:] }}.
 
 <!-- HOME REPOSITORY SECTION -->
 {%- if template_type == "home"  %}
@@ -26,11 +26,11 @@ This repository serves as the central hub for the **{{ project_name }}** family.
 
 **{{ project_name }}** is developed as:
 
-{% if project_type == "both" or template_type == "lib" %}
+{% if project_type == "both" or project_type == "lib" %}
 - 📦 Python library - repository [`{{ lib_repo_name }}`](https://github.com/easyscience/{{ lib_repo_name }})
 {% endif %}
 
-{% if project_type == "both" or template_type == "app" %}
+{% if project_type == "both" or project_type == "app" %}
 - 🖥 Desktop application - repository [`{{ app_repo_name }}`](https://github.com/easyscience/{{ app_repo_name }})
 {% endif %}
 
@@ -43,7 +43,7 @@ This repository serves as the central hub for the **{{ project_name }}** family.
 {% else %}
 
 {% if project_type == "both" %}
-**{{ project_name }}** is available both as a Python library and as a
+**{{ project_name }}** is developed both as a Python library and as a
 cross-platform desktop application.
 
 {% if template_type == "lib" %}
@@ -57,24 +57,31 @@ library, please see the corresponding [library resources](https://github.com/eas
 {% endif %}
 
 {% elif project_type == "lib" %}
-**{{ project_name }}** is available as a Python library.
+**{{ project_name }}** is developed as a Python library.
 
 {% elif project_type == "app" %}
-**{{ project_name }}** is available as a cross-platform Qt QML desktop application.
+**{{ project_name }}** is developed as a cross-platform Qt QML desktop application.
 
 {% endif %}
 
+License: [BSD 3-Clause](https://github.com/easyscience/{{ repo_name }}/blob/master/LICENSE)
+
 ## Useful Links
+
+### For Users
 
 - 📖 [Documentation](https://easyscience.github.io/{{ repo_name }}/latest)
 - 🚀 [Getting Started](https://easyscience.github.io/{{ repo_name }}/latest/introduction)
 - 🧪 [Tutorials](https://easyscience.github.io/{{ repo_name }}/latest/tutorials)
 - 💬 [Get in Touch](https://easyscience.github.io/{{ repo_name }}/latest/introduction/#get-in-touch)
 - 🧾 [Citation](https://easyscience.github.io/{{ repo_name }}/latest/introduction/#citation)
-- 🤝 [Contributing](https://easyscience.github.io/{{ repo_name }}/latest/introduction/#contributing)
+
+### For Contributors
+
+- 🧑‍💻 [Source Code](https://github.com/easyscience/{{ repo_name }})
 - 🐞 [Issue Tracker](https://github.com/easyscience/{{ repo_name }}/issues)
 - 💡 [Discussions](https://github.com/easyscience/{{ repo_name }}/discussions)
-- 🧑‍💻 [Source Code](https://github.com/easyscience/{{ repo_name }})
-- ⚖️ [License](https://raw.githubusercontent.com/easyscience/{{ repo_name }}/refs/heads/master/LICENSE)
+- 🤝 [Contributing Guide](https://github.com/easyscience/{{ repo_name }}/blob/master/CONTRIBUTING.md)
+- 🛡 [Code of Conduct](https://github.com/easyscience/.github/blob/master/CODE_OF_CONDUCT.md)
 
 {% endif %}

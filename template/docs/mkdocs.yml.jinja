@@ -29,7 +29,7 @@ theme:
     - content.tooltips
     - navigation.footer
     - navigation.indexes
-    - navigation.instant # Instant loading (SPA-like)
+    #- navigation.instant # Instant loading, but it causes issues with rendering equations
     #- navigation.sections
     - navigation.top # Back-to-top button
     - navigation.tracking # Anchor tracking
@@ -70,13 +70,13 @@ extra:
       link: https://easyscience.org
       name: EasyScience Framework Webpage
     - icon: {{ project_name | lower }} # File: overrides/.icons/{{ project_name | lower }}.svg
-      link: https://easyscience.github.io/{{ project_repo_name }}
+      link: https://easyscience.github.io/{{ home_repo_name }}
       name: {{ project_name }} Main Webpage
-    {%- if template_type == "lib" %}
+    {%- if project_type == "both" and template_type == "lib" %}
     - icon: app # File: overrides/.icons/app.svg
       link: https://easyscience.github.io/{{ app_repo_name }}
       name: {{ project_name }} Application Docs
-    {%- elif template_type == "app" %}
+    {%- elif project_type == "both" and template_type == "app" %}
     - icon: app # File: overrides/.icons/app.svg
       link: https://easyscience.github.io/{{ lib_repo_name }}
       name: {{ project_name }} Library Docs
@@ -98,8 +98,12 @@ extra:
 # Customization to be included by the theme
 extra_css:
   - assets/stylesheets/extra.css
+
 extra_javascript:
   - assets/javascripts/extra.js
+  # MathJax for rendering mathematical expressions
+  - assets/javascripts/mathjax.js # Custom MathJax config to ensure compatibility with mkdocs-jupyter
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js # Official MathJax CDN
 
 # A list of extensions beyond the ones that MkDocs uses by default (meta, toc, tables, and fenced_code)
 markdown_extensions:
@@ -108,6 +112,8 @@ markdown_extensions:
   - attr_list
   - def_list
   - footnotes
+  - pymdownx.arithmatex: # rendering of equations and integrates with MathJax or KaTeX
+      generic: true
   - pymdownx.blocks.caption
   - pymdownx.details
   - pymdownx.emoji:
@@ -146,7 +152,7 @@ plugins:
       allow_errors: false
       include_source: true
       include_requirejs: true # Required for Plotly
-      custom_mathjax_url: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML-full,Safe'
+      #custom_mathjax_url: 'https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js' # See 'extra_javascript' above
       ignore_h1_titles: true # Use titles defined in the nav section below
       remove_tag_config:
         remove_input_tags:

@@ -6,7 +6,11 @@
 project_name:
   type: str
   default: EasyPeasy
-  help: What is the project name, including the `Easy` prefix (e.g., EasyDiffraction)?
+  help: |
+    What is the project name, including the `Easy` prefix?
+       Examples:
+       - EasyDiffraction
+       - EasyScience
 
 project_shortcut:
   type: str
@@ -16,30 +20,31 @@ project_shortcut:
 project_short_description:
   type: str
   default: Imaginary data analysis
-  help: What is the short description of the project (3–6 words)?
+  help: |
+    What is the short description of the project (3–6 words)?
+       Examples:
+       - Diffraction data analysis
+       - Core building blocks for EasyScience
 
 project_extended_description:
   type: str
   default: >-
-    For performing imaginary calculations based on a theoretical model
-    and refining its parameters against experimental data
+    A software for performing imaginary calculations based on a 
+    imaginary model and refining its parameters against imaginary data
   help: |
     What is the extended description of the project, describing its purpose (1–3 sentences)?
+       Examples:
+       - A software for calculating neutron powder diffraction patterns based on a structural model and refining its parameters against experimental data
+       - The foundation of the framework, providing reusable building blocks for scientific libraries and applications aimed at making data analysis easier
 
 project_copyright_years:
   type: str
   default: '2021-2026'
-  help: What is the project's copyright year(s)?
-
-project_repo_name:
-  type: str
-  default: '{{ project_name | replace("Easy", "") | lower }}'
-  help: What is the project home repository under EasyScience organization?
-
-project_homepage_url:
-  type: str
-  default: 'https://easyscience.github.io/{{ project_repo_name }}'
-  help: What is the project's homepage URL?
+  help: |
+    What is the project's copyright year(s)?
+       Examples:
+       - 2021-2026
+       - 2026
 
 project_contact_email:
   type: str
@@ -79,13 +84,30 @@ template_type:
 
 ---
 # =============================================================================
-# Lib-specific questions
+# Home repository specific questions
+# =============================================================================
+
+home_repo_name:
+  when: '{{ project_type == "both" }}'
+  type: str
+  default: '{{ project_name | replace("Easy", "") | lower }}'
+  help: What is the project home repository under EasyScience organization?
+
+home_page_url:
+  when: '{{ project_type == "both" }}'
+  type: str
+  default: 'https://easyscience.github.io/{{ home_repo_name }}'
+  help: What is the project's homepage URL?
+
+---
+# =============================================================================
+# Library repository specific questions
 # =============================================================================
 
 lib_repo_name:
   when: '{{ project_type in ["lib", "both"] }}'
   type: str
-  default: '{{ project_repo_name }}-lib'
+  default: '{{ home_repo_name }}-lib'
   help: What is the library repository for the project under the EasyScience organization?
 
 lib_package_name:
@@ -121,13 +143,13 @@ lib_doi:
 
 ---
 # =============================================================================
-# App-specific questions
+# Application repository specific questions
 # =============================================================================
 
 app_repo_name:
   when: '{{ project_type in ["app", "both"] }}'
   type: str
-  default: '{{ project_repo_name }}-app'
+  default: '{{ home_repo_name }}-app'
   help: What is the application repository for the project under the EasyScience organization?
 
 app_package_name:

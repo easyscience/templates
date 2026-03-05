@@ -38,14 +38,17 @@ updates over time.
 - [Step 3: Post-Initialization Repository Setup](#-step-3-post-initialization-repository-setup)
   - [3.1. Create develop Branch](#31-create-develop-branch)
   - [3.2. About gh-pages Branch and Pages Activation](#32-about-gh-pages-branch-and-pages-activation)
-  - [3.3. Set Repository Labels](#33-set-repository-labels)
-  - [3.4. Add Repository Secrets](#34-add-repository-secrets)
-  - [3.5. Set Branch Protection Rules](#35-set-branch-protection-rules)
+  - [3.3. Add Repository Secrets](#34-add-repository-secrets)
+  - [3.4. Set Branch Protection Rules](#35-set-branch-protection-rules)
 - [Step 4: Updating Existing Repositories](#-step-4-updating-existing-repositories)
   - [To update the repository with template changes](#to-update-the-repository-with-template-changes)
   - [Using a Specific Version/Tag](#using-a-specific-versiontag)
   - [GitHub Actions Workflows](#github-actions-workflows)
 - [Release Workflow](#-release-workflow)
+
+> **⚠️ Important:** The following guide describes the recommended 
+> procedure on example of the `EasyPeasy` project. Replace `peasy` with 
+> the relevant name throughout the steps.
 
 ## 🧱 Overall Project Structure
 
@@ -102,16 +105,24 @@ Clone all related repositories locally:
 
 ```bash
 git clone https://github.com/easyscience/peasy.git
+```
+
+```bash
 git clone https://github.com/easyscience/peasy-lib.git
+```
+
+```bash
 git clone https://github.com/easyscience/peasy-app.git
 ```
 
 ### 2.2. Set Up Pixi
 
 We use [**Pixi**](https://prefix.dev) for dependency management and
-project configuration. See the
-[Pixi installation guide](https://pixi.prefix.dev/latest/installation/)
-for details.
+project configuration: 
+[`ADR` Use Pixi for Project and Environment Management](https://github.com/orgs/easyscience/discussions/43)
+
+To install Pixi, follow the instructions at
+https://pixi.prefix.dev/latest/installation/.
 
 Navigate into the home repository (e.g., `peasy`) and initialize a new
 Pixi project:
@@ -128,6 +139,13 @@ pixi init
 pixi install
 ```
 
+Add all the main platforms to the Pixi configuration, so that the 
+generated project will be cross-platform by default:
+
+```bash
+pixi project platform add win-64 osx-arm64 linux-64
+```
+
 ### 2.3. Install Copier
 
 Install Copier inside the Pixi environment:
@@ -140,13 +158,12 @@ pixi add copier
 
 > **Note:** This step generates only the project metadata, not code or
 > structure. Therefore, we exclude all files except the `.gitignore`, 
-> `README.md` and templated answers file 
-> `{{_copier_conf.answers_file}}`. The latter one is defined in the 
-> `easyscience/templates` repository, in `copier.yml` as 
+> `README.md` and `.copier-answers.yml`. The latter one is defined in 
+> the `easyscience/templates` repository, in `copier.yml` as 
 > `_answers_file: .copier-answers.yml`
 
 ```bash
-pixi run copier copy gh:easyscience/templates . --data template_type=home --exclude "**/*" --exclude "!{{_copier_conf.answers_file}}" --exclude "!.gitignore" --exclude "!README.md"
+pixi run copier copy gh:easyscience/templates . --data template_type=home --exclude '**/*' --exclude '!.gitignore' --exclude '!README.md' --exclude '!.copier-answers.yml'
 ```
 
 Fill in the required information when prompted. It is okay to leave
@@ -169,13 +186,14 @@ organization profile for consistency.
 > which becomes the single source of truth for all related repositories.
 >
 > Do not modify it manually. Instead, update answers by re-running
-> Copier in the home repository when needed.
+> the same Copier command in the home repository, which will automatically
+> update the `.copier-answers.yml` file with new answers.
 
 Commit and push:
 
 ```bash
 git add -A
-git commit -m "Initial project description file using Copier templates"
+git commit -m "Create project description with Copier templates"
 git push origin master
 ```
 
@@ -252,7 +270,7 @@ After generating the project structure, **push the changes** to GitHub:
 
 ```bash
 git add -A
-git commit -m "Initial project setup using Copier templates"
+git commit -m "Initialize project structure with Copier templates"
 git push origin master
 ```
 
@@ -270,19 +288,26 @@ finalize the setup:
   ```
 
 - **Install extra development dependencies and set up tools:** This step
-  sets up pre-commit hooks, installs additional development
-  dependencies, and configures non-Python file formatting. See,
-  `pixi.toml` for details regarding the `post-install` task.
+  installs additional development dependencies, and configures 
+  non-Python file formatting. See, `pixi.toml` for details regarding the 
+  `post-install` task.
 
   ```bash
   pixi run post-install
   ```
 
+- **Set/update GitHub issue/PR labels:** Ensures correct labels,
+  including the bot label. See [`ADR` Unified Labeling System](https://github.com/orgs/easyscience/discussions/33)
+  for details.
+
+  ```bash
+  pixi run github-labels
+  ```
+
 - **Update documentation assets:** Updates the logo and other assets in
   the `docs/` folder. Run this every time you update project-related
   logos or assets, especially after changes in the
-  `easyscience/assets-branding` repository. See, `pixi.toml` for details
-  regarding the `post-install` task.
+  `easyscience/assets-branding` repository.
 
   ```bash
   pixi run docs-update-assets
@@ -290,94 +315,60 @@ finalize the setup:
 
 - **Update SPDX license headers:** Updates license headers in all
   project files. Run this whenever the copyright year changes, new files
-  are added, or license information needs to be refreshed. See,
-  `pixi.toml` for details regarding the `post-install` task.
+  are added, or license information needs to be refreshed.
 
   ```bash
   pixi run spdx-update
   ```
 
 - **Format all project files:** Ensures all files adhere to the
-  project's coding standards as defined in `pyproject.toml`. Run this
-  after any changes to source code, configuration, workflows, or docs.
-  See, `pixi.toml` for details regarding the `post-install` task.
+  project's coding standards as defined in `pyproject.toml`. As this
+  step may be time-consuming, it is recommended to run it only after
+  making significant changes. At a minimum, run this before making pull 
+  requests to ensure consistent formatting.
+
   ```bash
   pixi run fix
   ```
 
-> **Tip:** Run `pixi run fix` every time after updating any template
-> files or modifying any project files (source code, configuration,
-> workflows, docs, etc.) to ensure consistent formatting.
-> 
-> Normally, after running `pixi run fix`, you should see the message
+> **Tip:** Normally, after running `pixi run fix`, you should see the message
 > `✅ All code auto-formatting steps have been applied.` indicating that 
 > all steps in the auto-formatting pipeline were successfully executed.
 > If you do not see this message, try running the command again.
 > 
 > Note, that even if you see this message, there might still be some 
 > issues left, which need to be fixed manually. In such cases, refer to
-> the output of `pixi run pre-commit-check` or `pixi run pre-push-check`
-> commands described below.
+> the output to identify and address the remaining issues.
 
 ### 2.8. Code Quality Checks
 
-Templates set up pre-commit and pre-push hooks to ensure code quality.
-These hooks automatically check for code formatting, linting, and other
-quality standards before allowing commits or pushes.
+In order to ensure code quality, run the following command to check
+for issues:
 
-If you see `commit failed` or `push failed` from pre-commit/pre-push
-hooks, fix the issues reported by those hooks, commit again, and push
-again.
+  ```bash
+  pixi run check
+  ```
 
-To check issues reported by pre-commit hooks without committing, run:
+Again, this step may be time-consuming, so it is recommended to run it
+only after making significant changes. At a minimum, run this before
+making pull requests to ensure code quality.
 
-First, stage all changes:
-```bash
-git add -A
-```
-
-Then, either check if commit would succeed:
-```bash
-pixi run pre-commit-check
-```
-
-or check if push would succeed:
-```bash
-pixi run pre-push-check
-```
-
-Often, running `pixi run fix` is enough to fix issues automatically. And
-sometimes, one needs to run it twice to fix all issues. If issues
-persist, manually address them based on the output of the above commands.
-
-#### Disable Hooks Temporarily
-
-If you need to disable pre-commit or pre-push hooks temporarily (not
-recommended), run:
+After fixing any issues using `pixi run fix` or manually, it is 
+recommended to run the check command again to verify that all issues 
+have been resolved. When all checks pass, you should see this:
 
 ```bash
-pixi run pre-commit-uninstall
+pixi run pyproject-check...................................Passed
+pixi run py-lint-check.....................................Passed
+pixi run py-format-check...................................Passed
+pixi run nonpy-format-check................................Passed
+pixi run docs-format-check.................................Passed
+pixi run notebook-format-check.............................Passed
+pixi run unit-tests........................................Passed
 ```
 
-To re-enable them, run:
-
-```bash
-pixi run pre-commit-install
-```
-
-> **Tip:** To fine-tune which checks are performed by pre-commit hooks,
-> modify the configuration in the `.pre-commit-config.yaml` file located
-> at the project root. 
-> 
-> After modifying this file, reinstall the hooks using the commands 
-> above.
-
-> **Note:** If pre-commit or pre-push hooks are too slow, try disabling
-> the slowest check of the non-Python files formatter Prettier executed
-> in both pre-commit ('pixi-nonpy-format-check-modified') and pre-push 
-> ('pixi-nonpy-format-check') hooks. To do this, open the 
-> `.pre-commit-config.yaml` file and temporarily comment out or remove 
-> them. 
+If any of the checks fail, address the reported issues accordingly. They
+can be executed individually as well, e.g., `pixi run py-lint-check`.
 
 ### 2.9. Push Changes to the Repository
 
@@ -385,7 +376,7 @@ After generating the project structure, **push the changes** to GitHub:
 
 ```bash
 git add -A
-git commit -m "..."
+git commit -m "Update project structure with Copier templates"
 git push origin master
 ```
 
@@ -414,10 +405,12 @@ exists.
 
 Once `gh-pages` exists, activate Pages deployment:
 
-- Go to
-  [GitHub Pages settings](https://github.com/easyscience/peasy-lib/settings/pages)
-- In "Build and deployment" select **Source:** Deploy from a branch
-- In **Branch** select `gh-pages` and click **Save**
+```bash
+pixi run pages-deployment
+```
+
+You can see the current Pages deployment status at
+[GitHub Pages settings](https://github.com/easyscience/peasy-lib/settings/pages)
 
 > **Note:** Activating Pages deployment will add a workflow "pages build
 > and deployment", which will be automatically triggered by
@@ -429,51 +422,50 @@ Once `gh-pages` exists, activate Pages deployment:
 > new release tag and added to the `gh-pages` branch. This allows users
 > to access documentation for each release at a unique URL.
 
-### 3.3. Set Repository Labels
-
-Ensure correct labels, including the bot label
-([see ADR](https://github.com/orgs/easyscience/discussions/33),
-[example](https://github.com/easyscience/peasy-lib/labels)).
-
-### 3.4. Add Repository Secrets
+### 3.3. Add Repository Secrets
 
 Add repository secrets (e.g., API keys, deployment keys):
 
-- The `easyscience[bot]` GitHub App should have access automatically
-  (configured at the org level). Add it to the `develop` bypass
-  protection rules for automatic backmerge after new releases.
-- Add the PyPI API token secret for library repositories (for publishing
-  to PyPI). Confirm if this is set at the org level.
+- The `easyscience[bot]` GitHub App (EASYSCIENCE_APP_ID + 
+  EASYSCIENCE_APP_KEY) should have access automatically
+  (configured at the org level). Add `easyscience App` to the `develop` 
+  bypass protection rules for automatic backmerge after new releases.
+- The Codecov token secret CODECOV_TOKEN is already set for all 
+  repositories within the EasyScience organisation. This token from 
+  https://app.codecov.io/account/gh/EasyScience/org-upload-token is 
+  used for code coverage reporting.
+- For libraries, to enable PyPI publishing, we use GitHub Actions OIDC 
+  to get a short-lived token from PyPI, so no personal access token is 
+  needed. However, a new publisher must be previously configured in PyPI 
+  at https://pypi.org/manage/project/easypeasy/settings/publishing/
+  Use the following data:
+  - Owner: easyscience
+  - Repository name: peasy-lib
+  - Workflow name: pypi-publish.yml
 
-### 3.5. Set Branch Protection Rules
+### 3.4. Set Branch Protection Rules
 
-Set branch protection rules
-([GitHub Rules Settings](https://github.com/easyscience/peasy-lib/settings/rules))
-only after the relevant branches exist:
+See `ADR` [Branch protection rulesets](https://github.com/orgs/easyscience/discussions/45) 
+for details on the recommended rules. Set up the rules via the command 
+line:
 
-- Create ruleset **"master branch protection"** with:
-  - Enforcement status: Active
-  - Branch targeting criteria: Add target → include default branch
-  - Restrict deletions: ✔️
-  - Require a pull request before merging: ✔️ (Allowed merge methods:
-    Merge only)
-  - Block force pushes: ✔️
-  - Click "Save changes" button
-- Create ruleset **"develop branch protection"** with:
-  - Enforcement status: Active
-  - Branch targeting criteria: Add target → include by pattern → develop
-  - Restrict deletions: ✔️
-  - Require a pull request before merging: ✔️ (Allowed merge methods:
-    Squash only)
-  - Block force pushes: ✔️
-  - Click "Save changes" button
-- Create ruleset **"gh-pages branch protection"** with:
-  - Enforcement status: Active
-  - Branch targeting criteria: Add target → include by pattern →
-    gh-pages
-  - Restrict deletions: ✔️
-  - Block force pushes: ✔️
-  - Click "Save changes" button
+```bash
+pixi run branch-protection
+```
+
+You can find the current branch protection rules at
+https://github.com/easyscience/peasy-lib/settings/rules 
+
+### 3.5. Set Repository Configuration
+
+Run the following command to set the repository configuration:
+- set description and website in the **About** section  
+- disable the **Wiki** features
+- enable the **Discussions** tab
+
+```bash
+pixi run repo-config
+```
 
 ---
 
@@ -502,7 +494,7 @@ a standard copy again (see
 [Copier docs](https://copier.readthedocs.io/en/stable/generating/#regenerating-a-project)
 for details).
 
-This can be dony by:
+This can be done by:
 
 ```bash
 pixi run copier-recopy
@@ -531,7 +523,7 @@ If conflicts arise, Copier will prompt you to review them.
 In principle, project dependencies can be managed via Pixi using the
 `pixi add <package>` and `pixi remove <package>` commands. But, pixi
 will add them to the `pixi.toml` file only. And we do not want to have
-project dependencies defined `pixi.toml`. Instead, we suggest to 
+project dependencies defined in `pixi.toml`. Instead, we suggest to 
 manually add/remove dependencies in the `pyproject.toml` file under the
 `[dependencies]` section or `[project.optional-dependencies]` 
 (`dev` subsection for development dependencies). To update the Pixi 
@@ -554,7 +546,7 @@ Follow these steps to create a new release and manage the release
 process:
 
 1. Merge feature branches to develop as described in
-   [ADR 12](https://github.com/orgs/easyscience/discussions/12).
+   [`ADR` Branching strategy](https://github.com/orgs/easyscience/discussions/12).
 2. To create an automated PR from develop to master for a new release,
    manually run the Release PR workflow from the Actions tab via the
    "Run workflow" button.
