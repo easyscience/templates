@@ -20,9 +20,10 @@
 name = '{{ package_name }}'
 dynamic = ['version'] # Use versioningit to manage the version
 description = '{{ project_short_description }}'
-authors = [{ name = '{{ project_name }} contributors' }]
+authors = [{ name = 'EasyScience contributors' }]
 readme = 'README.md'
-license = { file = 'LICENSE' }
+license = 'BSD-3-Clause'
+license-files = ['LICENSE']
 classifiers = [
   'Intended Audience :: Science/Research',
   'Topic :: Scientific/Engineering',
@@ -48,6 +49,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+  'GitPython',                       # Interact with Git repositories
   'build',                           # Building the package
   'pre-commit',                      # Pre-commit hooks
   'jinja2',                          # Templating
@@ -83,11 +85,12 @@ dev = [
 
 [project.urls]
 {%- if project_type == "both" %}
-homepage = '{{ home_page_url }}'
+Homepage = '{{ home_page_url }}'
 {%- endif %}
-documentation = '{{ docs_url }}'
-source = 'https://github.com/easyscience/{{ repo_name }}'
-tracker = 'https://github.com/easyscience/{{ repo_name }}/issues'
+Documentation = '{{ docs_url }}'
+'Release Notes' = 'https://github.com/easyscience/{{ repo_name }}/releases'
+'Source Code' = 'https://github.com/easyscience/{{ repo_name }}'
+'Issue Tracker' = 'https://github.com/easyscience/{{ repo_name }}/issues'
 
 ############################
 # Build system configuration

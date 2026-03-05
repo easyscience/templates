@@ -276,7 +276,7 @@ npm-config = 'npm config set registry https://registry.npmjs.org/'
 prettier-install = 'npm install --no-save --no-audit --no-fund prettier prettier-plugin-toml'
 
 clean-pycache = "find . -type d -name '__pycache__' -prune -exec rm -rf '{}' +"
-spdx-update = 'python tools/update_spdx.py'
+spdx-update = 'python tools/update_spdx.py src/ tests/'
 
 post-install = { depends-on = [
   'npm-config',
