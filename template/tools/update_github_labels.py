@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 EasyScience contributors <https://github.com/easyscience>
+# SPDX-License-Identifier: BSD-3-Clause
 """Set/update GitHub labels for current or specified easyscience
 repository.
 
