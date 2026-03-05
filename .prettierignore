@@ -6,9 +6,8 @@
 pixi.lock
 
 # MkDocs
-docs/overrides/
-docs/site/
-docs/docs/assets/
+template/docs/overrides/
+template/docs/docs/assets/
 
 # Python
 .pytest_cache/
