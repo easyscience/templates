@@ -17,7 +17,7 @@ from __future__ import annotations
 import argparse
 import json
 import shlex
-import subprocess
+import subprocess  # noqa: S404
 import sys
 from dataclasses import dataclass
 
