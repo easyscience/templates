@@ -50,13 +50,10 @@ easytemplates = { path = ".", editable = true, extras = ['dev'] }
 
 # Specific features: Set specific Python versions
 
-
 [feature.py-min.dependencies]
 python = '3.11.*'
 [feature.py-max.dependencies]
 python = '3.13.*'
-
-
 
 ##############
 # ENVIRONMENTS

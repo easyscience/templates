@@ -3,7 +3,7 @@
 This repository provides Copier templates used to create, structure, and
 maintain repositories under the EasyScience organization.
 
-It is intended primarily for developers and contributors. The templates 
+It is intended primarily for developers and contributors. The templates
 enforce organization-wide standards for:
 
 - repository layout,
@@ -17,7 +17,6 @@ which allows projects to stay synchronized with upstream template
 updates over time.
 
 ---
-
 
 ## 📋 Table of Contents
 
@@ -46,8 +45,8 @@ updates over time.
   - [GitHub Actions Workflows](#github-actions-workflows)
 - [Release Workflow](#-release-workflow)
 
-> **⚠️ Important:** The following guide describes the recommended 
-> procedure on example of the `EasyPeasy` project. Replace `peasy` with 
+> **⚠️ Important:** The following guide describes the recommended
+> procedure on example of the `EasyPeasy` project. Replace `peasy` with
 > the relevant name throughout the steps.
 
 ## 🧱 Overall Project Structure
@@ -118,7 +117,7 @@ git clone https://github.com/easyscience/peasy-app.git
 ### 2.2. Set Up Pixi
 
 We use [**Pixi**](https://prefix.dev) for dependency management and
-project configuration: 
+project configuration:
 [`ADR` Use Pixi for Project and Environment Management](https://github.com/orgs/easyscience/discussions/43)
 
 To install Pixi, follow the instructions at
@@ -139,7 +138,7 @@ pixi init
 pixi install
 ```
 
-Add all the main platforms to the Pixi configuration, so that the 
+Add all the main platforms to the Pixi configuration, so that the
 generated project will be cross-platform by default:
 
 ```bash
@@ -157,36 +156,37 @@ pixi add copier
 ### 2.4 Generate Project Description (Home Repository)
 
 > **Note:** This step generates only the project metadata, not code or
-> structure. Therefore, we exclude all files except the `.gitignore`, 
-> `README.md` and `.copier-answers.yml`. The latter one is defined in 
-> the `easyscience/templates` repository, in `copier.yml` as 
+> structure. Therefore, we exclude all files except the `.gitignore`,
+> `README.md` and `.copier-answers.yml`. The latter one is defined in
+> the `easyscience/templates` repository, in `copier.yml` as
 > `_answers_file: .copier-answers.yml`
 
 ```bash
 pixi run copier copy gh:easyscience/templates . --data template_type=home --exclude '**/*' --exclude '!.gitignore' --exclude '!README.md' --exclude '!.copier-answers.yml'
 ```
 
-Fill in the required information when prompted. It is okay to leave
-the default values or use custom placeholders for now for most fields.
-These answers can be updated later by re-running Copier in the home
+Fill in the required information when prompted. It is okay to leave the
+default values or use custom placeholders for now for most fields. These
+answers can be updated later by re-running Copier in the home
 repository.
 
 The important fields to fill in accurately are:
+
 - Project name
 - Project repository name
 - Library repository name (if applicable)
 - Library package name (if applicable)
 - Application repository name (if applicable)
 
-For project name, alias, and short description, refer to the 
+For project name, alias, and short description, refer to the
 organization profile for consistency.
 
 > **Important:** These answers are stored in a project description file
 > `.copier-answers.yml` inside the home repository (e.g., `peasy`),
 > which becomes the single source of truth for all related repositories.
 >
-> Do not modify it manually. Instead, update answers by re-running
-> the same Copier command in the home repository, which will automatically
+> Do not modify it manually. Instead, update answers by re-running the
+> same Copier command in the home repository, which will automatically
 > update the `.copier-answers.yml` file with new answers.
 
 Commit and push:
@@ -213,16 +213,19 @@ In case of an application, replace with the application repository name
 Navigate to the target repository:
 
 For library:
+
 ```bash
 cd peasy-lib
 ```
 
 For application:
+
 ```bash
 cd peasy-app
 ```
 
 Initialize Pixi and install Copier:
+
 ```bash
 pixi init
 ```
@@ -239,22 +242,23 @@ Apply the Copier templates to generate the project structure.
 
 > **Important:** Use the `--data-file` option to provide the path to the
 > `.copier-answers.yml` file with answers created in the main repository
-> (`peasy`). 
+> (`peasy`).
 
 For library:
+
 ```bash
 pixi run copier copy gh:easyscience/templates . --data-file ../peasy/.copier-answers.yml --data template_type=lib
 ```
 
 For application:
+
 ```bash
 pixi run copier copy gh:easyscience/templates . --data-file ../peasy/.copier-answers.yml --data template_type=app
 ```
 
-> **Note:** When prompted with `conflict. overwrite pixi.toml?` or 
-> `conflict. overwrite .gitignore?` confirm with `Yes` to overwrite the 
+> **Note:** When prompted with `conflict. overwrite pixi.toml?` or
+> `conflict. overwrite .gitignore?` confirm with `Yes` to overwrite the
 > configuration files created during `pixi init`.
-
 
 ### 2.6. Where Are Answers Stored?
 
@@ -288,8 +292,8 @@ finalize the setup:
   ```
 
 - **Install extra development dependencies and set up tools:** This step
-  installs additional development dependencies, and configures 
-  non-Python file formatting. See, `pixi.toml` for details regarding the 
+  installs additional development dependencies, and configures
+  non-Python file formatting. See, `pixi.toml` for details regarding the
   `post-install` task.
 
   ```bash
@@ -297,7 +301,8 @@ finalize the setup:
   ```
 
 - **Set/update GitHub issue/PR labels:** Ensures correct labels,
-  including the bot label. See [`ADR` Unified Labeling System](https://github.com/orgs/easyscience/discussions/33)
+  including the bot label. See
+  [`ADR` Unified Labeling System](https://github.com/orgs/easyscience/discussions/33)
   for details.
 
   ```bash
@@ -324,37 +329,38 @@ finalize the setup:
 - **Format all project files:** Ensures all files adhere to the
   project's coding standards as defined in `pyproject.toml`. As this
   step may be time-consuming, it is recommended to run it only after
-  making significant changes. At a minimum, run this before making pull 
+  making significant changes. At a minimum, run this before making pull
   requests to ensure consistent formatting.
 
   ```bash
   pixi run fix
   ```
 
-> **Tip:** Normally, after running `pixi run fix`, you should see the message
-> `✅ All code auto-formatting steps have been applied.` indicating that 
-> all steps in the auto-formatting pipeline were successfully executed.
-> If you do not see this message, try running the command again.
-> 
-> Note, that even if you see this message, there might still be some 
+> **Tip:** Normally, after running `pixi run fix`, you should see the
+> message `✅ All code auto-formatting steps have been applied.`
+> indicating that all steps in the auto-formatting pipeline were
+> successfully executed. If you do not see this message, try running the
+> command again.
+>
+> Note, that even if you see this message, there might still be some
 > issues left, which need to be fixed manually. In such cases, refer to
 > the output to identify and address the remaining issues.
 
 ### 2.8. Code Quality Checks
 
-In order to ensure code quality, run the following command to check
-for issues:
+In order to ensure code quality, run the following command to check for
+issues:
 
-  ```bash
-  pixi run check
-  ```
+```bash
+pixi run check
+```
 
 Again, this step may be time-consuming, so it is recommended to run it
 only after making significant changes. At a minimum, run this before
 making pull requests to ensure code quality.
 
-After fixing any issues using `pixi run fix` or manually, it is 
-recommended to run the check command again to verify that all issues 
+After fixing any issues using `pixi run fix` or manually, it is
+recommended to run the check command again to verify that all issues
 have been resolved. When all checks pass, you should see this:
 
 ```bash
@@ -426,27 +432,28 @@ You can see the current Pages deployment status at
 
 Add repository secrets (e.g., API keys, deployment keys):
 
-- The `easyscience[bot]` GitHub App (EASYSCIENCE_APP_ID + 
-  EASYSCIENCE_APP_KEY) should have access automatically
-  (configured at the org level). Add `easyscience App` to the `develop` 
-  bypass protection rules for automatic backmerge after new releases.
-- The Codecov token secret CODECOV_TOKEN is already set for all 
-  repositories within the EasyScience organisation. This token from 
-  https://app.codecov.io/account/gh/EasyScience/org-upload-token is 
-  used for code coverage reporting.
-- For libraries, to enable PyPI publishing, we use GitHub Actions OIDC 
-  to get a short-lived token from PyPI, so no personal access token is 
-  needed. However, a new publisher must be previously configured in PyPI 
-  at https://pypi.org/manage/project/easypeasy/settings/publishing/
-  Use the following data:
+- The `easyscience[bot]` GitHub App (EASYSCIENCE_APP_ID +
+  EASYSCIENCE_APP_KEY) should have access automatically (configured at
+  the org level). Add `easyscience App` to the `develop` bypass
+  protection rules for automatic backmerge after new releases.
+- The Codecov token secret CODECOV_TOKEN is already set for all
+  repositories within the EasyScience organisation. This token from
+  https://app.codecov.io/account/gh/EasyScience/org-upload-token is used
+  for code coverage reporting.
+- For libraries, to enable PyPI publishing, we use GitHub Actions OIDC
+  to get a short-lived token from PyPI, so no personal access token is
+  needed. However, a new publisher must be previously configured in PyPI
+  at https://pypi.org/manage/project/easypeasy/settings/publishing/ Use
+  the following data:
   - Owner: easyscience
   - Repository name: peasy-lib
   - Workflow name: pypi-publish.yml
 
 ### 3.4. Set Branch Protection Rules
 
-See `ADR` [Branch protection rulesets](https://github.com/orgs/easyscience/discussions/45) 
-for details on the recommended rules. Set up the rules via the command 
+See `ADR`
+[Branch protection rulesets](https://github.com/orgs/easyscience/discussions/45)
+for details on the recommended rules. Set up the rules via the command
 line:
 
 ```bash
@@ -454,12 +461,13 @@ pixi run branch-protection
 ```
 
 You can find the current branch protection rules at
-https://github.com/easyscience/peasy-lib/settings/rules 
+https://github.com/easyscience/peasy-lib/settings/rules
 
 ### 3.5. Set Repository Configuration
 
 Run the following command to set the repository configuration:
-- set description and website in the **About** section  
+
+- set description and website in the **About** section
 - disable the **Wiki** features
 - enable the **Discussions** tab
 
@@ -523,11 +531,11 @@ If conflicts arise, Copier will prompt you to review them.
 In principle, project dependencies can be managed via Pixi using the
 `pixi add <package>` and `pixi remove <package>` commands. But, pixi
 will add them to the `pixi.toml` file only. And we do not want to have
-project dependencies defined in `pixi.toml`. Instead, we suggest to 
+project dependencies defined in `pixi.toml`. Instead, we suggest to
 manually add/remove dependencies in the `pyproject.toml` file under the
-`[dependencies]` section or `[project.optional-dependencies]` 
-(`dev` subsection for development dependencies). To update the Pixi 
-environment accordingly, after modifying `pyproject.toml`, run:
+`[dependencies]` section or `[project.optional-dependencies]` (`dev`
+subsection for development dependencies). To update the Pixi environment
+accordingly, after modifying `pyproject.toml`, run:
 
 ```bash
 pixi reinstall
