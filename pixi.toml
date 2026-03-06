@@ -1,0 +1,156 @@
+#######################
+# ENVIRONMENT VARIABLES
+#######################
+
+# Platform-independent
+
+[activation.env]
+PYTHONIOENCODING = "utf-8"
+
+# Platform-specific
+
+# Ensures the main package is used from the source code during
+# development, even if main package is installed in editable mode
+# via uv. This is important because `pixi update` might replace
+# the installed version with the latest released version.
+
+# Unix/macOS
+[target.unix.activation.env]
+PYTHONPATH = "${PIXI_PROJECT_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
+
+# Windows
+[target.win.activation.env]
+PYTHONPATH = "${PIXI_PROJECT_ROOT}/src;%PYTHONPATH%"
+
+###########
+# WORKSPACE
+###########
+
+[workspace]
+
+# Supported platforms for the lock file (pixi.lock)
+platforms = ['win-64', 'linux-64', 'osx-64', 'osx-arm64']
+
+# Channels for fetching packages
+channels = ['conda-forge']
+
+##########
+# FEATURES
+##########
+
+# Default feature configuration
+
+[dependencies]
+nodejs = '*' # Required for Prettier (non-Python formatting)
+
+[pypi-dependencies] # == [feature.default.pypi-dependencies]
+easytemplates = { path = ".", editable = true, extras = ['dev'] }
+
+# Specific features: Set specific Python versions
+
+[feature.py-max.dependencies]
+python = '3.13.*'
+
+##############
+# ENVIRONMENTS
+##############
+
+[environments]
+
+# The `default` environment is always created and includes the `default` feature.
+# It does not need to be specified explicitly unless non-default features are included.
+default = { features = ['default', 'py-max'] }
+
+#######
+# TASKS
+#######
+
+[tasks]
+
+###########
+# ✔️ Checks
+###########
+
+pyproject-check = 'python -m validate_pyproject pyproject.toml'
+docs-format-check = 'docformatter --check template/'
+notebook-format-check = 'nbqa ruff template/'
+py-lint-check = 'ruff check template/'
+py-format-check = "ruff format --check template/"
+nonpy-format-check = "npx prettier --list-different --config=prettierrc.toml --ignore-unknown ."
+nonpy-format-check-modified = "python template/tools/nonpy_prettier_modified.py"
+
+check = 'pre-commit run --hook-stage manual --all-files'
+
+##########
+# 🛠️ Fixes
+##########
+
+docs-format-fix = 'docformatter --in-place template/'
+notebook-format-fix = 'nbqa ruff --fix template/'
+py-lint-fix = 'ruff check --fix template/'
+py-format-fix = "ruff format template/"
+nonpy-format-fix = 'npx prettier --write --list-different --config=prettierrc.toml --ignore-unknown .'
+nonpy-format-fix-modified = "python template/tools/nonpy_prettier_modified.py --write"
+success-message-fix = 'echo "✅ All code auto-formatting steps have been applied."'
+
+fix = { depends-on = [
+  'py-format-fix',
+  'docs-format-fix',
+  'py-lint-fix',
+  'nonpy-format-fix',
+  'notebook-format-fix',
+  'success-message-fix',
+] }
+
+##############################
+# 📦 Template Management Tasks
+##############################
+
+copier-copy = "copier copy gh:easyscience/templates . --data-file .copier-answers.yml --data template_type=lib"
+copier-recopy = "copier recopy --data-file .copier-answers.yml --data template_type=lib"
+copier-update = "copier update --data-file .copier-answers.yml --data template_type=lib"
+
+#################
+# 🐙️ GitHub Tasks
+#################
+
+repo-wiki = 'gh api -X PATCH repos/easyscience/templates -f has_wiki=false'
+repo-discussions = 'gh api -X PATCH repos/easyscience/templates -f has_discussions=true'
+repo-description = "gh api -X PATCH repos/easyscience/templates -f description='Copier templates for EasyScience'"
+repo-homepage = "gh api -X PATCH repos/easyscience/templates -f homepage='https://easyscience.github.io/templates'"
+repo-config = { depends-on = [
+  'repo-wiki',
+  'repo-discussions',
+  'repo-description',
+  'repo-homepage',
+] }
+
+master-protection = 'gh api -X POST repos/easyscience/templates/rulesets --input .github/configs/rulesets-master.json'
+develop-protection = 'gh api -X POST repos/easyscience/templates/rulesets --input .github/configs/rulesets-develop.json'
+gh-pages-protection = 'gh api -X POST repos/easyscience/templates/rulesets --input .github/configs/rulesets-gh-pages.json'
+branch-protection = { depends-on = [
+  'master-protection',
+  'develop-protection',
+  'gh-pages-protection',
+] }
+
+pages-deployment = 'gh api -X POST repos/easyscience/templates/pages --input .github/configs/pages-deployment.json'
+
+github-labels = 'python template/tools/update_github_labels.py'
+
+#########################
+# ⚖️ SPDX License Headers
+#########################
+
+spdx-remove = 'python template/tools/remove_spdx.py template/'
+spdx-add = 'python template/tools/add_spdx.py template/'
+spdx-check = 'python template/tools/check_spdx.py template/'
+
+####################################
+# 🚀 Other Development & Build Tasks
+####################################
+
+npm-config = 'npm config set registry https://registry.npmjs.org/'
+prettier-install = 'npm install --no-save --no-audit --no-fund prettier prettier-plugin-toml'
+
+post-install = { depends-on = ['npm-config', 'prettier-install'] }

@@ -1,0 +1,54 @@
+repos:
+  - repo: local
+    hooks:
+      # -------------
+      # Manual checks
+      # -------------
+      - id: pixi-pyproject-check
+        name: pixi run pyproject-check
+        entry: pixi run pyproject-check
+        language: system
+        pass_filenames: false
+        stages: [manual]
+
+      - id: spdx-headers-check
+        name: pixi run spdx-check
+        entry: pixi run spdx-check
+        language: system
+        pass_filenames: false
+        stages: [manual]
+
+      - id: pixi-py-lint-check
+        name: pixi run py-lint-check
+        entry: pixi run py-lint-check
+        language: system
+        pass_filenames: false
+        stages: [manual]
+
+      - id: pixi-py-format-check
+        name: pixi run py-format-check
+        entry: pixi run py-format-check
+        language: system
+        pass_filenames: false
+        stages: [manual]
+
+      - id: pixi-nonpy-format-check
+        name: pixi run nonpy-format-check
+        entry: pixi run nonpy-format-check
+        language: system
+        pass_filenames: false
+        stages: [manual]
+
+      - id: pixi-docs-format-check
+        name: pixi run docs-format-check
+        entry: pixi run docs-format-check
+        language: system
+        pass_filenames: false
+        stages: [manual]
+
+      - id: pixi-notebook-format-check
+        name: pixi run notebook-format-check
+        entry: pixi run notebook-format-check
+        language: system
+        pass_filenames: false
+        stages: [manual]
