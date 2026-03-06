@@ -206,7 +206,7 @@ docs-update-assets = 'python tools/update_docs_assets.py'
 # 📦 Template Management Tasks
 ##############################
 
-{%- if template_type == "both" %}
+{%- if project_type == "both" %}
 
 copier-copy = "copier copy gh:easyscience/templates . --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
 copier-recopy = "copier recopy --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
