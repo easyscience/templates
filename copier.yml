@@ -108,7 +108,8 @@ lib_repo_name:
   when: '{{ project_type in ["lib", "both"] }}'
   type: str
   default: '{{ home_repo_name }}-lib'
-  help: What is the library repository for the project under the EasyScience organization?
+  help:
+    What is the library repository for the project under the EasyScience organization?
 
 lib_package_name:
   when: '{{ project_type in ["lib", "both"] }}'
@@ -150,7 +151,9 @@ app_repo_name:
   when: '{{ project_type in ["app", "both"] }}'
   type: str
   default: '{{ home_repo_name }}-app'
-  help: What is the application repository for the project under the EasyScience organization?
+  help:
+    What is the application repository for the project under the EasyScience
+    organization?
 
 app_package_name:
   when: '{{ project_type in ["app", "both"] }}'
@@ -188,4 +191,4 @@ app_doi:
 _subdirectory: template
 _answers_file: .copier-answers.yml
 _exclude:
-  - "_exclude_*"
+  - '_exclude_*'
