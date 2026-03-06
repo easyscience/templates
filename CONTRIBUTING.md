@@ -215,7 +215,8 @@ pixi run check
 This command runs:
 
 - Formatting checks
-- Linting
+- Linting checks
+- License checks
 - Docstring validation
 - Notebook checks
 - Unit tests
@@ -225,6 +226,7 @@ A successful run should look like this:
 
 ```bash
 pixi run pyproject-check...................................Passed
+pixi run spdx-check........................................Passed
 pixi run py-lint-check.....................................Passed
 pixi run py-format-check...................................Passed
 pixi run nonpy-format-check................................Passed
@@ -239,6 +241,12 @@ You can run individual checks, for example:
 
 ```bash
 pixi run py-lint-check
+```
+
+To add missing license headers:
+
+```bash
+pixi run spdx-add
 ```
 
 Some formatting issues can be fixed automatically:

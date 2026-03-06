@@ -318,12 +318,12 @@ finalize the setup:
   pixi run docs-update-assets
   ```
 
-- **Update SPDX license headers:** Updates license headers in all
-  project files. Run this whenever the copyright year changes, new files
-  are added, or license information needs to be refreshed.
+- **Add/replace SPDX license headers:** To ensure consistent license 
+  headers across all project files, run the following command whenever 
+  new files are added:
 
   ```bash
-  pixi run spdx-update
+  pixi run spdx-add
   ```
 
 - **Format all project files:** Ensures all files adhere to the
@@ -365,6 +365,7 @@ have been resolved. When all checks pass, you should see this:
 
 ```bash
 pixi run pyproject-check...................................Passed
+pixi run spdx-check........................................Passed
 pixi run py-lint-check.....................................Passed
 pixi run py-format-check...................................Passed
 pixi run nonpy-format-check................................Passed
