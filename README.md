@@ -318,8 +318,8 @@ finalize the setup:
   pixi run docs-update-assets
   ```
 
-- **Add/replace SPDX license headers:** To ensure consistent license 
-  headers across all project files, run the following command whenever 
+- **Add/replace SPDX license headers:** To ensure consistent license
+  headers across all project files, run the following command whenever
   new files are added:
 
   ```bash
