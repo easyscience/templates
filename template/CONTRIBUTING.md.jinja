@@ -64,9 +64,10 @@ We use the following branches:
 - `develop` — active development branch
 - Short-lived branches — one branch per contribution
 
-All normal contributions must target the `develop` branch.
-
 > [!IMPORTANT]
+>
+> All normal contributions must target the `develop` branch.
+>
 > - Do **not** open Pull Requests against `master`
 > - Always create your branch from `develop`
 > - Always target `develop` when opening a Pull Request
@@ -169,7 +170,9 @@ git checkout -b my-change
 ```
 
 > [!IMPORTANT]
+>
 > Use a clear and descriptive name, for example:
+>
 > - `improve-solver-speed`
 > - `fix-boundary-condition`
 > - `add-tutorial-example`
@@ -183,8 +186,12 @@ Clear branch names make reviews and history easier to understand.
 While developing, make small, logical commits with clear messages.
 
 > [!IMPORTANT]
-> - When adding new functionality, include appropriate docstrings
-> - Add or update unit tests to cover new functionality and behavior changes
+>
+> When adding new functionality or making changes, make sure to add or
+> update the following as needed:
+>
+> - 📘 docstrings
+> - 🧪 unit tests
 
 Example:
 
@@ -266,6 +273,7 @@ pixi run check
 ```
 
 > [!IMPORTANT]
+>
 > All checks must pass before your Pull Request can be merged.
 
 If you are unsure how to fix an issue, ask for help in your Pull Request
@@ -292,8 +300,9 @@ On GitHub:
 ### Pull Request Title
 
 > [!IMPORTANT]
+>
 > The PR title appears in release notes and changelogs. It should be
-concise and informative.
+> concise and informative.
 
 Good examples:
 
@@ -306,8 +315,9 @@ Good examples:
 ### Required `[scope]` Label
 
 > [!IMPORTANT]
+>
 > Each Pull Request must include a `[scope]` label, which is used for
-automatically suggesting version bumps when preparing a new release.
+> automatically suggesting version bumps when preparing a new release.
 
 The available scopes are:
 
@@ -364,6 +374,7 @@ git push
 ## 10. Documentation Contributions
 
 > [!IMPORTANT]
+>
 > If your change affects users, update the documentation.
 
 This may include:
@@ -398,6 +409,7 @@ Clear issue reports help maintainers significantly.
 ## 12. Security Issues
 
 > [!IMPORTANT]
+>
 > Do **not** report security vulnerabilities publicly.
 
 If you discover a potential vulnerability, contact the maintainers
