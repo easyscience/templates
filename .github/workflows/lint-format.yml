@@ -61,37 +61,43 @@ jobs:
         shell: bash
         run: pixi run spdx-check
 
-      # Check code linting with Ruff in the project root
+      # Check code linting with Ruff
       - name: Check code linting
         id: check_code_linting
         continue-on-error: true
         shell: bash
         run: pixi run py-lint-check
 
-      # Check code formatting with Ruff in the project root
+      # Check code formatting with Ruff
       - name: Check code formatting
         id: check_code_formatting
         continue-on-error: true
         shell: bash
         run: pixi run py-format-check
 
-      # Check formatting of docstrings in the code with docformatter
-      - name: Check formatting of docstrings in the code
+      # Check docstrings linting with Pydoclint
+      - name: Check docstrings linting
+        id: check_docs_linting
+        continue-on-error: true
+        shell: bash
+        run: pixi run docs-lint-check
+
+      # Check docstrings formatting with Docformatter
+      - name: Check docstrings formatting
         id: check_docs_formatting
         continue-on-error: true
         shell: bash
         run: pixi run docs-format-check
 
-      # Check formatting of MD, YAML, TOML, etc. files with Prettier in
-      # the project root
-      - name: Check formatting of MD, YAML, TOML, etc. files
-        id: check_others_formatting
+      # Check formatting of MD, YAML, TOML, etc. files with Prettier
+      - name: Check formatting of non-PY (MD, YAML, TOML, etc.) files
+        id: check_nonpy_formatting
         continue-on-error: true
         shell: bash
         run: pixi run nonpy-format-check
 
-      # Check formatting of Jupyter Notebooks in the tutorials folder
-      - name: Prepare notebooks and check formatting
+      # Check formatting of Jupyter Notebooks
+      - name: Check formatting of Jupyter Notebooks
         id: check_notebooks_formatting
         continue-on-error: true
         shell: bash
@@ -111,8 +117,9 @@ jobs:
             echo "| SPDX headers     | ${{ steps.check_spdx_headers.outcome == 'success' && '✅' || '❌' }} |"
             echo "| py lint          | ${{ steps.check_code_linting.outcome == 'success' && '✅' || '❌' }} |"
             echo "| py format        | ${{ steps.check_code_formatting.outcome == 'success' && '✅' || '❌' }} |"
+            echo "| docstring lint   | ${{ steps.check_docs_linting.outcome == 'success' && '✅' || '❌' }} |"
             echo "| docstring format | ${{ steps.check_docs_formatting.outcome == 'success' && '✅' || '❌' }} |"
-            echo "| nonpy format     | ${{ steps.check_others_formatting.outcome == 'success' && '✅' || '❌' }} |"
+            echo "| nonpy format     | ${{ steps.check_nonpy_formatting.outcome == 'success' && '✅' || '❌' }} |"
             echo "| notebooks format | ${{ steps.check_notebooks_formatting.outcome == 'success' && '✅' || '❌' }} |"
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -123,8 +130,9 @@ jobs:
           || steps.check_spdx_headers.outcome == 'failure'
           || steps.check_code_linting.outcome == 'failure'
           || steps.check_code_formatting.outcome == 'failure'
+          || steps.check_docs_linting.outcome == 'failure'
           || steps.check_docs_formatting.outcome == 'failure'
-          || steps.check_others_formatting.outcome == 'failure'
+          || steps.check_nonpy_formatting.outcome == 'failure'
           || steps.check_notebooks_formatting.outcome == 'failure'
         shell: bash
         run: exit 1

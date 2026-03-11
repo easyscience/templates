@@ -32,13 +32,6 @@ repos:
         pass_filenames: false
         stages: [manual]
 
-      - id: pixi-nonpy-format-check
-        name: pixi run nonpy-format-check
-        entry: pixi run nonpy-format-check
-        language: system
-        pass_filenames: false
-        stages: [manual]
-
       - id: pixi-docs-lint-check
         name: pixi run docs-lint-check
         entry: pixi run docs-lint-check
@@ -49,6 +42,13 @@ repos:
       - id: pixi-docs-format-check
         name: pixi run docs-format-check
         entry: pixi run docs-format-check
+        language: system
+        pass_filenames: false
+        stages: [manual]
+
+      - id: pixi-nonpy-format-check
+        name: pixi run nonpy-format-check
+        entry: pixi run nonpy-format-check
         language: system
         pass_filenames: false
         stages: [manual]

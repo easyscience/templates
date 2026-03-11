@@ -65,7 +65,7 @@ dev = [
   'versioningit',                    # Automatic versioning from git tags
   'jupytext',                        # Jupyter notebook text format support
   'jupyterquiz',                     # Quizzes in Jupyter notebooks
-  'pydoclint',                       # Docstring style and type checking
+  'pydoclint',                       # Docstring linter
   'docformatter',                    # Docstring formatter
   'interrogate',                     # Docstring coverage checker
   'copier',                          # Template management
@@ -249,8 +249,9 @@ convention = 'google'
 # Configuration for pydoclint
 #############################
 
-# 'pydoclint' -- Docstring style and type checking
-# https://pydoclint.readthedocs.io/en/latest/
+# 'pydoclint' -- Docstring linter, a faster alternative to
+# 'darglint' or 'darglint2'.
+# https://pypi.org/project/pydoclint/
 
 # This is an additional layer of docstring checking on top of Ruff's
 # docstring checks (like 'ANN' and 'DOC' rules). For example, it can
