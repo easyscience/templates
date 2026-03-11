@@ -212,14 +212,15 @@ Before opening a Pull Request, always run:
 pixi run check
 ```
 
-This command runs:
+This command:
 
-- Formatting checks
-- Linting
-- Docstring validation
-- Notebook checks
-- Unit tests
-- Other project validations
+- Validates the pyproject.toml file
+- Checks for licence headers in code files
+- Identifies linting and formatting issues in Python code
+- Checks docstring linting and formatting issues in Python code
+- Detects formatting issues in non-Python files (MD, YAML, TOML etc.)
+- Checks linting issues in Jupyter notebooks (if applicable)
+- Runs unit tests
 
 A successful run should look like this:
 
@@ -231,7 +232,7 @@ pixi run py-format-check...................................Passed
 pixi run docstring-lint-check..............................Passed
 pixi run docstring-format-check............................Passed
 pixi run nonpy-format-check................................Passed
-pixi run notebook-format-check.............................Passed
+pixi run notebook-lint-check...............................Passed
 pixi run unit-tests........................................Passed
 ```
 
@@ -252,7 +253,7 @@ pixi run fix
 If everything is correctly formatted, you will see:
 
 ```text
-✅ All code auto-formatting steps have been applied.
+✅ All auto-formatting steps completed successfully!
 ```
 
 This indicates that the auto-formatting pipeline completed successfully.

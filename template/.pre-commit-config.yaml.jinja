@@ -55,9 +55,9 @@ repos:
 
       {%- if template_type == "lib" %}
 
-      - id: pixi-notebook-format-check
-        name: pixi run notebook-format-check
-        entry: pixi run notebook-format-check
+      - id: pixi-notebook-lint-check
+        name: pixi run notebook-lint-check
+        entry: pixi run notebook-lint-check
         language: system
         pass_filenames: false
         stages: [manual]

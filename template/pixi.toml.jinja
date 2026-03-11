@@ -116,7 +116,7 @@ test = { depends-on = ['unit-tests'] }
 pyproject-check = 'python -m validate_pyproject pyproject.toml'
 docstring-lint-check = 'pydoclint src/'
 docstring-format-check = 'docformatter --check src/'
-notebook-format-check = 'nbqa ruff docs/docs/tutorials/'
+notebook-lint-check = 'nbqa ruff docs/docs/tutorials/'
 py-lint-check = 'ruff check src/ tests/ docs/docs/tutorials/'
 py-format-check = "ruff format --check src/ tests/ docs/docs/tutorials/"
 nonpy-format-check = "npx prettier --list-different --config=prettierrc.toml --ignore-unknown ."
@@ -129,12 +129,12 @@ check = 'pre-commit run --hook-stage manual --all-files'
 ##########
 
 docs-format-fix = 'docformatter --in-place src/ docs/docs/tutorials/'
-notebook-format-fix = 'nbqa ruff --fix docs/docs/tutorials/'
+notebook-lint-fix = 'nbqa ruff --fix docs/docs/tutorials/'
 py-lint-fix = 'ruff check --fix src/ tests/ docs/docs/tutorials/'
 py-format-fix = "ruff format src/ tests/ docs/docs/tutorials/"
 nonpy-format-fix = 'npx prettier --write --list-different --config=prettierrc.toml --ignore-unknown .'
 nonpy-format-fix-modified = "python tools/nonpy_prettier_modified.py --write"
-success-message-fix = 'echo "✅ All code auto-formatting steps have been applied."'
+success-message-fix = 'echo "✅ All auto-formatting steps completed successfully!"'
 
 fix = { depends-on = [
   'py-format-fix',
@@ -142,7 +142,7 @@ fix = { depends-on = [
   'py-lint-fix',
   'nonpy-format-fix',
   {%- if template_type == "lib" %}
-  'notebook-format-fix',
+  'notebook-lint-fix',
   {%- endif %}
   'success-message-fix',
 ] }
