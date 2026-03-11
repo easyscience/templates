@@ -65,8 +65,9 @@ dev = [
   'versioningit',                    # Automatic versioning from git tags
   'jupytext',                        # Jupyter notebook text format support
   'jupyterquiz',                     # Quizzes in Jupyter notebooks
-  'docformatter',                    # Code formatter for docstrings
-  'interrogate',                     # Check for missing docstrings
+  'pydoclint',                       # Docstring style and type checking
+  'docformatter',                    # Docstring formatter
+  'interrogate',                     # Docstring coverage checker
   'copier',                          # Template management
   'mike',                            # MkDocs: Versioned documentation support
   'mkdocs',                          # Static site generator
@@ -147,7 +148,7 @@ default-tag = 'v999.0.0'
 # Configuration for interrogate
 ################################
 
-# 'interrogate' -- Check for missing docstrings
+# 'interrogate' -- Docstring coverage checker
 # https://interrogate.readthedocs.io/en/latest/
 
 [tool.interrogate]
@@ -200,6 +201,8 @@ quote-style = 'single'          # But double quotes in docstrings (PEP 8, PEP 25
 # https://docs.astral.sh/ruff/rules/
 [tool.ruff.lint]
 select = [
+  'ANN', # Missing type annotations
+  'DOC', # Docstring formatting issues (new rules)
   'E',   # General PEP 8 style errors
   'E9',  # Runtime errors (e.g., syntax errors, undefined names)
   'F',   # Pyflakes-specific checks (e.g., unused variables, imports)
@@ -241,6 +244,31 @@ max-doc-length = 99
 
 [tool.ruff.lint.pydocstyle]
 convention = 'google'
+
+#############################
+# Configuration for pydoclint
+#############################
+
+# 'pydoclint' -- Docstring style and type checking
+# https://pydoclint.readthedocs.io/en/latest/
+
+# This is an additional layer of docstring checking on top of Ruff's
+# docstring checks (like 'ANN' and 'DOC' rules). For example, it can
+# check that arguments in the docstring, which are used by MkDocs and
+# IDEs to render parameter documentation, remain synchronized with the
+# parameter declarations in the code (in function's signature).
+
+[tool.pydoclint]
+style = "google"
+
+check-param-types = true
+check-return-types = true
+
+require-param-section = true
+require-return-section = true
+require-raises-section = true
+
+arg-type-hints-in-signature = true
 
 ################################
 # Configuration for docformatter
