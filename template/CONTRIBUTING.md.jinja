@@ -373,7 +373,17 @@ git push
 
 > [!IMPORTANT]
 >
-> If your change affects users, update the documentation.
+> If your change affects user-facing functionality, update the project
+> documentation accordingly — specifically the `nav:` (navigation)
+> structure in `mkdocs.yml` and the relevant Markdown files in the
+> `docs` folder.
+>
+> ```text
+> 📁 docs
+> ├── 📁 docs        - Markdown files for documentation
+> │   └── ...
+> └── 📄 mkdocs.yml  - Configuration file (navigation, theme, etc.)
+> ```
 
 This may include:
 
