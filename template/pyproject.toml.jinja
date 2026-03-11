@@ -269,11 +269,22 @@ select = [
 
 # Exceptions to the linting rules
 
+# Ignore specific rules globally
+ignore = [
+  'COM812', # https://docs.astral.sh/ruff/rules/missing-trailing-comma/
+]
+
+# Ignore specific rules in certain files or directories
 [tool.ruff.lint.per-file-ignores]
 'tests/**' = [
-  'S101', # Allow 'assert' statements in tests
-  'ANN',  # Skip missing type annotations in tests
-  'DOC',  # Skip docstring formatting issues in tests
+  'ANN',    # https://docs.astral.sh/ruff/rules/#flake8-annotations-ann
+  'DOC',    # https://docs.astral.sh/ruff/rules/#pydoclint-doc
+  'INP001', # https://docs.astral.sh/ruff/rules/implicit-namespace-package/
+  'S101',   # https://docs.astral.sh/ruff/rules/assert/
+]
+'docs/**' = [
+  'INP001', # https://docs.astral.sh/ruff/rules/implicit-namespace-package/
+  'T201',   # https://docs.astral.sh/ruff/rules/print/
 ]
 
 # Specific options for certain rules
