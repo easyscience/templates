@@ -185,14 +185,6 @@ Clear branch names make reviews and history easier to understand.
 
 While developing, make small, logical commits with clear messages.
 
-> [!IMPORTANT]
->
-> When adding new functionality or making changes, make sure to add or
-> update the following as needed:
->
-> - 📘 docstrings
-> - 🧪 unit tests
-
 Example:
 
 ```bash
@@ -200,17 +192,17 @@ git add .
 git commit -m "Improve performance of time integrator for large systems"
 ```
 
-Run tests locally:
-
-```bash
-pixi run unit-tests
-```
-
-Running tests frequently is strongly recommended.
-
 ---
 
 ## 6. Code Quality Checks
+
+> [!IMPORTANT]
+>
+> When adding new functionality or making changes, make sure to add or
+> update the following as needed:
+>
+> - 📘 docstrings
+> - 🧪 unit tests
 
 Before opening a Pull Request, always run:
 
@@ -244,7 +236,13 @@ pixi run unit-tests............................Passed
 
 If something fails, read the error message carefully and fix the issue.
 
-You can run individual checks, for example:
+You can run individual checks, for example, to run only unit tests:
+
+```bash
+pixi run unit-tests
+```
+
+or to run only Python linting checks:
 
 ```bash
 pixi run py-lint-check
