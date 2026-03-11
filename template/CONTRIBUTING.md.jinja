@@ -225,10 +225,12 @@ A successful run should look like this:
 
 ```bash
 pixi run pyproject-check...................................Passed
+pixi run spdx-check........................................Passed
 pixi run py-lint-check.....................................Passed
 pixi run py-format-check...................................Passed
+pixi run docstring-lint-check..............................Passed
+pixi run docstring-format-check............................Passed
 pixi run nonpy-format-check................................Passed
-pixi run docs-format-check.................................Passed
 pixi run notebook-format-check.............................Passed
 pixi run unit-tests........................................Passed
 ```

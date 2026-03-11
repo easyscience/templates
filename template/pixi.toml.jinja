@@ -114,8 +114,8 @@ test = { depends-on = ['unit-tests'] }
 ###########
 
 pyproject-check = 'python -m validate_pyproject pyproject.toml'
-docs-lint-check = 'pydoclint src/'
-docs-format-check = 'docformatter --check src/'
+docstring-lint-check = 'pydoclint src/'
+docstring-format-check = 'docformatter --check src/'
 notebook-format-check = 'nbqa ruff docs/docs/tutorials/'
 py-lint-check = 'ruff check src/ tests/ docs/docs/tutorials/'
 py-format-check = "ruff format --check src/ tests/ docs/docs/tutorials/"
