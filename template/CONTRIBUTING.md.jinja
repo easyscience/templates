@@ -66,11 +66,10 @@ We use the following branches:
 
 All normal contributions must target the `develop` branch.
 
-This means:
-
-- Do **not** open Pull Requests against `master`
-- Always create your branch from `develop`
-- Always target `develop` when opening a Pull Request
+> [!IMPORTANT]
+> - Do **not** open Pull Requests against `master`
+> - Always create your branch from `develop`
+> - Always target `develop` when opening a Pull Request
 
 See ADR easyscience/.github#12 for full details on the branching
 strategy.
@@ -168,11 +167,11 @@ Create a new branch:
 git checkout -b my-change
 ```
 
-Use a clear and descriptive name, for example:
-
-- `improve-solver-speed`
-- `fix-boundary-condition`
-- `add-tutorial-example`
+> [!IMPORTANT]
+> Use a clear and descriptive name, for example:
+> - `improve-solver-speed`
+> - `fix-boundary-condition`
+> - `add-tutorial-example`
 
 Clear branch names make reviews and history easier to understand.
 
@@ -180,12 +179,11 @@ Clear branch names make reviews and history easier to understand.
 
 ## 5. Implementing Your Changes
 
-While developing:
+While developing, make small, logical commits with clear messages.
 
-- Make small, logical commits
-- Write clear and descriptive commit messages
-- Follow the Google docstring convention
-- Add or update unit tests if behavior changes
+> [!IMPORTANT]
+> - When adding new functionality, include appropriate docstrings
+> - Add or update unit tests to cover new functionality and behavior changes
 
 Example:
 
@@ -266,7 +264,8 @@ If errors are reported, resolve them and re-run:
 pixi run check
 ```
 
-All checks must pass before your Pull Request can be merged.
+> [!IMPORTANT]
+> All checks must pass before your Pull Request can be merged.
 
 If you are unsure how to fix an issue, ask for help in your Pull Request
 discussion.
@@ -291,7 +290,8 @@ On GitHub:
 
 ### Pull Request Title
 
-The PR title appears in release notes and changelogs. It should be
+> [!IMPORTANT]
+> The PR title appears in release notes and changelogs. It should be
 concise and informative.
 
 Good examples:
@@ -304,7 +304,11 @@ Good examples:
 
 ### Required `[scope]` Label
 
-Each Pull Request must include one `[scope]` label:
+> [!IMPORTANT]
+> Each Pull Request must include a `[scope]` label, which is used for
+automatically suggesting version bumps when preparing a new release.
+
+The available scopes are:
 
 | Label                   | Description                                                             |
 | ----------------------- | ----------------------------------------------------------------------- |
@@ -357,7 +361,8 @@ git push
 
 ## 10. Documentation Contributions
 
-If your change affects users, update the documentation.
+> [!IMPORTANT]
+> If your change affects users, update the documentation.
 
 This may include:
 
@@ -390,7 +395,8 @@ Clear issue reports help maintainers significantly.
 
 ## 12. Security Issues
 
-Do **not** report security vulnerabilities publicly.
+> [!IMPORTANT]
+> Do **not** report security vulnerabilities publicly.
 
 If you discover a potential vulnerability, contact the maintainers
 privately.
