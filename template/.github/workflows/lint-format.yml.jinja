@@ -53,10 +53,10 @@ jobs:
         run: pixi run pyproject-check
 
       - name: Check SPDX license headers
-        id: spdx_headers
+        id: license_headers
         continue-on-error: true
         shell: bash
-        run: pixi run spdx-check
+        run: pixi run license-check
 
       - name: Check linting of Python code
         id: py_lint
@@ -110,7 +110,7 @@ jobs:
             echo "|-------|--------|"
             {%- raw %}
             echo "| pyproject.toml   | ${{ steps.pyproject.outcome == 'success' && '✅' || '❌' }} |"
-            echo "| SPDX headers     | ${{ steps.spdx_headers.outcome == 'success' && '✅' || '❌' }} |"
+            echo "| license headers  | ${{ steps.license_headers.outcome == 'success' && '✅'  || '❌' }} |"
             echo "| py lint          | ${{ steps.py_lint.outcome == 'success' && '✅' || '❌' }} |"
             echo "| py format        | ${{ steps.py_format.outcome == 'success' && '✅' || '❌' }} |"
             echo "| docstring lint   | ${{ steps.docstring_lint.outcome == 'success' && '✅' || '❌' }} |"
@@ -128,7 +128,7 @@ jobs:
       - name: Fail job if any check failed
         if: |
           steps.pyproject.outcome == 'failure'
-          || steps.spdx_headers.outcome == 'failure'
+          || steps.license_headers.outcome == 'failure'
           || steps.py_lint.outcome == 'failure'
           || steps.py_format.outcome == 'failure'
           || steps.docstring_lint.outcome == 'failure'

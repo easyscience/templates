@@ -225,7 +225,7 @@ A successful run should look like this:
 
 ```bash
 pixi run pyproject-check...................................Passed
-pixi run spdx-check........................................Passed
+pixi run license-check.....................................Passed
 pixi run py-lint-check.....................................Passed
 pixi run py-format-check...................................Passed
 pixi run docstring-lint-check..............................Passed
