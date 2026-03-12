@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing to **{{ project_name }}**!
 
-This guide explains how to:
+This guide explains how you can:
 
 - Report issues
 - Contribute code
@@ -39,7 +39,7 @@ Please make sure you follow the EasyScience organization-wide
 
 ## How to Interact With This Project
 
-If you are not planning to modify the code, you may want to:
+If you are not planning to contribute code, you may want to:
 
 - 🐞 Report a bug — see [Reporting Issues](#11-reporting-issues)
 - 🛡 Report a security issue —
@@ -62,7 +62,8 @@ We use the following branches:
 
 - `master` — stable releases only
 - `develop` — active development branch
-- Short-lived branches — one branch per contribution
+- Short-lived branches — feature or fix branches created for a single
+  contribution and deleted after merge
 
 > [!IMPORTANT]
 >
@@ -121,9 +122,9 @@ This ensures you are working on the latest version of the project.
 
 ### 2.2. If You Are a Core Team Member
 
-Core team members do not need to fork the repository. You can create a
-new branch directly from `develop`, but the rest of the workflow remains
-the same.
+Core team members can create branches directly in this repository
+and therefore do not need to fork it, but the rest of the workflow
+remains the same.
 
 ---
 
@@ -149,7 +150,7 @@ Set up the environment:
 
 ```bash
 pixi install
-pixi run post-install
+pixi run post-install  # Install additional tooling
 ```
 
 After this step, your development environment is ready.
@@ -166,7 +167,7 @@ Never work directly on `develop`.
 Create a new branch:
 
 ```bash
-git checkout -b my-change
+git checkout -b my-change develop
 ```
 
 > [!IMPORTANT]
@@ -375,8 +376,8 @@ git push
 >
 > If your change affects user-facing functionality, update the project
 > documentation accordingly — specifically the `nav:` (navigation)
-> structure in `mkdocs.yml` and the relevant Markdown files in the
-> `docs/docs` folder.
+> structure in `mkdocs.yml` and the relevant documentation Markdown
+> files in `docs/docs/`.
 >
 > ```text
 > 📁 docs
