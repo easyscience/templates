@@ -212,7 +212,6 @@ quote-style = 'single'          # But double quotes in docstrings (PEP 8, PEP 25
 select = [
   # Various rules
   #'C90',  # https://docs.astral.sh/ruff/rules/#mccabe-c90
-  'DOC', # https://docs.astral.sh/ruff/rules/#pydoclint-doc
   'F',   # https://docs.astral.sh/ruff/rules/#pyflakes-f
   #'FLY',  # https://docs.astral.sh/ruff/rules/#flynt-fly
   #'FURB', # https://docs.astral.sh/ruff/rules/#refurb-furb
@@ -234,7 +233,7 @@ select = [
   #'PLW', # https://docs.astral.sh/ruff/rules/#warning-plw
   # flake8 rules
   #'A',     # https://docs.astral.sh/ruff/rules/#flake8-builtins-a
-  'ANN', # https://docs.astral.sh/ruff/rules/#flake8-annotations-ann
+  'ANN',   # https://docs.astral.sh/ruff/rules/#flake8-annotations-ann
   #'ARG',   # https://docs.astral.sh/ruff/rules/#flake8-unused-arguments-arg
   #'ASYNC', # https://docs.astral.sh/ruff/rules/#flake8-async-async
   #'B',     # https://docs.astral.sh/ruff/rules/#flake8-bugbear-b
@@ -272,6 +271,9 @@ select = [
 # Ignore specific rules globally
 ignore = [
   'COM812', # https://docs.astral.sh/ruff/rules/missing-trailing-comma/
+  # The following covered by [tool.pydoclint] section below
+  'D',   # https://docs.astral.sh/ruff/rules/#pydocstyle-d
+  'DOC', # https://docs.astral.sh/ruff/rules/#pydoclint-doc
 ]
 
 # Ignore specific rules in certain files or directories
@@ -317,10 +319,6 @@ max-line-length = 99
 # as defined in the [tool.ruff.format] section above.
 max-doc-length = 99
 
-[tool.ruff.lint.pydocstyle]
-# Use the Google style for docstrings
-convention = 'google'
-
 #############################
 # Configuration for pydoclint
 #############################
@@ -329,20 +327,17 @@ convention = 'google'
 # 'darglint' or 'darglint2'.
 # https://pypi.org/project/pydoclint/
 
-# This is an additional layer of docstring checking on top of Ruff's
-# docstring checks (like 'ANN' and 'DOC' rules). For example, it can
-# check that arguments in the docstring, which are used by MkDocs and
-# IDEs to render parameter documentation, remain synchronized with the
-# parameter declarations in the code (in function's signature).
+# This is a more advanced docstring linter compared to Ruff's built-in
+# docstring check rules D or DOC. For example, among many other things,
+# it can check that arguments in the docstring, which are used by MkDocs
+# and IDEs to render parameter documentation, remain synchronized with
+# the parameter declarations in the code (in function's signature).
 
 [tool.pydoclint]
 style = "google"
-check-param-types = true
-check-return-types = true
-require-param-section = true
-require-return-section = true
-require-raises-section = true
-arg-type-hints-in-signature = true
+check-style-mismatch = true
+check-arg-defaults = true
+allow-init-docstring = true
 
 ################################
 # Configuration for docformatter
