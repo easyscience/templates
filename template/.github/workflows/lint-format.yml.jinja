@@ -79,12 +79,6 @@ jobs:
         shell: bash
         run: pixi run docstring-lint-check
 
-      - name: Check formatting of docstrings in Python code
-        id: docstring_format
-        continue-on-error: true
-        shell: bash
-        run: pixi run docstring-format-check
-
       - name: Check formatting of non-Python files (md, toml, etc.)
         id: nonpy_format
         continue-on-error: true
@@ -117,7 +111,6 @@ jobs:
             echo "| py lint          | ${{ steps.py_lint.outcome == 'success' && '✅' || '❌' }} |"
             echo "| py format        | ${{ steps.py_format.outcome == 'success' && '✅' || '❌' }} |"
             echo "| docstring lint   | ${{ steps.docstring_lint.outcome == 'success' && '✅' || '❌' }} |"
-            echo "| docstring format | ${{ steps.docstring_format.outcome == 'success' && '✅' || '❌' }} |"
             echo "| nonpy format     | ${{ steps.nonpy_format.outcome == 'success' && '✅' || '❌' }} |"
             {%- endraw %}
             {%- if template_type == "lib" %}
@@ -135,7 +128,6 @@ jobs:
           || steps.py_lint.outcome == 'failure'
           || steps.py_format.outcome == 'failure'
           || steps.docstring_lint.outcome == 'failure'
-          || steps.docstring_format.outcome == 'failure'
           || steps.nonpy_format.outcome == 'failure'
           {%- if template_type == "lib" %}
           || steps.notebook_lint.outcome == 'failure'

@@ -1,9 +1,9 @@
-{%- if template_type == "home" %}
+{%- if template_type == 'home' %}
 {%- set repo_name = home_repo_name %}
-{%- elif template_type == "lib" %}
+{%- elif template_type == 'lib' %}
 {%- set repo_name = lib_repo_name %}
 {%- set package_name = lib_package_name %}
-{%- elif template_type == "app" %}
+{%- elif template_type == 'app' %}
 {%- set repo_name = app_repo_name %}
 {%- set package_name = app_package_name %}
 {%- endif -%}
@@ -15,7 +15,7 @@
 # Platform-independent
 
 [activation.env]
-PYTHONIOENCODING = "utf-8"
+PYTHONIOENCODING = 'utf-8'
 
 # Platform-specific
 
@@ -71,17 +71,17 @@ nodejs = '*' # Required for Prettier (non-Python formatting)
 
 [pypi-dependencies] # == [feature.default.pypi-dependencies]
 #pip = '*' # Native package installer
-{{ package_name }} = { path = ".", editable = true, extras = ['dev'] }
+{{ package_name }} = { path = '.', editable = true, extras = ['dev'] }
 
 # Specific features: Set specific Python versions
 
-{% if template_type == "lib" %}
+{% if template_type == 'lib' %}
 [feature.py-min.dependencies]
 python = '{{ lib_python_min }}.*'
 [feature.py-max.dependencies]
 python = '{{ lib_python_max }}.*'
 
-{% elif template_type == "app" %}
+{% elif template_type == 'app' %}
 [feature.py-max.dependencies]
 python = '{{ app_python }}.*'
 
@@ -95,7 +95,7 @@ python = '{{ app_python }}.*'
 
 # The `default` feature is always included in all environments.
 # Additional features can be specified per environment.
-{%- if template_type == "lib" %}
+{%- if template_type == 'lib' %}
 py-{{ lib_python_min.split('.') | join('') }}-env = { features = ['default', 'py-min'] }
 py-{{ lib_python_max.split('.') | join('') }}-env = { features = ['default', 'py-max'] }
 {%- endif %}
@@ -126,13 +126,13 @@ test = { depends-on = ['unit-tests'] }
 ###########
 
 pyproject-check = 'python -m validate_pyproject pyproject.toml'
+param-docstring-check = 'python tools/param_consistency.py src/ --check'
 docstring-lint-check = 'pydoclint --quiet src/'
-docstring-format-check = 'docformatter --check src/'
 notebook-lint-check = 'nbqa ruff docs/docs/tutorials/'
 py-lint-check = 'ruff check src/ tests/ docs/docs/tutorials/'
-py-format-check = "ruff format --check src/ tests/ docs/docs/tutorials/"
-nonpy-format-check = "npx prettier --list-different --config=prettierrc.toml --ignore-unknown ."
-nonpy-format-check-modified = "python tools/nonpy_prettier_modified.py"
+py-format-check = 'ruff format --check src/ tests/ docs/docs/tutorials/'
+nonpy-format-check = 'npx prettier --list-different --config=prettierrc.toml --ignore-unknown .'
+nonpy-format-check-modified = 'python tools/nonpy_prettier_modified.py'
 
 check = 'pre-commit run --hook-stage manual --all-files'
 
@@ -140,23 +140,24 @@ check = 'pre-commit run --hook-stage manual --all-files'
 # 🛠️ Fixes
 ##########
 
-docs-format-fix = 'docformatter --in-place src/ docs/docs/tutorials/'
+param-docstring-fix = 'python tools/param_consistency.py src/ --fix'
+docstring-format-fix = 'format-docstring src/ docs/docs/tutorials/'
 notebook-lint-fix = 'nbqa ruff --fix docs/docs/tutorials/'
 py-lint-fix = 'ruff check --fix src/ tests/ docs/docs/tutorials/'
-py-format-fix = "ruff format src/ tests/ docs/docs/tutorials/"
+py-format-fix = 'ruff format src/ tests/ docs/docs/tutorials/'
 nonpy-format-fix = 'npx prettier --write --list-different --config=prettierrc.toml --ignore-unknown .'
-nonpy-format-fix-modified = "python tools/nonpy_prettier_modified.py --write"
-success-message-fix = 'echo "✅ All auto-formatting steps completed successfully!"'
+nonpy-format-fix-modified = 'python tools/nonpy_prettier_modified.py --write'
+success-message = 'echo "✅ All auto-formatting steps completed successfully!"'
 
 fix = { depends-on = [
+  'docstring-format-fix',
   'py-format-fix',
-  'docs-format-fix',
   'py-lint-fix',
   'nonpy-format-fix',
-  {%- if template_type == "lib" %}
+  {%- if template_type == 'lib' %}
   'notebook-lint-fix',
   {%- endif %}
-  'success-message-fix',
+  'success-message',
 ] }
 
 ####################
@@ -204,11 +205,11 @@ notebook-prepare = { depends-on = [
 ########################
 
 docs-vars = "JUPYTER_PLATFORM_DIRS=1 PYTHONWARNINGS='ignore::RuntimeWarning'"
-docs-pre = "pixi run docs-vars python -m mkdocs"
-docs-serve = "pixi run docs-pre serve -f docs/mkdocs.yml"
-docs-serve-dirty = "pixi run docs-serve --dirty"
-docs-build = "pixi run docs-pre build -f docs/mkdocs.yml"
-docs-build-local = "pixi run docs-build --no-directory-urls"
+docs-pre = 'pixi run docs-vars python -m mkdocs'
+docs-serve = 'pixi run docs-pre serve -f docs/mkdocs.yml'
+docs-serve-dirty = 'pixi run docs-serve --dirty'
+docs-build = 'pixi run docs-pre build -f docs/mkdocs.yml'
+docs-build-local = 'pixi run docs-build --no-directory-urls'
 
 docs-deploy-pre = 'mike deploy -F docs/mkdocs.yml --push --branch gh-pages --update-aliases --alias-type redirect'
 docs-set-default-pre = 'mike set-default -F docs/mkdocs.yml --push --branch gh-pages'
@@ -219,17 +220,17 @@ docs-update-assets = 'python tools/update_docs_assets.py'
 # 📦 Template Management Tasks
 ##############################
 
-{%- if project_type == "both" %}
+{%- if project_type == 'both' %}
 
-copier-copy = "copier copy gh:easyscience/templates . --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
-copier-recopy = "copier recopy --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
-copier-update = "copier update --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
+copier-copy = 'copier copy gh:easyscience/templates . --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}'
+copier-recopy = 'copier recopy --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}'
+copier-update = 'copier update --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}'
 
 {%- else %}
 
-copier-copy = "copier copy gh:easyscience/templates . --data-file .copier-answers.yml --data template_type={{ template_type }}"
-copier-recopy = "copier recopy --data-file .copier-answers.yml --data template_type={{ template_type }}"
-copier-update = "copier update --data-file .copier-answers.yml --data template_type={{ template_type }}"
+copier-copy = 'copier copy gh:easyscience/templates . --data-file .copier-answers.yml --data template_type={{ template_type }}'
+copier-recopy = 'copier recopy --data-file .copier-answers.yml --data template_type={{ template_type }}'
+copier-update = 'copier update --data-file .copier-answers.yml --data template_type={{ template_type }}'
 
 {%- endif %}
 
@@ -286,7 +287,7 @@ license-check = 'python tools/license_headers.py check src/ tests/ --exclude-fro
 # 🚀 Other Development & Build Tasks
 ####################################
 
-{%- if template_type == "app" %}
+{%- if template_type == 'app' %}
 freeze = 'pyinstaller src/{{ package_name }}/main.py --name={{ project_name | lower }} --log-level WARN --noconfirm --clean --windowed --onedir --add-data=src/{{ package_name }}:. --collect-all EasyApp'
 {%- endif %}
 
@@ -308,9 +309,9 @@ post-install = { depends-on = [
 # 🔗 Main Package Shortcut
 ##########################
 
-{%- if template_type == "lib" %}
+{%- if template_type == 'lib' %}
 {{ package_name }} = 'python -m {{ package_name }}'
-{%- elif template_type == "app" %}
+{%- elif template_type == 'app' %}
 {{ project_name | lower }}-py = 'python src/{{ package_name }}/main.py'
 {{ project_name | lower }}-qml = 'qml -I ../EasyApp/src/ -I src/{{ package_name }}/ src/{{ package_name }}/main.qml'
 {%- endif -%}
