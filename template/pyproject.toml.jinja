@@ -197,7 +197,7 @@ exclude = [
 ]
 indent-width = 4
 line-length = 99 # See also `max-line-length` in [tool.ruff.lint.pycodestyle]
-preview = true   # Enable new rules that are not yet stable, like DOC
+preview = true # Enable new rules that are not yet stable, like DOC
 
 # Formatting options for Ruff
 
@@ -214,6 +214,7 @@ quote-style = 'single'          # But double quotes in docstrings (PEP 8, PEP 25
 select = [
   # Various rules
   #'C90',  # https://docs.astral.sh/ruff/rules/#mccabe-c90
+  #'D',   # https://docs.astral.sh/ruff/rules/#pydocstyle-d
   'F',   # https://docs.astral.sh/ruff/rules/#pyflakes-f
   #'FLY',  # https://docs.astral.sh/ruff/rules/#flynt-fly
   #'FURB', # https://docs.astral.sh/ruff/rules/#refurb-furb
@@ -273,9 +274,14 @@ select = [
 # Ignore specific rules globally
 ignore = [
   'COM812', # https://docs.astral.sh/ruff/rules/missing-trailing-comma/
-  # The following covered by [tool.pydoclint] section below
-  'D',   # https://docs.astral.sh/ruff/rules/#pydocstyle-d
+  # The following is replaced by 'D'/[tool.ruff.lint.pydocstyle] and [tool.pydoclint]
   'DOC', # https://docs.astral.sh/ruff/rules/#pydoclint-doc
+  # Disable, as [tool.format_docstring] split one-line docstrings into the canonical multi-line layout
+  'D200', # https://docs.astral.sh/ruff/rules/unnecessary-multiline-docstring/
+  # Temporary:
+  'D100',   # https://docs.astral.sh/ruff/rules/undocumented-public-module/#undocumented-publi-module-d100
+  'D104',   # https://docs.astral.sh/ruff/rules/undocumented-public-package/#undocumented-public-package-d104
+  'DTZ005', # https://docs.astral.sh/ruff/rules/call-datetime-now-without-tzinfo/#call-datetime-now-without-tzinfo-dtz005
 ]
 
 # Ignore specific rules in certain files or directories
@@ -285,6 +291,7 @@ ignore = [
 ]
 'tests/**' = [
   'ANN',    # https://docs.astral.sh/ruff/rules/#flake8-annotations-ann
+  'D',      # https://docs.astral.sh/ruff/rules/#pydocstyle-d
   'DOC',    # https://docs.astral.sh/ruff/rules/#pydoclint-doc
   'INP001', # https://docs.astral.sh/ruff/rules/implicit-namespace-package/
   'S101',   # https://docs.astral.sh/ruff/rules/assert/
@@ -315,6 +322,9 @@ max-complexity = 10
 # Use 72 characters for docstrings.
 max-line-length = 99 # See also `line-length` in [tool.ruff]
 max-doc-length = 72
+
+[tool.ruff.lint.pydocstyle]
+convention = 'numpy'
 
 #############################
 # Configuration for pydoclint
@@ -349,4 +359,4 @@ exclude = '\.' # Temporarily disable format-docstring until we are ready
 docstring_style = 'numpy'
 line_length = 72
 fix_rst_backticks = true
-verbose = 'default' # or 'diff' to show changes made to docstrings
+verbose = 'default'
