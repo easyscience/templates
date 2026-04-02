@@ -126,7 +126,6 @@ test = { depends-on = ['unit-tests'] }
 ###########
 
 pyproject-check = 'python -m validate_pyproject pyproject.toml'
-param-docstring-check = 'python tools/param_consistency.py src/ --check'
 docstring-lint-check = 'pydoclint --quiet src/'
 notebook-lint-check = 'nbqa ruff docs/docs/tutorials/'
 py-lint-check = 'ruff check src/ tests/ docs/docs/tutorials/'
@@ -140,7 +139,6 @@ check = 'pre-commit run --hook-stage manual --all-files'
 # 🛠️ Fixes
 ##########
 
-param-docstring-fix = 'python tools/param_consistency.py src/ --fix'
 docstring-format-fix = 'format-docstring src/'
 docstring-transform = 'pixi run docstripy src/ -s=numpy -w'
 notebook-lint-fix = 'nbqa ruff --fix docs/docs/tutorials/'
