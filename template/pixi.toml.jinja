@@ -139,8 +139,8 @@ check = 'pre-commit run --hook-stage manual --all-files'
 # 🛠️ Fixes
 ##########
 
-docstring-format-fix = 'format-docstring src/'
 docstring-transform = 'pixi run docstripy src/ -s=numpy -w'
+docstring-format-fix = 'format-docstring src/'
 notebook-lint-fix = 'nbqa ruff --fix docs/docs/tutorials/'
 py-lint-fix = 'ruff check --fix src/ tests/ docs/docs/tutorials/'
 py-lint-fix-unsafe = 'ruff check --fix --unsafe-fixes src/ tests/ docs/docs/tutorials/'
