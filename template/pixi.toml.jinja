@@ -42,7 +42,7 @@ PYTHONPATH = "${PIXI_PROJECT_ROOT}/src;%PYTHONPATH%"
 [workspace]
 
 # Supported platforms for the lock file (pixi.lock)
-platforms = ['win-64', 'linux-64', 'osx-64', 'osx-arm64']
+platforms = ['win-64', 'linux-64', 'osx-arm64']
 
 # Channels for fetching packages
 channels = ['conda-forge']
@@ -66,8 +66,9 @@ macos = '14.0'
 # Default feature configuration
 
 [dependencies]
-nodejs = '*' # Required for Prettier (non-Python formatting)
-#gsl = '*' # GNU Scientific Library; required for pdffit2
+nodejs = '*'      # Required for Prettier (non-Python formatting)
+jupyterlab = '*'  # Jupyter notebooks
+pixi-kernel = '*' # Pixi Jupyter kernel
 
 [pypi-dependencies] # == [feature.default.pypi-dependencies]
 #pip = '*' # Native package installer
@@ -96,13 +97,13 @@ python = '{{ app_python }}.*'
 # The `default` feature is always included in all environments.
 # Additional features can be specified per environment.
 {%- if template_type == 'lib' %}
-py-{{ lib_python_min.split('.') | join('') }}-env = { features = ['default', 'py-min'] }
-py-{{ lib_python_max.split('.') | join('') }}-env = { features = ['default', 'py-max'] }
+py-{{ lib_python_min.split('.') | join('') }}-env = { features = ['py-min'] }
+py-{{ lib_python_max.split('.') | join('') }}-env = { features = ['py-max'] }
 {%- endif %}
 
 # The `default` environment is always created and includes the `default` feature.
 # It does not need to be specified explicitly unless non-default features are included.
-default = { features = ['default', 'py-max'] }
+default = { features = ['py-max'] }
 
 #######
 # TASKS
@@ -191,7 +192,7 @@ cov = { depends-on = [
 
 notebook-convert = 'jupytext docs/docs/tutorials/*.py --from py:percent --to ipynb'
 notebook-strip = 'nbstripout docs/docs/tutorials/*.ipynb'
-notebook-tweak = 'python tools/tweak_notebooks.py tutorials/'
+notebook-tweak = 'python tools/tweak_notebooks.py docs/docs/tutorials/'
 notebook-exec = 'python -m pytest --nbmake docs/docs/tutorials/ --nbmake-timeout=600 --overwrite --color=yes -n auto -v'
 
 notebook-prepare = { depends-on = [

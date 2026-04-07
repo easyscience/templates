@@ -39,12 +39,6 @@ requires-python = '>={{ lib_python_min }}'
 dependencies = [
   #'easyscience', # The base library of the EasyScience framework
   'pooch',       # Data downloader
-  'darkdetect',  # Detecting dark mode (system-level)
-  'pandas',      # Displaying tables in Jupyter notebooks
-  'plotly',      # Interactive plots
-  'py3Dmol',     # Visualisation of crystal structures
-  'jupyterlab',  # Jupyter notebooks
-  'pixi-kernel', # Pixi Jupyter kernel
 ]
 
 [project.optional-dependencies]
@@ -322,6 +316,12 @@ max-doc-length = 72
 
 [tool.ruff.lint.pydocstyle]
 convention = 'numpy'
+
+[tool.ruff.lint.pylint]
+# Ruff counts `self`/`cls` in max-args; traditional pylint does not.
+# Setting 6 here matches pylint's default of 5 (excluding self).
+max-args = 6
+max-positional-args = 6
 
 #############################
 # Configuration for pydoclint
