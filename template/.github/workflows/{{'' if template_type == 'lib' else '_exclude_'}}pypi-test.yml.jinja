@@ -48,6 +48,10 @@ jobs:
       - name: Init pixi project
         run: pixi init {{ lib_package_name }}
 
+      - name: Set the minimum system requirements
+        working-directory: {{ lib_package_name }}
+        run: pixi project system-requirements add macos 14.0
+
       - name: Add Python {{ lib_python_max }} from Conda
         working-directory: {{ lib_package_name }}
         run: pixi add "python={{ lib_python_max }}"
@@ -56,21 +60,17 @@ jobs:
         working-directory: {{ lib_package_name }}
         run: pixi add gsl
 
-      - name: Add {{ lib_package_name }} from PyPI
+      - name: Add {{ lib_package_name }} (with dev dependencies) from PyPI
         working-directory: {{ lib_package_name }}
-        run: pixi add --pypi "{{ lib_package_name }}"
-
-      - name: Add dev dependencies from PyPI
-        working-directory: {{ lib_package_name }}
-        run: pixi add --pypi pytest pytest-xdist
-
-      - name: Add Pixi task as a shortcut
-        working-directory: {{ lib_package_name }}
-        run: pixi task add {{ lib_package_name }} "python -m {{ lib_package_name }}"
+        run: pixi add --pypi "{{ lib_package_name }}[dev]"
 
       - name: Run unit tests to verify the installation
         working-directory: {{ lib_package_name }}
         run: pixi run python -m pytest ../tests/unit/ --color=yes -v
+
+      - name: Run functional tests to verify the installation
+        working-directory: {{ lib_package_name }}
+        run: pixi run python -m pytest ../tests/functional/ --color=yes -v
 
       - name: Run integration tests to verify the installation
         working-directory: {{ lib_package_name }}
