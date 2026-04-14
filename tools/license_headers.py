@@ -25,9 +25,7 @@ LICENSE_DATABASE = load_license_data()
 
 
 def load_pyproject(repo_path: Union[str, Path]) -> dict[str, Any]:
-    """
-    Load and return parsed ``pyproject.toml`` data for the repository.
-    """
+    """Load and return parsed ``pyproject.toml`` data for the repository."""
     repo_root = find_repository_root(repo_path)
     pyproject_path = repo_root / 'pyproject.toml'
 
@@ -123,9 +121,7 @@ def get_file_creation_year(file_path: Union[str, Path]) -> str:
 
 
 def get_org_url(repo_path: Union[str, Path]) -> str:
-    """
-    Return the organization URL derived from the repository source URL.
-    """
+    """Return the organization URL derived from the repository source URL."""
     pyproject_data = load_pyproject(repo_path)
     repo_url = pyproject_data['project']['urls']['Source Code']
     return repo_url.rsplit('/', 1)[0]
