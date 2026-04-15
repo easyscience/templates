@@ -46,6 +46,9 @@ env:
   CI_BRANCH: {% raw %}${{ github.head_ref || github.ref_name }}{% endraw %}
   PY_VERSIONS: '{{ lib_python_min }} {{ lib_python_max }}'
   PIXI_ENVS: 'py-{{ lib_python_min | replace(".", "") }}-env py-{{ lib_python_max | replace(".", "") }}-env'
+  # Opt into Node.js 24 for all JavaScript actions.
+  # Remove once all referenced actions natively target Node 24.
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   # Job 1: Set up environment variables
@@ -74,7 +77,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, macos-14, windows-2022]
+        os: [ubuntu-24.04, macos-15, windows-2022]
 
     runs-on: {% raw %}${{ matrix.os }}{% endraw %}
 
@@ -96,10 +99,25 @@ jobs:
             echo
             echo "🔹🔸🔹🔸🔹 Python: $py_ver 🔹🔸🔹🔸🔹"
 
-            env="py-$(echo $py_ver | tr -d .)-env" # Converts 3.11 -> py-311-env
+            env="py-$(echo $py_ver | tr -d .)-env" # Converts 3.XX -> py-3XX-env
 
             echo "Running tests in environment: $env"
             pixi run --environment $env unit-tests
+          done
+
+      - name: Run functional tests
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for py_ver in $PY_VERSIONS; do
+            echo
+            echo "🔹🔸🔹🔸🔹 Python: $py_ver 🔹🔸🔹🔸🔹"
+
+            env="py-$(echo $py_ver | tr -d .)-env" # Converts 3.XX -> py-3XX-env
+
+            echo "Running tests in environment: $env"
+            pixi run --environment $env functional-tests
           done
 
       - name: Run integration tests {% raw %}${{ needs.env-prepare.outputs.pytest-marks }}{% endraw %}
@@ -111,7 +129,7 @@ jobs:
             echo
             echo "🔹🔸🔹🔸🔹 Python: $py_ver 🔹🔸🔹🔸🔹"
 
-            env="py-$(echo $py_ver | tr -d .)-env" # Converts 3.11 -> py-311-env
+            env="py-$(echo $py_ver | tr -d .)-env" # Converts 3.XX -> py-3XX-env
 
             echo "Running tests in environment: $env"
             pixi run --environment $env integration-tests {% raw %}${{ needs.env-prepare.outputs.pytest-marks }}{% endraw %}
@@ -163,7 +181,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, macos-14, windows-2022]
+        os: [ubuntu-24.04, macos-15, windows-2022]
 
     runs-on: {% raw %}${{ matrix.os }}{% endraw %}
 
@@ -202,11 +220,8 @@ jobs:
             echo "Adding Python $py_ver"
             pixi add "python=$py_ver"
 
-            echo "Adding Conda dependencies"
-            pixi add gsl
-
-            #echo "Adding PyPI dependencies"
-            #pixi add --pypi pytest pytest-xdist
+            echo "Setting macOS 14.0 as minimum required"
+            pixi project system-requirements add macos 14.0
 
             echo "Looking for wheel in ../dist/py$py_ver/"
             ls -l "../dist/py$py_ver/"
@@ -240,6 +255,25 @@ jobs:
 
             echo "Running tests"
             pixi run python -m pytest ../tests/unit/ --color=yes -v
+
+            echo "Exiting pixi project directory"
+            cd ..
+          done
+
+      - name: Run functional tests
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for py_ver in $PY_VERSIONS; do
+            echo
+            echo "🔹🔸🔹🔸🔹 Python: $py_ver 🔹🔸🔹🔸🔹"
+
+            echo "Entering pixi project directory {{ lib_package_name }}_py$py_ver"
+            cd {{ lib_package_name }}_py$py_ver
+
+            echo "Running tests"
+            pixi run python -m pytest ../tests/functional/ --color=yes -v
 
             echo "Exiting pixi project directory"
             cd ..

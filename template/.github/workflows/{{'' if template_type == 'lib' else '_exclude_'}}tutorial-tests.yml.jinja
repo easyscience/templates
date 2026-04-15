@@ -27,6 +27,9 @@ concurrency:
 # Set the environment variables to be used in all jobs defined in this workflow
 env:
   CI_BRANCH: {% raw %}${{ github.head_ref || github.ref_name }}{% endraw %}
+  # Opt into Node.js 24 for all JavaScript actions.
+  # Remove once all referenced actions natively target Node 24.
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   # Job 1: Test tutorials as scripts and notebooks on multiple OS
@@ -44,10 +47,6 @@ jobs:
 
       - name: Set up pixi
         uses: ./.github/actions/setup-pixi
-
-      - name: Test tutorials as python scripts
-        shell: bash
-        run: pixi run script-tests
 
       - name: Prepare notebooks
         shell: bash

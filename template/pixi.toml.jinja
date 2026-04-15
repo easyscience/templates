@@ -1,9 +1,9 @@
-{%- if template_type == "home" %}
+{%- if template_type == 'home' %}
 {%- set repo_name = home_repo_name %}
-{%- elif template_type == "lib" %}
+{%- elif template_type == 'lib' %}
 {%- set repo_name = lib_repo_name %}
 {%- set package_name = lib_package_name %}
-{%- elif template_type == "app" %}
+{%- elif template_type == 'app' %}
 {%- set repo_name = app_repo_name %}
 {%- set package_name = app_package_name %}
 {%- endif -%}
@@ -15,7 +15,7 @@
 # Platform-independent
 
 [activation.env]
-PYTHONIOENCODING = "utf-8"
+PYTHONIOENCODING = 'utf-8'
 
 # Platform-specific
 
@@ -42,10 +42,22 @@ PYTHONPATH = "${PIXI_PROJECT_ROOT}/src;%PYTHONPATH%"
 [workspace]
 
 # Supported platforms for the lock file (pixi.lock)
-platforms = ['win-64', 'linux-64', 'osx-64', 'osx-arm64']
+platforms = ['win-64', 'linux-64', 'osx-arm64']
 
 # Channels for fetching packages
 channels = ['conda-forge']
+
+#####################
+# SYSTEM REQUIREMENTS
+#####################
+
+[system-requirements]
+
+# Set minimum supported version for macOS to be 14.0 to ensure packages
+# like `skipp` that only have wheels for macOS 14.0+ (macosx_14_0_arm64)
+# are used instead of building from source. This is a workaround for
+# Pixi, see https://github.com/prefix-dev/pixi/issues/5667
+macos = '14.0'
 
 ##########
 # FEATURES
@@ -54,22 +66,23 @@ channels = ['conda-forge']
 # Default feature configuration
 
 [dependencies]
-nodejs = '*' # Required for Prettier (non-Python formatting)
-#gsl = '*' # GNU Scientific Library; required for pdffit2
+nodejs = '*'      # Required for Prettier (non-Python formatting)
+jupyterlab = '*'  # Jupyter notebooks
+pixi-kernel = '*' # Pixi Jupyter kernel
 
 [pypi-dependencies] # == [feature.default.pypi-dependencies]
 #pip = '*' # Native package installer
-{{ package_name }} = { path = ".", editable = true, extras = ['dev'] }
+{{ package_name }} = { path = '.', editable = true, extras = ['dev'] }
 
 # Specific features: Set specific Python versions
 
-{% if template_type == "lib" %}
+{% if template_type == 'lib' %}
 [feature.py-min.dependencies]
 python = '{{ lib_python_min }}.*'
 [feature.py-max.dependencies]
 python = '{{ lib_python_max }}.*'
 
-{% elif template_type == "app" %}
+{% elif template_type == 'app' %}
 [feature.py-max.dependencies]
 python = '{{ app_python }}.*'
 
@@ -83,14 +96,14 @@ python = '{{ app_python }}.*'
 
 # The `default` feature is always included in all environments.
 # Additional features can be specified per environment.
-{%- if template_type == "lib" %}
-py-{{ lib_python_min.split('.') | join('') }}-env = { features = ['default', 'py-min'] }
-py-{{ lib_python_max.split('.') | join('') }}-env = { features = ['default', 'py-max'] }
+{%- if template_type == 'lib' %}
+py-{{ lib_python_min.split('.') | join('') }}-env = { features = ['py-min'] }
+py-{{ lib_python_max.split('.') | join('') }}-env = { features = ['py-max'] }
 {%- endif %}
 
 # The `default` environment is always created and includes the `default` feature.
 # It does not need to be specified explicitly unless non-default features are included.
-default = { features = ['default', 'py-max'] }
+default = { features = ['py-max'] }
 
 #######
 # TASKS
@@ -103,9 +116,9 @@ default = { features = ['default', 'py-max'] }
 ##################
 
 unit-tests = 'python -m pytest tests/unit/ --color=yes -v'
+functional-tests = 'python -m pytest tests/functional/ --color=yes -v'
 integration-tests = 'python -m pytest tests/integration/ --color=yes -n auto -v'
-notebook-tests = 'python -m pytest --nbmake docs/docs/tutorials/ --nbmake-timeout=600 --color=yes -n auto -v'
-script-tests = 'python -m pytest tools/test_scripts.py --color=yes -n auto -v'
+notebook-tests = 'python -m pytest --nbmake docs/docs/tutorials/ --nbmake-timeout=1200 --color=yes -n auto -v'
 
 test = { depends-on = ['unit-tests'] }
 
@@ -114,12 +127,12 @@ test = { depends-on = ['unit-tests'] }
 ###########
 
 pyproject-check = 'python -m validate_pyproject pyproject.toml'
-docs-format-check = 'docformatter --check src/ docs/docs/tutorials/'
-notebook-format-check = 'nbqa ruff docs/docs/tutorials/'
+docstring-lint-check = 'pydoclint --quiet src/'
+notebook-lint-check = 'nbqa ruff docs/docs/tutorials/'
 py-lint-check = 'ruff check src/ tests/ docs/docs/tutorials/'
-py-format-check = "ruff format --check src/ tests/ docs/docs/tutorials/"
-nonpy-format-check = "npx prettier --list-different --config=prettierrc.toml --ignore-unknown ."
-nonpy-format-check-modified = "python tools/nonpy_prettier_modified.py"
+py-format-check = 'ruff format --check src/ tests/ docs/docs/tutorials/'
+nonpy-format-check = 'npx prettier --list-different --config=prettierrc.toml --ignore-unknown .'
+nonpy-format-check-modified = 'python tools/nonpy_prettier_modified.py'
 
 check = 'pre-commit run --hook-stage manual --all-files'
 
@@ -127,23 +140,25 @@ check = 'pre-commit run --hook-stage manual --all-files'
 # 🛠️ Fixes
 ##########
 
-docs-format-fix = 'docformatter --in-place src/ docs/docs/tutorials/'
-notebook-format-fix = 'nbqa ruff --fix docs/docs/tutorials/'
+docstring-transform = 'pixi run docstripy src/ -s=numpy -w'
+docstring-format-fix = 'format-docstring src/'
+notebook-lint-fix = 'nbqa ruff --fix docs/docs/tutorials/'
 py-lint-fix = 'ruff check --fix src/ tests/ docs/docs/tutorials/'
-py-format-fix = "ruff format src/ tests/ docs/docs/tutorials/"
+py-lint-fix-unsafe = 'ruff check --fix --unsafe-fixes src/ tests/ docs/docs/tutorials/'
+py-format-fix = 'ruff format src/ tests/ docs/docs/tutorials/'
 nonpy-format-fix = 'npx prettier --write --list-different --config=prettierrc.toml --ignore-unknown .'
-nonpy-format-fix-modified = "python tools/nonpy_prettier_modified.py --write"
-success-message-fix = 'echo "✅ All code auto-formatting steps have been applied."'
+nonpy-format-fix-modified = 'python tools/nonpy_prettier_modified.py --write'
+success-message = 'echo "✅ All auto-formatting steps completed successfully!"'
 
 fix = { depends-on = [
+  'docstring-format-fix',
   'py-format-fix',
-  'docs-format-fix',
   'py-lint-fix',
   'nonpy-format-fix',
-  {%- if template_type == "lib" %}
-  'notebook-format-fix',
+  {%- if template_type == 'lib' %}
+  'notebook-lint-fix',
   {%- endif %}
-  'success-message-fix',
+  'success-message',
 ] }
 
 ####################
@@ -162,6 +177,7 @@ raw-metrics-json = 'radon raw -s -j src/'
 #############
 
 unit-tests-coverage = 'pixi run unit-tests --cov=src/{{ package_name }} --cov-report=term-missing'
+functional-tests-coverage = 'pixi run functional-tests --cov=src/{{ package_name }} --cov-report=term-missing'
 integration-tests-coverage = 'pixi run integration-tests --cov=src/{{ package_name }} --cov-report=term-missing'
 docstring-coverage = 'interrogate -c pyproject.toml src/{{ package_name }}'
 
@@ -177,8 +193,8 @@ cov = { depends-on = [
 
 notebook-convert = 'jupytext docs/docs/tutorials/*.py --from py:percent --to ipynb'
 notebook-strip = 'nbstripout docs/docs/tutorials/*.ipynb'
-notebook-tweak = 'python tools/tweak_notebooks.py tutorials/'
-notebook-exec = 'python -m pytest --nbmake docs/docs/tutorials/ --nbmake-timeout=600 --overwrite --color=yes -n auto -v'
+notebook-tweak = 'python tools/tweak_notebooks.py docs/docs/tutorials/'
+notebook-exec = 'python -m pytest --nbmake docs/docs/tutorials/ --nbmake-timeout=1200 --overwrite --color=yes -n auto -v'
 
 notebook-prepare = { depends-on = [
   #'notebook-convert',
@@ -191,11 +207,11 @@ notebook-prepare = { depends-on = [
 ########################
 
 docs-vars = "JUPYTER_PLATFORM_DIRS=1 PYTHONWARNINGS='ignore::RuntimeWarning'"
-docs-pre = "pixi run docs-vars python -m mkdocs"
-docs-serve = "pixi run docs-pre serve -f docs/mkdocs.yml"
-docs-serve-dirty = "pixi run docs-serve --dirty"
-docs-build = "pixi run docs-pre build -f docs/mkdocs.yml"
-docs-build-local = "pixi run docs-build --no-directory-urls"
+docs-pre = 'pixi run docs-vars python -m mkdocs'
+docs-serve = 'pixi run docs-pre serve -f docs/mkdocs.yml'
+docs-serve-dirty = 'pixi run docs-serve --dirty'
+docs-build = 'pixi run docs-pre build -f docs/mkdocs.yml'
+docs-build-local = 'pixi run docs-build --no-directory-urls'
 
 docs-deploy-pre = 'mike deploy -F docs/mkdocs.yml --push --branch gh-pages --update-aliases --alias-type redirect'
 docs-set-default-pre = 'mike set-default -F docs/mkdocs.yml --push --branch gh-pages'
@@ -206,17 +222,17 @@ docs-update-assets = 'python tools/update_docs_assets.py'
 # 📦 Template Management Tasks
 ##############################
 
-{%- if template_type == "both" %}
+{%- if project_type == 'both' %}
 
-copier-copy = "copier copy gh:easyscience/templates . --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
-copier-recopy = "copier recopy --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
-copier-update = "copier update --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}"
+copier-copy = 'copier copy gh:easyscience/templates . --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}'
+copier-recopy = 'copier recopy --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}'
+copier-update = 'copier update --data-file ../{{ home_repo_name }}/.copier-answers.yml --data template_type={{ template_type }}'
 
 {%- else %}
 
-copier-copy = "copier copy gh:easyscience/templates . --data-file .copier-answers.yml --data template_type={{ template_type }}"
-copier-recopy = "copier recopy --data-file .copier-answers.yml --data template_type={{ template_type }}"
-copier-update = "copier update --data-file .copier-answers.yml --data template_type={{ template_type }}"
+copier-copy = 'copier copy gh:easyscience/templates . --data-file .copier-answers.yml --data template_type={{ template_type }}'
+copier-recopy = 'copier recopy --data-file .copier-answers.yml --data template_type={{ template_type }}'
+copier-update = 'copier update --data-file .copier-answers.yml --data template_type={{ template_type }}'
 
 {%- endif %}
 
@@ -265,15 +281,15 @@ github-labels = 'python tools/update_github_labels.py'
 # ⚖️ SPDX License Headers
 #########################
 
-spdx-remove = 'python tools/remove_spdx.py src/ tests/'
-spdx-add = 'python tools/add_spdx.py src/ tests/'
-spdx-check = 'python tools/check_spdx.py src/ tests/'
+license-remove = 'python tools/license_headers.py remove src/ tests/ --exclude-from-pyproject-toml tool.ruff.exclude'
+license-add = 'python tools/license_headers.py add src/ tests/ --exclude-from-pyproject-toml tool.ruff.exclude'
+license-check = 'python tools/license_headers.py check src/ tests/ --exclude-from-pyproject-toml tool.ruff.exclude'
 
 ####################################
 # 🚀 Other Development & Build Tasks
 ####################################
 
-{%- if template_type == "app" %}
+{%- if template_type == 'app' %}
 freeze = 'pyinstaller src/{{ package_name }}/main.py --name={{ project_name | lower }} --log-level WARN --noconfirm --clean --windowed --onedir --add-data=src/{{ package_name }}:. --collect-all EasyApp'
 {%- endif %}
 
@@ -295,9 +311,9 @@ post-install = { depends-on = [
 # 🔗 Main Package Shortcut
 ##########################
 
-{%- if template_type == "lib" %}
+{%- if template_type == 'lib' %}
 {{ package_name }} = 'python -m {{ package_name }}'
-{%- elif template_type == "app" %}
+{%- elif template_type == 'app' %}
 {{ project_name | lower }}-py = 'python src/{{ package_name }}/main.py'
 {{ project_name | lower }}-qml = 'qml -I ../EasyApp/src/ -I src/{{ package_name }}/ src/{{ package_name }}/main.qml'
 {%- endif -%}

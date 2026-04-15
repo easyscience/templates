@@ -14,6 +14,9 @@ env:
   DEVELOP_BRANCH: develop
   REPO_OWNER: {% raw %}${{ github.repository_owner }}{% endraw %}
   REPO_NAME: {% raw %}${{ github.event.repository.name }}{% endraw %}
+  # Opt into Node.js 24 for all JavaScript actions.
+  # Remove once all referenced actions natively target Node 24.
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   dashboard:
