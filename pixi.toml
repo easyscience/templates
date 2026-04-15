@@ -5,7 +5,7 @@
 # Platform-independent
 
 [activation.env]
-PYTHONIOENCODING = "utf-8"
+PYTHONIOENCODING = 'utf-8'
 
 # Platform-specific
 
@@ -29,10 +29,22 @@ PYTHONPATH = "${PIXI_PROJECT_ROOT}/src;%PYTHONPATH%"
 [workspace]
 
 # Supported platforms for the lock file (pixi.lock)
-platforms = ['win-64', 'linux-64', 'osx-64', 'osx-arm64']
+platforms = ['win-64', 'linux-64', 'osx-arm64']
 
 # Channels for fetching packages
 channels = ['conda-forge']
+
+#####################
+# SYSTEM REQUIREMENTS
+#####################
+
+[system-requirements]
+
+# Set minimum supported version for macOS to be 14.0 to ensure packages
+# like `skipp` that only have wheels for macOS 14.0+ (macosx_14_0_arm64)
+# are used instead of building from source. This is a workaround for
+# Pixi, see https://github.com/prefix-dev/pixi/issues/5667
+macos = '14.0'
 
 ##########
 # FEATURES
@@ -59,7 +71,7 @@ python = '3.13.*'
 
 # The `default` environment is always created and includes the `default` feature.
 # It does not need to be specified explicitly unless non-default features are included.
-default = { features = ['default', 'py-max'] }
+default = { features = ['py-max'] }
 
 #######
 # TASKS
@@ -67,17 +79,28 @@ default = { features = ['default', 'py-max'] }
 
 [tasks]
 
+##################
+# 🧪 Testing Tasks
+##################
+
+unit-tests = 'python -m pytest tests/unit/ --color=yes -v'
+functional-tests = 'python -m pytest tests/functional/ --color=yes -v'
+integration-tests = 'python -m pytest tests/integration/ --color=yes -n auto -v'
+notebook-tests = 'python -m pytest --nbmake docs/docs/tutorials/ --nbmake-timeout=1200 --color=yes -n auto -v'
+
+test = { depends-on = ['unit-tests'] }
+
 ###########
 # ✔️ Checks
 ###########
 
 pyproject-check = 'python -m validate_pyproject pyproject.toml'
-docs-format-check = 'docformatter --check template/'
-notebook-format-check = 'nbqa ruff template/'
+docstring-lint-check = 'pydoclint --quiet template/'
+notebook-lint-check = 'nbqa ruff template/'
 py-lint-check = 'ruff check template/'
-py-format-check = "ruff format --check template/"
-nonpy-format-check = "npx prettier --list-different --config=prettierrc.toml --ignore-unknown ."
-nonpy-format-check-modified = "python template/tools/nonpy_prettier_modified.py"
+py-format-check = 'ruff format --check template/'
+nonpy-format-check = 'npx prettier --list-different --config=prettierrc.toml --ignore-unknown .'
+nonpy-format-check-modified = 'python tools/nonpy_prettier_modified.py'
 
 check = 'pre-commit run --hook-stage manual --all-files'
 
@@ -85,30 +108,89 @@ check = 'pre-commit run --hook-stage manual --all-files'
 # 🛠️ Fixes
 ##########
 
-docs-format-fix = 'docformatter --in-place template/'
-notebook-format-fix = 'nbqa ruff --fix template/'
+docstring-transform = 'pixi run docstripy src/ -s=numpy -w'
+docstring-format-fix = 'format-docstring src/'
+notebook-lint-fix = 'nbqa ruff --fix template/'
 py-lint-fix = 'ruff check --fix template/'
-py-format-fix = "ruff format template/"
+py-lint-fix-unsafe = 'ruff check --fix --unsafe-fixes template/'
+py-format-fix = 'ruff format template/'
 nonpy-format-fix = 'npx prettier --write --list-different --config=prettierrc.toml --ignore-unknown .'
-nonpy-format-fix-modified = "python template/tools/nonpy_prettier_modified.py --write"
-success-message-fix = 'echo "✅ All code auto-formatting steps have been applied."'
+nonpy-format-fix-modified = 'python tools/nonpy_prettier_modified.py --write'
+success-message = 'echo "✅ All auto-formatting steps completed successfully!"'
 
 fix = { depends-on = [
+  'docstring-format-fix',
   'py-format-fix',
-  'docs-format-fix',
   'py-lint-fix',
   'nonpy-format-fix',
-  'notebook-format-fix',
-  'success-message-fix',
+  'notebook-lint-fix',
+  'success-message',
 ] }
+
+####################
+# 🧮 Code Complexity
+####################
+
+complexity-check = 'radon cc -s src/'
+complexity-check-json = 'radon cc -s -j src/'
+maintainability-check = 'radon mi src/'
+maintainability-check-json = 'radon mi -j src/'
+raw-metrics = 'radon raw -s src/'
+raw-metrics-json = 'radon raw -s -j src/'
+
+#############
+# 📊 Coverage
+#############
+
+unit-tests-coverage = 'pixi run unit-tests --cov=template --cov-report=term-missing'
+functional-tests-coverage = 'pixi run functional-tests --cov=template --cov-report=term-missing'
+integration-tests-coverage = 'pixi run integration-tests --cov=template --cov-report=term-missing'
+docstring-coverage = 'interrogate -c pyproject.toml template'
+
+cov = { depends-on = [
+  'docstring-coverage',
+  'unit-tests-coverage',
+  'integration-tests-coverage',
+] }
+
+########################
+# 📓 Notebook Management
+########################
+
+notebook-convert = 'jupytext template/*.py --from py:percent --to ipynb'
+notebook-strip = 'nbstripout template/*.ipynb'
+notebook-tweak = 'python tools/tweak_notebooks.py template/'
+notebook-exec = 'python -m pytest --nbmake template/ --nbmake-timeout=1200 --overwrite --color=yes -n auto -v'
+
+notebook-prepare = { depends-on = [
+  #'notebook-convert',
+  'notebook-strip',
+  #'notebook-tweak',
+] }
+
+########################
+# 📚 Documentation Tasks
+########################
+
+docs-vars = "JUPYTER_PLATFORM_DIRS=1 PYTHONWARNINGS='ignore::RuntimeWarning'"
+docs-pre = 'pixi run docs-vars python -m mkdocs'
+docs-serve = 'pixi run docs-pre serve -f docs/mkdocs.yml'
+docs-serve-dirty = 'pixi run docs-serve --dirty'
+docs-build = 'pixi run docs-pre build -f docs/mkdocs.yml'
+docs-build-local = 'pixi run docs-build --no-directory-urls'
+
+docs-deploy-pre = 'mike deploy -F docs/mkdocs.yml --push --branch gh-pages --update-aliases --alias-type redirect'
+docs-set-default-pre = 'mike set-default -F docs/mkdocs.yml --push --branch gh-pages'
+
+docs-update-assets = 'python tools/update_docs_assets.py'
 
 ##############################
 # 📦 Template Management Tasks
 ##############################
 
-copier-copy = "copier copy gh:easyscience/templates . --data-file .copier-answers.yml --data template_type=lib"
-copier-recopy = "copier recopy --data-file .copier-answers.yml --data template_type=lib"
-copier-update = "copier update --data-file .copier-answers.yml --data template_type=lib"
+copier-copy = 'copier copy gh:easyscience/templates . --data-file .copier-answers.yml --data template_type=lib'
+copier-recopy = 'copier recopy --data-file .copier-answers.yml --data template_type=lib'
+copier-update = 'copier update --data-file .copier-answers.yml --data template_type=lib'
 
 #################
 # 🐙️ GitHub Tasks
@@ -142,9 +224,9 @@ github-labels = 'python template/tools/update_github_labels.py'
 # ⚖️ SPDX License Headers
 #########################
 
-spdx-remove = 'python template/tools/remove_spdx.py template/'
-spdx-add = 'python template/tools/add_spdx.py template/'
-spdx-check = 'python template/tools/check_spdx.py template/'
+license-remove = 'python tools/license_headers.py remove template/ --exclude-from-pyproject-toml tool.ruff.exclude'
+license-add = 'python tools/license_headers.py add template/ --exclude-from-pyproject-toml tool.ruff.exclude'
+license-check = 'python tools/license_headers.py check template/ --exclude-from-pyproject-toml tool.ruff.exclude'
 
 ####################################
 # 🚀 Other Development & Build Tasks
