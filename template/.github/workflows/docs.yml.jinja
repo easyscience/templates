@@ -48,9 +48,6 @@ env:
   IS_RELEASE_TAG: {% raw %}${{ startsWith(github.ref, 'refs/tags/v') }}{% endraw %}
   GITHUB_REPOSITORY: {% raw %}${{ github.repository }}{% endraw %}
   NOTEBOOKS_DIR: tutorials
-  # Opt into Node.js 24 for all JavaScript actions.
-  # Remove once all referenced actions natively target Node 24.
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   # Single job that builds and deploys documentation.
