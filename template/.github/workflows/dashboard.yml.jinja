@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: dashboard-publish-${{ github.repository }}
+  group: {% raw %}dashboard-publish-${{ github.repository }}{% endraw %}
   cancel-in-progress: false
 
 # Set the environment variables to be used in all jobs defined in this workflow
