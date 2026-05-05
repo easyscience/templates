@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0 # full history with tags to get the version number
 
@@ -61,7 +61,7 @@ jobs:
           GITHUB_TOKEN: {% raw %}${{ steps.bot.outputs.token }}{% endraw %}
 
       - name: Create GitHub draft release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           draft: true
           tag_name: {% raw %}${{ steps.draft.outputs.tag_name }}{% endraw %}
