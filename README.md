@@ -344,6 +344,17 @@ finalize the setup:
   pixi run license-add
   ```
 
+- **Transform docstrings to the standard format:** We use `NumPy` style
+  for docstrings across all projects. See `ADR`
+  [Docstring Style Standardization](https://github.com/orgs/easyscience/discussions/67)
+  for details. If you use a different style, or if you have inconsistent
+  formatting, you can run the following command to transform all
+  docstrings to the standard format:
+
+  ```bash
+  pixi run docstring-transform
+  ```
+
 - **Format all project files:** Ensures all files adhere to the
   project's coding standards as defined in `pyproject.toml`. As this
   step may be time-consuming, it is recommended to run it only after
