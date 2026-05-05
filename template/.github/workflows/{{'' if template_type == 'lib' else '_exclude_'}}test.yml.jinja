@@ -46,9 +46,6 @@ env:
   CI_BRANCH: {% raw %}${{ github.head_ref || github.ref_name }}{% endraw %}
   PY_VERSIONS: '{{ lib_python_min }} {{ lib_python_max }}'
   PIXI_ENVS: 'py-{{ lib_python_min | replace(".", "") }}-env py-{{ lib_python_max | replace(".", "") }}-env'
-  # Opt into Node.js 24 for all JavaScript actions.
-  # Remove once all referenced actions natively target Node 24.
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   # Job 1: Set up environment variables
@@ -83,7 +80,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Set up pixi
         uses: ./.github/actions/setup-pixi
@@ -187,7 +184,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Download package (incl. extras) from previous job
         uses: ./.github/actions/download-artifact

@@ -854,8 +854,8 @@ packages:
   requires_python: '>=3.5'
 - pypi: ./
   name: easytemplates
-  version: 0.10.1+devdirty42
-  sha256: 59c7e8a060a02900b459e88a13a116e96926f0ade08cfe418b9bd216c3f70f4c
+  version: 0.11.0+devdirty1
+  sha256: 5d7b97060c861c561261a105f4d0699cb0af552a01ea59be816a3a98431510cb
   requires_dist:
   - build ; extra == 'dev'
   - copier ; extra == 'dev'
