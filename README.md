@@ -29,43 +29,44 @@ updates over time.
   - [2.3. Install Copier](#23-install-copier)
   - [2.4. Generate Project Description (Home Repository)](#24-generate-project-description-home-repository)
   - [2.5. Generate Library / Application Repositories](#25-generate-library--application-repositories)
-  - [2.6. Where Are Answers Stored?](#26-where-answers-are-stored)
+  - [2.6. Where Are Answers Stored?](#26-where-are-answers-stored)
   - [2.7. Push Changes to the Repository](#27-push-changes-to-the-repository)
   - [2.8. Finalize Project Setup](#28-finalize-project-setup)
-  - [2.8. Code Quality Checks](#28-code-quality-checks)
-  - [2.9. Push Changes to the Repository](#29-push-changes-to-the-repository)
+  - [2.9. Code Quality Checks](#29-code-quality-checks)
+  - [2.10. Push Changes to the Repository](#210-push-changes-to-the-repository)
 - [Step 3: Post-Initialization Repository Setup](#-step-3-post-initialization-repository-setup)
   - [3.1. Create develop Branch](#31-create-develop-branch)
   - [3.2. About gh-pages Branch and Pages Activation](#32-about-gh-pages-branch-and-pages-activation)
-  - [3.3. Add Repository Secrets](#34-add-repository-secrets)
-  - [3.4. Set Branch Protection Rules](#35-set-branch-protection-rules)
+  - [3.3. Add Repository Secrets](#33-add-repository-secrets)
+  - [3.4. Set Branch Protection Rules](#34-set-branch-protection-rules)
+  - [3.5. Set Repository Configuration](#35-set-repository-configuration)
 - [Step 4: Updating Existing Repositories](#-step-4-updating-existing-repositories)
   - [To update the repository with template changes](#to-update-the-repository-with-template-changes)
   - [Using a Specific Version/Tag](#using-a-specific-versiontag)
   - [GitHub Actions Workflows](#github-actions-workflows)
 - [Release Workflow](#-release-workflow)
 
-> **⚠️ Important:** The following guide describes the recommended
-> procedure on example of the `EasyPeasy` project. Replace `peasy` with
-> the relevant name throughout the steps.
+> **⚠️ Important:** The following guide uses the `EasyPeasy` project as
+> an example. Replace `peasy` with the relevant name throughout the
+> steps, and follow the repository track that matches your chosen
+> `project_type`.
 
 ## 🧱 Overall Project Structure
 
 EasyScience projects typically consist of multiple repositories:
 
-1. Home (umbrella) repository. Example: `easyscience/peasy`
-   - Acts as the entry point for the project
-   - Stores the project description file (Copier answers)
-2. Library repository (if applicable). Example: `easyscience/peasy-lib`
-   - Contains the Python library
-   - Uses shared metadata from the home repository
-3. Application repository (if applicable). Example:
-   `easyscience/peasy-app`
-   - Contains the GUI application
-   - Uses the same shared project metadata
+- Home (umbrella) repository. Example: `easyscience/peasy`. Acts as the
+  entry point for the project and stores the project description file
+  (Copier answers) and other shared project metadata.
+- Library repository (if applicable). Example: `easyscience/peasy-lib`.
+  Contains the Python library and uses shared metadata from the home
+  repository.
+- Application repository (if applicable). Example:
+  `easyscience/peasy-app`. Contains the GUI application and uses the
+  same shared project metadata.
 
-The home repository is created first, because it defines metadata reused
-by the others.
+The home repository is created first because it defines metadata reused
+by the other repositories.
 
 ## 🚀 Step 1: Create GitHub Repositories
 
@@ -88,29 +89,40 @@ To create a new repository:
    will handle these).
 7. Click **Create repository**.
 
-Depending on your project, repeat the same steps for additional
-repositories as needed:
+Depending on your selected `project_type`, repeat the same steps for
+additional repositories as needed:
 
-- For libraries: `peasy-lib`
-- For applications: `peasy-app`
+- `lib`: `peasy` and `peasy-lib`
+- `app`: `peasy` and `peasy-app`
+- `both`: `peasy`, `peasy-lib`, and `peasy-app`
 
 ---
 
-## 🛠️ Step 2: Initialize Projects Using Copier
+## 🛠 Step 2: Initialize Projects Using Copier
 
 ### 2.1 Clone Repositories
 
-Clone all related repositories locally:
+Clone the repositories required by your selected `project_type`.
+
+For `project_type=lib`:
 
 ```bash
 git clone https://github.com/easyscience/peasy.git
-```
-
-```bash
 git clone https://github.com/easyscience/peasy-lib.git
 ```
 
+For `project_type=app`:
+
 ```bash
+git clone https://github.com/easyscience/peasy.git
+git clone https://github.com/easyscience/peasy-app.git
+```
+
+For `project_type=both`:
+
+```bash
+git clone https://github.com/easyscience/peasy.git
+git clone https://github.com/easyscience/peasy-lib.git
 git clone https://github.com/easyscience/peasy-app.git
 ```
 
@@ -120,8 +132,8 @@ We use [**Pixi**](https://prefix.dev) for dependency management and
 project configuration:
 [`ADR` Use Pixi for Project and Environment Management](https://github.com/orgs/easyscience/discussions/43)
 
-To install Pixi, follow the instructions at
-https://pixi.prefix.dev/latest/installation/.
+To install Pixi, follow the
+[Pixi installation guide](https://pixi.prefix.dev/latest/installation/).
 
 Navigate into the home repository (e.g., `peasy`) and initialize a new
 Pixi project:
@@ -156,10 +168,10 @@ pixi add copier
 ### 2.4 Generate Project Description (Home Repository)
 
 > **Note:** This step generates only the project metadata, not code or
-> structure. Therefore, we exclude all files except the `.gitignore`,
-> `README.md` and `.copier-answers.yml`. The latter one is defined in
-> the `easyscience/templates` repository, in `copier.yml` as
-> `_answers_file: .copier-answers.yml`
+> structure. Therefore, we exclude all files except `.gitignore`,
+> `README.md`, and `.copier-answers.yml`. The latter is defined in the
+> `easyscience/templates` repository, in `copier.yml`, as
+> `_answers_file: .copier-answers.yml`.
 
 ```bash
 pixi run copier copy gh:easyscience/templates . --data template_type=home --exclude '**/*' --exclude '!.gitignore' --exclude '!README.md' --exclude '!.copier-answers.yml'
@@ -173,10 +185,11 @@ repository.
 The important fields to fill in accurately are:
 
 - Project name
-- Project repository name
+- Home repository name
 - Library repository name (if applicable)
 - Library package name (if applicable)
 - Application repository name (if applicable)
+- Application package name (if applicable)
 
 For project name, alias, and short description, refer to the
 organization profile for consistency.
@@ -205,9 +218,9 @@ cd ..
 
 ### 2.5 Generate Library / Application Repositories
 
-Now, set up Pixi and Copier for the library or application repository.
-In the example below, we use the library repository (e.g., `peasy-lib`).
-In case of an application, replace with the application repository name
+Now set up Pixi and Copier for the library or application repository. In
+the example below, we use the library repository (e.g., `peasy-lib`).
+For an application, replace it with the application repository name
 (e.g., `peasy-app`):
 
 Navigate to the target repository:
@@ -241,7 +254,7 @@ pixi add copier
 Apply the Copier templates to generate the project structure.
 
 > **Important:** Use the `--data-file` option to provide the path to the
-> `.copier-answers.yml` file with answers created in the main repository
+> `.copier-answers.yml` file with answers created in the home repository
 > (`peasy`).
 
 For library:
@@ -256,15 +269,20 @@ For application:
 pixi run copier copy gh:easyscience/templates . --data-file ../peasy/.copier-answers.yml --data template_type=app
 ```
 
+For `project_type=lib`, run only the library command. For
+`project_type=app`, run only the application command. For
+`project_type=both`, run both commands in their respective repositories.
+
 > **Note:** When prompted with `conflict. overwrite pixi.toml?` or
 > `conflict. overwrite .gitignore?` confirm with `Yes` to overwrite the
 > configuration files created during `pixi init`.
 
 ### 2.6. Where Are Answers Stored?
 
-The answers needed to fill in the library templates are automatically
-taken from the home repository and stored locally in
-`peasy-lib/.copier-answers.yml` or `peasy-app/.copier-answers.yml`.
+The source of truth is `peasy/.copier-answers.yml` in the home
+repository. Copier also writes autogenerated local answers files in
+`peasy-lib/.copier-answers.yml` and `peasy-app/.copier-answers.yml` when
+those repositories exist.
 
 They are autogenerated by Copier and should not be modified manually.
 
@@ -292,8 +310,8 @@ finalize the setup:
   ```
 
 - **Install extra development dependencies and set up tools:** This step
-  installs additional development dependencies, and configures
-  non-Python file formatting. See, `pixi.toml` for details regarding the
+  installs additional development dependencies and configures non-Python
+  file formatting. See `pixi.toml` for details regarding the
   `post-install` task.
 
   ```bash
@@ -323,7 +341,18 @@ finalize the setup:
   new files are added:
 
   ```bash
-  pixi run spdx-add
+  pixi run license-add
+  ```
+
+- **Transform docstrings to the standard format:** We use `NumPy` style
+  for docstrings across all projects. See `ADR`
+  [Docstring Style Standardization](https://github.com/orgs/easyscience/discussions/67)
+  for details. If you use a different style, or if you have inconsistent
+  formatting, you can run the following command to transform all
+  docstrings to the standard format:
+
+  ```bash
+  pixi run docstring-transform
   ```
 
 - **Format all project files:** Ensures all files adhere to the
@@ -337,16 +366,16 @@ finalize the setup:
   ```
 
 > **Tip:** Normally, after running `pixi run fix`, you should see the
-> message `✅ All code auto-formatting steps have been applied.`
+> message `✅ All auto-formatting steps completed successfully!`
 > indicating that all steps in the auto-formatting pipeline were
 > successfully executed. If you do not see this message, try running the
 > command again.
 >
-> Note, that even if you see this message, there might still be some
+> Note that even if you see this message, there might still be some
 > issues left, which need to be fixed manually. In such cases, refer to
 > the output to identify and address the remaining issues.
 
-### 2.8. Code Quality Checks
+### 2.9. Code Quality Checks
 
 In order to ensure code quality, run the following command to check for
 issues:
@@ -361,23 +390,27 @@ making pull requests to ensure code quality.
 
 After fixing any issues using `pixi run fix` or manually, it is
 recommended to run the check command again to verify that all issues
-have been resolved. When all checks pass, you should see this:
+have been resolved. `pixi run check` runs the manual pre-commit hooks,
+so the output should list hook names such as the following:
 
 ```bash
 pixi run pyproject-check...................................Passed
-pixi run spdx-check........................................Passed
+pixi run license-check.....................................Passed
 pixi run py-lint-check.....................................Passed
 pixi run py-format-check...................................Passed
+pixi run docstring-lint-check..............................Passed
 pixi run nonpy-format-check................................Passed
-pixi run docs-format-check.................................Passed
-pixi run notebook-format-check.............................Passed
+pixi run notebook-lint-check...............................Passed
 pixi run unit-tests........................................Passed
 ```
+
+For application repositories, `pixi run notebook-lint-check` is not
+included.
 
 If any of the checks fail, address the reported issues accordingly. They
 can be executed individually as well, e.g., `pixi run py-lint-check`.
 
-### 2.9. Push Changes to the Repository
+### 2.10. Push Changes to the Repository
 
 After generating the project structure, **push the changes** to GitHub:
 
@@ -389,7 +422,7 @@ git push origin master
 
 ---
 
-## 🛡️ Step 3: Post-Initialization Repository Setup
+## 🛡 Step 3: Post-Initialization Repository Setup
 
 After you have made your initial commit and pushed to GitHub, complete
 the following steps:
@@ -438,14 +471,15 @@ Add repository secrets (e.g., API keys, deployment keys):
   the org level). Add `easyscience App` to the `develop` bypass
   protection rules for automatic backmerge after new releases.
 - The Codecov token secret CODECOV_TOKEN is already set for all
-  repositories within the EasyScience organisation. This token from
-  https://app.codecov.io/account/gh/EasyScience/org-upload-token is used
-  for code coverage reporting.
+  repositories within the EasyScience organisation. The token from the
+  [Codecov org upload token page](https://app.codecov.io/account/gh/EasyScience/org-upload-token)
+  is used for code coverage reporting.
 - For libraries, to enable PyPI publishing, we use GitHub Actions OIDC
   to get a short-lived token from PyPI, so no personal access token is
   needed. However, a new publisher must be previously configured in PyPI
-  at https://pypi.org/manage/project/easypeasy/settings/publishing/ Use
-  the following data:
+  in the
+  [PyPI trusted publishing settings](https://pypi.org/manage/project/easypeasy/settings/publishing/).
+  Use the following data:
   - Owner: easyscience
   - Repository name: peasy-lib
   - Workflow name: pypi-publish.yml
@@ -461,8 +495,8 @@ line:
 pixi run branch-protection
 ```
 
-You can find the current branch protection rules at
-https://github.com/easyscience/peasy-lib/settings/rules
+You can find the current branch protection rules at the
+[GitHub rulesets page](https://github.com/easyscience/peasy-lib/settings/rules).
 
 ### 3.5. Set Repository Configuration
 
@@ -482,7 +516,7 @@ pixi run repo-config
 
 When templates evolve, existing repositories must be updated.
 
-### 📌 To update the repository with template changes:
+### To update the repository with template changes
 
 1. Go to the project directory, e.g., `peasy-lib`:
 
@@ -490,7 +524,7 @@ When templates evolve, existing repositories must be updated.
 cd peasy-lib
 ```
 
-2. Apply updated templates:
+1. Apply updated templates:
 
 ```bash
 pixi run copier-update
@@ -498,8 +532,8 @@ pixi run copier-update
 
 If conflicts arise, Copier will prompt you to review them.
 
-Sometimes, one need to run Copier recopy instead of update, or even redo
-a standard copy again (see
+Sometimes, you need to run Copier recopy instead of update, or even redo
+a standard copy operation (see
 [Copier docs](https://copier.readthedocs.io/en/stable/generating/#regenerating-a-project)
 for details).
 
