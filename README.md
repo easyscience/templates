@@ -333,6 +333,21 @@ finalize the setup:
   logos or assets, especially after changes in the
   `easyscience/assets-branding` repository.
 
+  > **⚠️ Important:** Be sure to have the following assets in the
+  > `easyscience/assets-branding` repository before running the command
+  > given below. Otherwise, the documentation build will break due to
+  > missing assets.
+  >
+  > ```
+  > 📁 easypeasy
+  > ├── 📁 icons
+  > │   ├── 📄 bw.svg - Black and white icon.
+  > │   └── 📄 color.png - Colored icon.
+  > └── 📁 logos
+  >     ├── 📄 dark.svg - Dark mode logo.
+  >     └── 📄 light.svg - Light mode logo.
+  > ```
+
   ```bash
   pixi run docs-update-assets
   ```
