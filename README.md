@@ -43,6 +43,7 @@ updates over time.
 - [Step 4: Updating Existing Repositories](#-step-4-updating-existing-repositories)
   - [To update the repository with template changes](#to-update-the-repository-with-template-changes)
   - [Using a Specific Version/Tag](#using-a-specific-versiontag)
+  - [Zenodo DOI Archiving](#zenodo-doi-archiving)
   - [GitHub Actions Workflows](#github-actions-workflows)
 - [Release Workflow](#-release-workflow)
 
@@ -575,6 +576,14 @@ accordingly, after modifying `pyproject.toml`, run:
 ```bash
 pixi reinstall
 ```
+
+### Zenodo DOI Archiving
+
+To improve long-term preservation, reproducibility, and citability of
+EasyScience software, we are enabling Zenodo GitHub integration. It is
+recommended to enable Zenodo integration as soon as possible. You can
+find more details in the
+[`ADR` Enable Zenodo DOI archiving](https://github.com/orgs/easyscience/discussions/55).
 
 ### GitHub Actions Workflows
 
