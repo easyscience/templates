@@ -174,7 +174,7 @@ pixi add copier
 > `_answers_file: .copier-answers.yml`.
 
 ```bash
-pixi run copier copy gh:easyscience/templates . --data template_type=home --exclude '**/*' --exclude '!.gitignore' --exclude '!README.md' --exclude '!.copier-answers.yml'
+pixi run copier copy gh:easyscience/templates . --data template_type=home --exclude '*' --exclude '!.gitignore' --exclude '!README.md' --exclude '!.copier-answers.yml'
 ```
 
 Fill in the required information when prompted. It is okay to leave the
