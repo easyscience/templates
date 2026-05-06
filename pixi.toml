@@ -32,7 +32,7 @@ PYTHONPATH = "${PIXI_PROJECT_ROOT}/src;%PYTHONPATH%"
 platforms = ['win-64', 'linux-64', 'osx-arm64']
 
 # Channels for fetching packages
-channels = ['conda-forge']
+channels = ['nodefaults', 'conda-forge']
 
 #####################
 # SYSTEM REQUIREMENTS
