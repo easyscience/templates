@@ -8,33 +8,6 @@
 {%- set package_name = app_package_name %}
 {%- endif -%}
 
-#######################
-# ENVIRONMENT VARIABLES
-#######################
-
-# Platform-independent
-
-[activation.env]
-PYTHONIOENCODING = 'utf-8'
-
-# Platform-specific
-
-# Ensures the main package is used from the source code during
-# development, even if main package is installed in editable mode
-# via uv. This is important because `pixi update` might replace
-# the installed version with the latest released version.
-
-# Unix/macOS
-[target.unix.activation.env]
-PYTHONPATH = "${PIXI_PROJECT_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
-{%- if template_type == "app" %}
-PATH = "$HOME/Qt/6.9.1/macos/bin${PATH:+:${PATH}}"
-{%- endif %}
-
-# Windows
-[target.win.activation.env]
-PYTHONPATH = "${PIXI_PROJECT_ROOT}/src;%PYTHONPATH%"
-
 ###########
 # WORKSPACE
 ###########
@@ -45,40 +18,38 @@ PYTHONPATH = "${PIXI_PROJECT_ROOT}/src;%PYTHONPATH%"
 platforms = ['win-64', 'linux-64', 'osx-arm64']
 
 # Channels for fetching packages
-channels = ['conda-forge']
-
-#####################
-# SYSTEM REQUIREMENTS
-#####################
-
-[system-requirements]
-
-# Set minimum supported version for macOS to be 14.0 to ensure packages
-# like `skipp` that only have wheels for macOS 14.0+ (macosx_14_0_arm64)
-# are used instead of building from source. This is a workaround for
-# Pixi, see https://github.com/prefix-dev/pixi/issues/5667
-macos = '14.0'
+channels = ['nodefaults', 'conda-forge']
 
 ##########
 # FEATURES
 ##########
 
-# Default feature configuration
+# Default features:
 
-[dependencies]
-nodejs = '*'      # Required for Prettier (non-Python formatting)
-jupyterlab = '*'  # Jupyter notebooks
-pixi-kernel = '*' # Pixi Jupyter kernel
+[activation.env]
+PYTHONIOENCODING = 'utf-8'
 
-[pypi-dependencies] # == [feature.default.pypi-dependencies]
-#pip = '*' # Native package installer
-{{ package_name }} = { path = '.', editable = true, extras = ['dev'] }
+{%- if template_type == "app" %}
+# Unix/macOS
+[target.unix.activation.env]
+PATH = "$HOME/Qt/6.9.1/macos/bin${PATH:+:${PATH}}"
+{%- endif %}
 
-# Specific features: Set specific Python versions
+[system-requirements]
+# Set minimum supported version for macOS to be 14.0 to ensure packages
+# like `scipp` that only have wheels for macOS 14.0+ (macosx_14_0_arm64)
+# are used instead of building from source. This is a workaround for
+# Pixi, see https://github.com/prefix-dev/pixi/issues/5667
+macos = '14.0'
+
+# Non-default features:
+
+# Set specific Python versions to be used in CI testing.
 
 {% if template_type == 'lib' %}
 [feature.py-min.dependencies]
 python = '{{ lib_python_min }}.*'
+
 [feature.py-max.dependencies]
 python = '{{ lib_python_max }}.*'
 
@@ -88,6 +59,31 @@ python = '{{ app_python }}.*'
 
 {% endif %}
 
+# Development dependencies for local development and testing with
+# editable installations.
+
+[feature.dev.dependencies]
+nodejs = '*'      # Required for Prettier (non-Python formatting)
+jupyterlab = '*'  # Jupyter notebooks
+ipython = '*'     # Interactive Python shell
+pixi-kernel = '*' # Pixi Jupyter kernel
+
+[feature.dev.pypi-dependencies]
+pip = '*'
+{{ package_name }} = { path = '.', editable = true, extras = ['dev'] }
+
+# User-like behavior for testing with pip-installed dependencies instead
+# of editable installations.
+
+[feature.user.dependencies]
+jupyterlab = '*'  # Jupyter notebooks
+ipython = '*'     # Interactive Python shell
+pixi-kernel = '*' # Pixi Jupyter kernel
+
+[feature.user.pypi-dependencies]
+pip = '*'
+easydiffraction = '*'
+
 ##############
 # ENVIRONMENTS
 ##############
@@ -96,14 +92,20 @@ python = '{{ app_python }}.*'
 
 # The `default` feature is always included in all environments.
 # Additional features can be specified per environment.
-{%- if template_type == 'lib' %}
-py-{{ lib_python_min.split('.') | join('') }}-env = { features = ['py-min'] }
-py-{{ lib_python_max.split('.') | join('') }}-env = { features = ['py-max'] }
+
+{% if template_type == 'lib' %}
+# Specific environments for CI testing with different Python versions.
+py-{{ lib_python_min.split('.') | join('') }}-env = { features = ['py-min', 'dev'] }
+py-{{ lib_python_max.split('.') | join('') }}-env = { features = ['py-max', 'dev'] }
 {%- endif %}
 
-# The `default` environment is always created and includes the `default` feature.
-# It does not need to be specified explicitly unless non-default features are included.
-default = { features = ['py-max'] }
+# The `default` environment is developer-oriented for local development
+# and testing with editable installation of the current package.
+default = { features = ['py-max', 'dev'] }
+
+# The `user` environment allows testing with pip-installed dependencies
+# instead of editable installation of the current package.
+user = { features = ['py-max', 'user'] }
 
 #######
 # TASKS

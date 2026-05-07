@@ -43,6 +43,7 @@ updates over time.
 - [Step 4: Updating Existing Repositories](#-step-4-updating-existing-repositories)
   - [To update the repository with template changes](#to-update-the-repository-with-template-changes)
   - [Using a Specific Version/Tag](#using-a-specific-versiontag)
+  - [Zenodo DOI Archiving](#zenodo-doi-archiving)
   - [GitHub Actions Workflows](#github-actions-workflows)
 - [Release Workflow](#-release-workflow)
 
@@ -174,7 +175,7 @@ pixi add copier
 > `_answers_file: .copier-answers.yml`.
 
 ```bash
-pixi run copier copy gh:easyscience/templates . --data template_type=home --exclude '**/*' --exclude '!.gitignore' --exclude '!README.md' --exclude '!.copier-answers.yml'
+pixi run copier copy gh:easyscience/templates . --data template_type=home --exclude '*' --exclude '!.gitignore' --exclude '!README.md' --exclude '!.copier-answers.yml'
 ```
 
 Fill in the required information when prompted. It is okay to leave the
@@ -331,6 +332,21 @@ finalize the setup:
   the `docs/` folder. Run this every time you update project-related
   logos or assets, especially after changes in the
   `easyscience/assets-branding` repository.
+
+  > **⚠️ Important:** Be sure to have the following assets in the
+  > `easyscience/assets-branding` repository before running the command
+  > given below. Otherwise, the documentation build will break due to
+  > missing assets.
+  >
+  > ```
+  > 📁 easypeasy
+  > ├── 📁 icons
+  > │   ├── 📄 bw.svg - Black and white icon.
+  > │   └── 📄 color.png - Colored icon.
+  > └── 📁 logos
+  >     ├── 📄 dark.svg - Dark mode logo.
+  >     └── 📄 light.svg - Light mode logo.
+  > ```
 
   ```bash
   pixi run docs-update-assets
@@ -575,6 +591,14 @@ accordingly, after modifying `pyproject.toml`, run:
 ```bash
 pixi reinstall
 ```
+
+### Zenodo DOI Archiving
+
+To improve long-term preservation, reproducibility, and citability of
+EasyScience software, we are enabling Zenodo GitHub integration. It is
+recommended to enable Zenodo integration as soon as possible. You can
+find more details in the
+[`ADR` Enable Zenodo DOI archiving](https://github.com/orgs/easyscience/discussions/55).
 
 ### GitHub Actions Workflows
 
