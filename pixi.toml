@@ -1,27 +1,3 @@
-#######################
-# ENVIRONMENT VARIABLES
-#######################
-
-# Platform-independent
-
-[activation.env]
-PYTHONIOENCODING = 'utf-8'
-
-# Platform-specific
-
-# Ensures the main package is used from the source code during
-# development, even if main package is installed in editable mode
-# via uv. This is important because `pixi update` might replace
-# the installed version with the latest released version.
-
-# Unix/macOS
-[target.unix.activation.env]
-PYTHONPATH = "${PIXI_PROJECT_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
-
-# Windows
-[target.win.activation.env]
-PYTHONPATH = "${PIXI_PROJECT_ROOT}/src;%PYTHONPATH%"
-
 ###########
 # WORKSPACE
 ###########
@@ -34,34 +10,38 @@ platforms = ['win-64', 'linux-64', 'osx-arm64']
 # Channels for fetching packages
 channels = ['nodefaults', 'conda-forge']
 
-#####################
-# SYSTEM REQUIREMENTS
-#####################
-
-[system-requirements]
-
-# Set minimum supported version for macOS to be 14.0 to ensure packages
-# like `skipp` that only have wheels for macOS 14.0+ (macosx_14_0_arm64)
-# are used instead of building from source. This is a workaround for
-# Pixi, see https://github.com/prefix-dev/pixi/issues/5667
-macos = '14.0'
-
 ##########
 # FEATURES
 ##########
 
-# Default feature configuration
+# Default features:
 
-[dependencies]
-nodejs = '*' # Required for Prettier (non-Python formatting)
+[activation.env]
+PYTHONIOENCODING = 'utf-8'
 
-[pypi-dependencies] # == [feature.default.pypi-dependencies]
-easytemplates = { path = ".", editable = true, extras = ['dev'] }
+[system-requirements]
+# Set minimum supported version for macOS to be 14.0 to ensure packages
+# like `scipp` that only have wheels for macOS 14.0+ (macosx_14_0_arm64)
+# are used instead of building from source. This is a workaround for
+# Pixi, see https://github.com/prefix-dev/pixi/issues/5667
+macos = '14.0'
 
-# Specific features: Set specific Python versions
+# Non-default features:
+
+# Set specific Python versions to be used in CI testing.
 
 [feature.py-max.dependencies]
-python = '3.13.*'
+python = '3.14.*'
+
+# Development dependencies for local development and testing with
+# editable installations.
+
+[feature.dev.dependencies]
+nodejs = '*' # Required for Prettier (non-Python formatting)
+
+[feature.dev.pypi-dependencies]
+pip = '*'
+easytemplates = { path = '.', editable = true, extras = ['dev'] }
 
 ##############
 # ENVIRONMENTS
@@ -69,9 +49,12 @@ python = '3.13.*'
 
 [environments]
 
-# The `default` environment is always created and includes the `default` feature.
-# It does not need to be specified explicitly unless non-default features are included.
-default = { features = ['py-max'] }
+# The `default` feature is always included in all environments.
+# Additional features can be specified per environment.
+
+# The `default` environment is developer-oriented for local development
+# and testing with editable installation of the current package.
+default = { features = ['py-max', 'dev'] }
 
 #######
 # TASKS
@@ -218,7 +201,7 @@ branch-protection = { depends-on = [
 
 pages-deployment = 'gh api -X POST repos/easyscience/templates/pages --input .github/configs/pages-deployment.json'
 
-github-labels = 'python template/tools/update_github_labels.py'
+github-labels = 'python tools/update_github_labels.py'
 
 #########################
 # ⚖️ SPDX License Headers
