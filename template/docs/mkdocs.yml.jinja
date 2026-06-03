@@ -172,8 +172,10 @@ plugins:
             show_submodules: true
             show_source: true
             show_bases: true
-            preload_modules:
-              - easyscience
+            # Uncomment when the project depends on `easyscience` and inherited
+            # EasyScience base-class members should be shown in the API docs.
+            # preload_modules:
+            #   - easyscience
             inherited_members: true
             show_category_heading: true
             merge_init_into_class: true
