@@ -47,7 +47,9 @@ jobs:
 
       - name: Set the minimum system requirements
         working-directory: {{ lib_package_name }}
-        run: pixi project system-requirements add macos 14.0
+        run: |
+          pixi workspace platform add linux-64-glibc-2-35=linux-64 --glibc 2.35 --no-install
+          pixi workspace platform add osx-arm64-macos-14-0=osx-arm64 --macos 14.0 --no-install
 
       - name: Add Python {{ lib_python_max }} from Conda
         working-directory: {{ lib_package_name }}
