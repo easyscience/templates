@@ -222,6 +222,6 @@ license-check = 'python tools/license_headers.py check template/ --exclude-from-
 ####################################
 
 npm-config = 'npm config set registry https://registry.npmjs.org/'
-prettier-install = 'npm install --no-save --no-audit --no-fund prettier prettier-plugin-toml'
+prettier-install = 'npm install --no-save --no-audit --no-fund prettier@3.9.9 prettier-plugin-toml@2.0.6'
 
 post-install = { depends-on = ['npm-config', 'prettier-install'] }

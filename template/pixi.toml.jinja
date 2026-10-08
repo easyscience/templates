@@ -305,7 +305,7 @@ default-build = 'python -m build'
 dist-build = 'python -m build --wheel --outdir dist'
 
 npm-config = 'npm config set registry https://registry.npmjs.org/'
-prettier-install = 'npm install --no-save --no-audit --no-fund prettier prettier-plugin-toml'
+prettier-install = 'npm install --no-save --no-audit --no-fund prettier@3.9.9 prettier-plugin-toml@2.0.6'
 
 clean-pycache = "find . -type d -name '__pycache__' -prune -exec rm -rf '{}' +"
 
