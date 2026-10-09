@@ -3,14 +3,13 @@
 ###########
 
 [workspace]
-
 # Supported platforms for the lock file (pixi.lock)
 platforms = [
   'win-64',
   # Set minimum supported version for glibc to be 2.35 to ensure packages
   # like `crysfml` that only have wheels for glibc 2.35+
   # (manylinux_2_35_x86_64) are used.
-  #libc = { family = 'glibc', version = '2.35' }
+  # libc = { family = 'glibc', version = '2.35' }
   { platform = 'linux-64', glibc = '2.35' },
   # Set minimum supported version for macOS to be 14.0 to ensure packages
   # like `scipp` that only have wheels for macOS 14.0+ (macosx_14_0_arm64)
@@ -42,7 +41,7 @@ python = '3.14.*'
 # editable installations.
 
 [feature.dev.dependencies]
-nodejs = '*' # Required for Prettier (non-Python formatting)
+nodejs = '*'  # Required for Prettier (non-Python formatting)
 
 [feature.dev.pypi-dependencies]
 pip = '*'
@@ -53,7 +52,6 @@ easytemplates = { path = '.', editable = true, extras = ['dev'] }
 ##############
 
 [environments]
-
 # The `default` feature is always included in all environments.
 # Additional features can be specified per environment.
 
@@ -66,7 +64,6 @@ default = { features = ['py-max', 'dev'] }
 #######
 
 [tasks]
-
 ##################
 # 🧪 Testing Tasks
 ##################
@@ -151,9 +148,9 @@ notebook-tweak = 'python tools/tweak_notebooks.py template/'
 notebook-exec = 'python -m pytest --nbmake template/ --nbmake-timeout=1200 --overwrite --color=yes -n auto -v'
 
 notebook-prepare = { depends-on = [
-  #'notebook-convert',
+  # 'notebook-convert',
   'notebook-strip',
-  #'notebook-tweak',
+  # 'notebook-tweak',
 ] }
 
 ########################
@@ -222,6 +219,6 @@ license-check = 'python tools/license_headers.py check template/ --exclude-from-
 ####################################
 
 npm-config = 'npm config set registry https://registry.npmjs.org/'
-prettier-install = 'npm install --no-save --no-audit --no-fund prettier prettier-plugin-toml'
+prettier-install = 'npm install --no-save --no-audit --no-fund prettier@3.9.9 prettier-plugin-toml@3.0.2'
 
 post-install = { depends-on = ['npm-config', 'prettier-install'] }

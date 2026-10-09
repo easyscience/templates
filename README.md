@@ -546,6 +546,9 @@ cd peasy-lib
 pixi run copier-update
 ```
 
+Run `pixi run post-install` if the update changes the pinned development
+tools.
+
 If conflicts arise, Copier will prompt you to review them.
 
 Sometimes, you need to run Copier recopy instead of update, or even redo
