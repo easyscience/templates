@@ -27,9 +27,11 @@ jobs:
       - name: Set up pixi
         uses: ./.github/actions/setup-pixi
 
+      # --frozen stops pixi from rewriting pixi.lock, which would make the
+      # tree dirty and give versioningit a '+dirty' version which PyPI rejects
       # Build the Python package (to dist/ folder)
       - name: Create Python package
-        run: pixi run default-build
+        run: pixi run --frozen default-build
 
       # Publish the package to PyPI (from dist/ folder)
       # Instead of publishing with personal access token, we use
