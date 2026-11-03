@@ -68,7 +68,6 @@ def main():
             nbformat.v4.new_code_cell(
                 WIDGET_SETUP,
                 metadata={'tags': ['hide-in-docs', SETUP_TAG]},
-                id=SETUP_TAG,
             ),
         )
         nbformat.write(notebook, path)

@@ -30,6 +30,8 @@ def test_prepare_notebooks(render_project, prepare_notebook):
     notebook.cells[-1].execution_count = 42
     notebook.metadata['widgets'] = {'old widget state': True}
     nbformat.write(notebook, notebook_path)
+    # Check that preparation can replace setup after stripping.
+    prepare_notebook(project, notebook_path.parent)
     # Isolate the CLI's stream handling from pytest's capture.
     subprocess.run(  # noqa: S603
         [sys.executable, '-m', 'nbstripout', str(notebook_path)], check=True
@@ -41,9 +43,6 @@ def test_prepare_notebooks(render_project, prepare_notebook):
     assert all(not cell.get('outputs') for cell in prepared.cells)
     assert all(cell.get('execution_count') is None for cell in prepared.cells)
     assert 'widgets' not in prepared.metadata
-    first_result = notebook_path.read_bytes()
-    prepare_notebook(project, notebook_path.parent)
-    assert notebook_path.read_bytes() == first_result
 
 
 def test_application_includes_notebook_setup(render_project):

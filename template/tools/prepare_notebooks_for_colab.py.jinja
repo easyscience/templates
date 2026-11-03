@@ -16,7 +16,6 @@ from packaging.version import Version
 
 PACKAGE_NAME = '{{ lib_package_name if template_type == "lib" else app_package_name }}'
 SETUP_TAG = 'docs-static-plots'
-INSTALL_TAG = 'colab-install'
 
 
 def pip_specifier():
@@ -35,8 +34,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('paths', nargs='+', type=Path)
     args = parser.parse_args()
-    source = (
+    install_comment = (
         f'# Install {PACKAGE_NAME} if needed, for example when running in Google Colab.\n'
+    )
+    source = install_comment + (
         'import importlib.util\n'
         '\n'
         f"if importlib.util.find_spec('{PACKAGE_NAME}') is None:\n"
@@ -51,19 +52,31 @@ def main():
         if '.ipynb_checkpoints' in path.parts:
             continue
         notebook = nbformat.read(path, as_version=4)
-        notebook.cells = [
-            cell
-            for cell in notebook.cells
-            if not {SETUP_TAG, INSTALL_TAG}.intersection(cell.metadata.get('tags', []))
-        ]
-        notebook.cells.insert(
-            0,
-            nbformat.v4.new_code_cell(
-                source,
-                metadata={'tags': ['hide-in-docs', INSTALL_TAG]},
-                id=INSTALL_TAG,
-            ),
+        authored_cells = []
+        installer = None
+        for cell in notebook.cells:
+            tags = cell.metadata.get('tags', [])
+            # The header stays the same across package versions.
+            is_installer = (
+                cell.cell_type == 'code'
+                and 'hide-in-docs' in tags
+                and cell.source.startswith(install_comment)
+            )
+            if SETUP_TAG in tags or is_installer:
+                if installer is None:
+                    installer = cell
+            else:
+                authored_cells.append(cell)
+
+        if installer is None:
+            installer = nbformat.v4.new_code_cell()
+        installer.update(
+            source=source,
+            metadata={'tags': ['hide-in-docs']},
+            execution_count=None,
+            outputs=[],
         )
+        notebook.cells = [installer, *authored_cells]
         nbformat.write(notebook, path)
 
 

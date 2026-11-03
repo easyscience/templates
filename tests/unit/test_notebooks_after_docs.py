@@ -105,14 +105,12 @@ def test_published_notebook(render_project, prepare_notebook, finalize_notebooks
         f'{relative_dir}/example.ipynb'
     ) in html
     assert notebook_path.read_bytes() == original
-    assert nbformat.read(published_path, as_version=4).cells[0].metadata.tags == [
-        'hide-in-docs',
-        'docs-static-plots',
-    ]
+    setup_cell = nbformat.read(published_path, as_version=4).cells[0]
+    assert setup_cell.metadata.tags == ['hide-in-docs', 'docs-static-plots']
     finalize_notebooks(project, site_dir, notebook_path.parent)
     published = nbformat.read(published_path, as_version=4)
     assert len(published.cells) == 2
-    assert published.cells[0].metadata.tags == ['hide-in-docs', 'colab-install']
+    assert published.cells[0].metadata.tags == ['hide-in-docs']
     assert '%pip install easyexample' in published.cells[0].source
     assert published.cells[1] == authored
     assert published.metadata.widgets == widgets
