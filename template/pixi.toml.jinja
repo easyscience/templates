@@ -200,13 +200,15 @@ cov = { depends-on = [
 
 notebook-convert = 'jupytext docs/docs/tutorials/*.py --from py:percent --to ipynb'
 notebook-strip = 'nbstripout docs/docs/tutorials/**/*.ipynb'
-notebook-tweak = 'python tools/tweak_notebooks.py docs/docs/tutorials/'
+notebook-prepare-docs = 'python tools/prepare_notebooks_for_docs.py docs/docs/tutorials/'
 notebook-exec = 'python -m pytest --nbmake docs/docs/tutorials/ --nbmake-timeout=1200 --overwrite --color=yes -n auto -v'
+# Prepare downloads and the executed notebooks Mike reads when rebuilding the site.
+notebook-prepare-colab = 'python tools/prepare_notebooks_for_colab.py docs/site/ docs/docs/tutorials/'
 
 notebook-prepare = { depends-on = [
   #'notebook-convert',
   'notebook-strip',
-  #'notebook-tweak',
+  'notebook-prepare-docs',
 ] }
 
 ########################
