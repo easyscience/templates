@@ -3,6 +3,8 @@
 ###########
 
 [workspace]
+# Use the same Pixi version locally and in CI.
+requires-pixi = '==0.84.1'
 # Supported platforms for the lock file (pixi.lock)
 platforms = [
   'win-64',
