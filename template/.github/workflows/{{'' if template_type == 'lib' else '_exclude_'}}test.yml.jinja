@@ -149,7 +149,7 @@ jobs:
             echo
             echo "🔹🔸🔹🔸🔹 Python: $py_ver 🔹🔸🔹🔸🔹"
 
-            env="py-$(echo $py_ver | tr -d .)-env" # Converts 3.11 -> py-311-env
+            env="py-$(echo $py_ver | tr -d .)-env" # Converts 3.12 -> py-312-env
 
             echo "Building wheel in environment: $env"
             pixi run --environment $env dist-build
@@ -211,7 +211,7 @@ jobs:
             echo "🔹🔸🔹🔸🔹 Python: $py_ver 🔹🔸🔹🔸🔹"
 
             echo "Initializing pixi project"
-            pixi init --platform linux-64 --platform osx-arm64 --platform win-64 e{{ lib_package_name }}_py$py_ver
+            pixi init --platform linux-64 --platform osx-arm64 --platform win-64 {{ lib_package_name }}_py$py_ver
             cd {{ lib_package_name }}_py$py_ver
 
             echo "Configure pixi platforms"

@@ -120,13 +120,13 @@ lib_package_name:
 lib_python_min:
   when: '{{ project_type in ["lib", "both"] }}'
   type: str
-  default: '3.11'
+  default: '3.12'
   help: What is the minimum supported Python version for the library?
 
 lib_python_max:
   when: '{{ project_type in ["lib", "both"] }}'
   type: str
-  default: '3.13'
+  default: '3.14'
   help: What is the maximum supported Python version for the library?
 
 lib_docs_url:
